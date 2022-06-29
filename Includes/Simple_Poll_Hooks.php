@@ -21,19 +21,16 @@ namespace WPSimplePoll;
  * @subpackage Simple_Poll/includes
  * @author     Azizul Hasan <azizulhasan.cr@gmail.com>
  */
-class Simple_Poll_Hooks
-{
+class Simple_Poll_Hooks {
 
-    public function __construct()
-    {
+    public function __construct() {
         add_action('add_meta_boxes', array($this, 'add_custom_meta_box'));
     }
 
     /**
      * Register MetaBox to add PDF Download Button
      */
-    public function add_custom_meta_box()
-    {
+    public function add_custom_meta_box() {
 
         $meta_box_arr = [
             "post",
@@ -65,8 +62,7 @@ class Simple_Poll_Hooks
     /**
      * Add meta box for record, re-record, listen content with loud.
      */
-    public function smpl_meta_box()
-    {
+    public function smpl_meta_box() {
 
         $listening = (array) get_option('smpl_listening_settings');
         $listening = json_encode($listening);
@@ -77,7 +73,7 @@ class Simple_Poll_Hooks
             $btn_style = 'background-color:' . $customize['backgroundColor'] . ';color:' . $customize['color'] . ';border:0;';
         }
         $short_code = '[smpl_listen_btn]';
-        if( isset( $customize['smpl_play_btn_shortcode'] ) && '' != $customize['smpl_play_btn_shortcode'] ){
+        if (isset($customize['smpl_play_btn_shortcode']) && '' != $customize['smpl_play_btn_shortcode']) {
             $short_code = $customize['smpl_play_btn_shortcode'];
         }
         ?>
@@ -90,7 +86,7 @@ class Simple_Poll_Hooks
                 type="text"
                 name="smpl_play_btn_shortcode"
                 id="smpl_play_btn_shortcode"
-                value="<?php echo esc_attr( $short_code )?>"
+                value="<?php echo esc_attr($short_code) ?>"
                 title="Short code"
             />
 
@@ -116,6 +112,6 @@ class Simple_Poll_Hooks
             </script>
         </div>
         <?php
-    }
+}
 
 }

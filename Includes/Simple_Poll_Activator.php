@@ -21,8 +21,7 @@ namespace WPSimplePoll;
  * @subpackage Simple_Poll/includes
  * @author     Azizul Hasan <azizulhasan.cr@gmail.com>
  */
-class Simple_Poll_Activator
-{
+class Simple_Poll_Activator {
 
     /**
      * Short Description. (use period)
@@ -31,8 +30,7 @@ class Simple_Poll_Activator
      *
      * @since    1.0.0
      */
-    public static function activate()
-    {
+    public static function activate() {
         /**
          * Customization settings.
          */
@@ -75,7 +73,7 @@ class Simple_Poll_Activator
                 "wps__recording__lang" => "en-AU",
                 "wps__sentence_delimiter" => ".",
             ));
-            
+
     }
 
 }

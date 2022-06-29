@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The plugin bootstrap file
  *
@@ -34,8 +35,9 @@ if (!defined('WPINC')) {
 }
 
 // Absolute path to the WordPress directory.
-if ( !defined('ABSPATH') )
+if (!defined('ABSPATH')) {
     define('ABSPATH', dirname(__FILE__) . '/');
+}
 
 /**
  * Currently plugin version.
@@ -58,7 +60,6 @@ if (!defined('SIMPLE_POLL_TEXT_DOMAIN')) {
     define('SIMPLE_POLL_TEXT_DOMAIN', 'simple-poll-for-wp');
 }
 
-
 /**
  * Begins execution of the plugin.
  *
@@ -69,17 +70,14 @@ if (!defined('SIMPLE_POLL_TEXT_DOMAIN')) {
  * @since    1.0.0
  */
 
-class Init
-{
+class Init {
 
-    public function __construct()
-    {
+    public function __construct() {
 
         $this->run_simple_poll();
     }
 
-    public function run_simple_poll()
-    {
+    public function run_simple_poll() {
         $plugin = new Simple_Poll();
         $plugin->run();
     }
@@ -88,8 +86,7 @@ class Init
      * The code that runs during plugin activation.
      * This action is documented in includes/Simple_Poll_Activator.php
      */
-    public function activate_simple_poll()
-    {
+    public function activate_simple_poll() {
         Simple_Poll_Activator::activate();
     }
 
@@ -97,8 +94,7 @@ class Init
      * The code that runs during plugin deactivation.
      * This action is documented in includes/Simple_Poll_Deactivator.php
      */
-    public function deactivate_simple_poll()
-    {
+    public function deactivate_simple_poll() {
         Simple_Poll_Deactivator::deactivate();
     }
 }
@@ -107,9 +103,5 @@ $WPSimplePoll = new Init();
 
 register_activation_hook(__FILE__, [$WPSimplePoll, 'activate_simple_poll']);
 register_deactivation_hook(__FILE__, [$WPSimplePoll, 'deactivate_simple_poll']);
-
-
-
-
 
 // smpl_log('asdfasdf');

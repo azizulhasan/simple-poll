@@ -26,22 +26,19 @@ namespace WPSimplePoll;
  */
 class Simple_Poll_i18n {
 
+    /**
+     * Load the plugin text domain for translation.
+     *
+     * @since    1.0.0
+     */
+    public function load_plugin_textdomain() {
 
-	/**
-	 * Load the plugin text domain for translation.
-	 *
-	 * @since    1.0.0
-	 */
-	public function load_plugin_textdomain() {
+        load_plugin_textdomain(
+            'wp-simple-poll',
+            false,
+            dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
+        );
 
-		load_plugin_textdomain(
-			'text-to-audio',
-			false,
-			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
-		);
-
-	}
-
-
+    }
 
 }

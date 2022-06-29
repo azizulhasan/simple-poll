@@ -34,8 +34,7 @@ use WPSimplePoll_Admin\Simple_Poll_Admin;
  * @author     Azizul Hasan <azizulhasan.cr@gmail.com>
  */
 
-class Simple_Poll
-{
+class Simple_Poll {
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -74,8 +73,7 @@ class Simple_Poll
      *
      * @since    1.0.0
      */
-    public function __construct()
-    {
+    public function __construct() {
         if (defined('SIMPLE_POLL_VERSION')) {
             $this->version = SIMPLE_POLL_VERSION;
         } else {
@@ -94,8 +92,7 @@ class Simple_Poll
      * @since    1.0.0
      * @access   private
      */
-    private function load_dependencies()
-    {
+    private function load_dependencies() {
 
         require_once plugin_dir_path(dirname(__FILE__)) . 'Includes/helpers.php';
         require_once plugin_dir_path(dirname(__FILE__)) . 'Includes/Simple_Poll_Hooks.php';
@@ -113,8 +110,7 @@ class Simple_Poll
      * @since    1.0.0
      * @access   private
      */
-    private function set_locale()
-    {
+    private function set_locale() {
 
         $plugin_i18n = new Simple_Poll_i18n();
         $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
@@ -128,11 +124,10 @@ class Simple_Poll
      * @since    1.0.0
      * @access   private
      */
-    private function define_hooks()
-    {
+    private function define_hooks() {
 
         $plugin_admin = new Simple_Poll_Admin($this->get_plugin_name(), $this->get_version());
-        
+
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 999999);
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts', 99999);
         $this->loader->add_action('admin_menu', $plugin_admin, 'simple_poll_menu');
@@ -145,8 +140,7 @@ class Simple_Poll
      *
      * @since    1.0.0
      */
-    public function run()
-    {
+    public function run() {
         $this->loader->run();
     }
 
@@ -157,8 +151,7 @@ class Simple_Poll
      * @since     1.0.0
      * @return    string    The name of the plugin.
      */
-    public function get_plugin_name()
-    {
+    public function get_plugin_name() {
         return $this->plugin_name;
     }
 
@@ -168,8 +161,7 @@ class Simple_Poll
      * @since     1.0.0
      * @return    Simple_Poll_Loader    Orchestrates the hooks of the plugin.
      */
-    public function get_loader()
-    {
+    public function get_loader() {
         return $this->loader;
     }
 
@@ -179,8 +171,7 @@ class Simple_Poll
      * @since     1.0.0
      * @return    string    The version number of the plugin.
      */
-    public function get_version()
-    {
+    public function get_version() {
         return $this->version;
     }
 

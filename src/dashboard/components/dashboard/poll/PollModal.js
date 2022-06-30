@@ -3,34 +3,30 @@ import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
 import { __ } from '@wordpress/i18n';
 
 // components
-import { getData, postData } from './EducationHooks';
+import { postData, deleteQuestion, addQuestion } from './PollHooks';
 
-export default function EducationModal({
-	setEducationData,
-	updateBtn,
-	modalShow,
-	lgShow,
-}) {
+export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 	const [poll, setPoll] = useState({
+		id: '',
 		question: '',
 		question_answer: '',
 		question_answers: [{}],
 	});
 
 	useEffect(() => {
-		console.log(updateBtn, lgShow);
-		if (lgShow === true) {
-			if (updateBtn.data !== '') {
-				// setPoll();
+		if (updateBtn.display === true) {
+			if (updateBtn.data) {
+				setPoll(updateBtn.data);
 			} else {
 				setPoll({
+					id: '',
 					question: '',
 					question_answer: '',
 					question_answers: [{}],
 				});
 			}
 		}
-	}, [lgShow]);
+	}, [updateBtn]);
 
 	/**
 	 * Handle content change value.
@@ -65,69 +61,31 @@ export default function EducationModal({
 			}
 		}
 
-		form.append('question_answers', answers);
-		form.append('nonce', smpl.nonce);
-		form.append('action', 'create_poll');
+		data.append('question_answers', answers);
+		data.append('nonce', smpl.nonce);
+		data.append('action', 'create_poll');
 
 		/**
-		 * Update data if "nonce" exists. else save form data.
+		 * Update data if "id" exists. else save form data.
 		 */
-		if (data.nonce !== undefined) {
-			postData(smpl.ajax_url, form)
+		if (poll.id) {
+			postData(smpl.ajax_url, data)
 				.then((res) => {
-					console.log(res);
-					// setEducationData(res.data);
-					// modalShow(false);
+					setPollsData(res.data);
+					modalShow(false);
 				})
 				.catch((err) => {
 					console.log(err);
 				});
 		} else {
-			console.log(smpl.ajax_url, form);
-			postData(smpl.ajax_url, form)
+			postData(smpl.ajax_url, data)
 				.then((res) => {
-					console.log(res);
-					// setEducationData(res.data);
-					// modalShow(false);
+					setPollsData(res.data);
+					modalShow(false);
 				})
 				.catch((err) => {
 					console.log(err);
 				});
-		}
-	};
-
-	/**
-	 * Add another question
-	 */
-	const addQuestion = () => {
-		const icon_col = document.getElementById('add_question_col');
-		const icon_row = document
-			.getElementById('add_question_col')
-			.firstChild.cloneNode(true);
-		icon_col.appendChild(icon_row);
-	};
-
-	/**
-	 * Delete question row. If question row length is 1 then before deleting first row clone if
-	 * and append it to parrent row.
-	 */
-	const deleteQuestion = (e) => {
-		let row = e.target.parentElement.parentElement; // get clicked row
-		if (
-			e.target.parentElement.parentElement.parentElement.childNodes
-				.length == 1
-		) {
-			let rowClone =
-				e.target.parentElement.parentElement.parentElement.firstChild.cloneNode(
-					true,
-				);
-			e.target.parentElement.parentElement.parentElement.appendChild(
-				rowClone,
-			);
-			e.target.parentElement.parentElement.parentElement.removeChild(row);
-			document.getElementById('poll.question_answer').value = '';
-		} else {
-			e.target.parentElement.parentElement.parentElement.removeChild(row);
 		}
 	};
 
@@ -138,26 +96,26 @@ export default function EducationModal({
 			</Button>
 			<Modal
 				size='lg'
-				show={lgShow}
+				show={updateBtn.display}
 				onHide={(e) => modalShow(false)}
 				aria-labelledby='example-modal-sizes-title-lg'>
 				<Modal.Header closeButton>
 					<Modal.Title id='example-modal-sizes-title-lg'>
-						{updateBtn.display
+						{updateBtn.data
 							? __('Update poll content')
 							: __('Add poll content')}
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<Form onSubmit={handleSubmit}>
-						{updateBtn.display && (
+						{poll.id && (
 							<Form.Control
 								type='text'
-								id='nonce'
+								id='id'
 								onChange={handleChange}
-								value={smpl.nonce}
-								name='nonce'
-								placeholder='nonce'
+								value={poll.id}
+								name='id'
+								placeholder='id'
 								hidden
 							/>
 						)}
@@ -186,8 +144,8 @@ export default function EducationModal({
 								</Button>
 							</Col>
 							<Col id='add_question_col'>
-								{poll.question_answers ? (
-									poll.question_answers.map((icon, i) => {
+								{poll.answers ? (
+									poll.answers.map((answer, i) => {
 										return (
 											<Row key={i} data-id={++i}>
 												<Col
@@ -207,11 +165,13 @@ export default function EducationModal({
 														<Form.Control
 															type='text'
 															name='question_answer'
-															value={icon[i]}
+															value={
+																answer.smpl_answers
+															}
 															onChange={
 																handleChange
 															}
-															placeholder='URL'
+															placeholder='Answer'
 														/>
 													</Form.Group>
 													<button
@@ -242,9 +202,9 @@ export default function EducationModal({
 												<Form.Control
 													type='text'
 													name='question_answer'
-													value={''}
+													value={poll.question_answer}
 													onChange={handleChange}
-													placeholder='URL'
+													placeholder='Answer'
 												/>
 											</Form.Group>
 											<button
@@ -262,7 +222,7 @@ export default function EducationModal({
 							className='smpl_btn w-100'
 							type='submit'
 							id='poll.sumbit'>
-							{updateBtn.display
+							{updateBtn.data
 								? __('Update Poll')
 								: __('Submit Poll')}
 						</button>

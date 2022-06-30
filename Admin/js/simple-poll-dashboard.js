@@ -3794,7 +3794,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _docs_Docs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./docs/Docs */ "./src/dashboard/components/dashboard/docs/Docs.js");
 /* harmony import */ var _statistics_Statistics__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./statistics/Statistics */ "./src/dashboard/components/dashboard/statistics/Statistics.js");
 /* harmony import */ var _dasboardcontent_DashboardFooterNav__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./dasboardcontent/DashboardFooterNav */ "./src/dashboard/components/dashboard/dasboardcontent/DashboardFooterNav.js");
-/* harmony import */ var _education_Education__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./education/Education */ "./src/dashboard/components/dashboard/education/Education.js");
+/* harmony import */ var _poll_Poll__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./poll/Poll */ "./src/dashboard/components/dashboard/poll/Poll.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -3843,7 +3843,7 @@ function Dashboard() {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Routes, {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
                 path: "/",
-                element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_education_Education__WEBPACK_IMPORTED_MODULE_11__["default"], {})
+                element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_poll_Poll__WEBPACK_IMPORTED_MODULE_11__["default"], {})
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
                 path: '/statistics',
                 element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_statistics_Statistics__WEBPACK_IMPORTED_MODULE_9__["default"], {})
@@ -4193,28 +4193,28 @@ function Docs() {
 
 /***/ }),
 
-/***/ "./src/dashboard/components/dashboard/education/Education.js":
-/*!*******************************************************************!*\
-  !*** ./src/dashboard/components/dashboard/education/Education.js ***!
-  \*******************************************************************/
+/***/ "./src/dashboard/components/dashboard/poll/Poll.js":
+/*!*********************************************************!*\
+  !*** ./src/dashboard/components/dashboard/poll/Poll.js ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Education)
+/* harmony export */   "default": () => (/* binding */ Poll)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Row.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Col.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Table.js");
-/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
-/* harmony import */ var _EducationHooks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EducationHooks */ "./src/dashboard/components/dashboard/education/EducationHooks.js");
-/* harmony import */ var _EducationModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EducationModal */ "./src/dashboard/components/dashboard/education/EducationModal.js");
-/* harmony import */ var _education_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./education.css */ "./src/dashboard/components/dashboard/education/education.css");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Row.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Col.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Table.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Button.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "./node_modules/@wordpress/i18n/build-module/index.js");
+/* harmony import */ var _PollHooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PollHooks */ "./src/dashboard/components/dashboard/poll/PollHooks.js");
+/* harmony import */ var _PollModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PollModal */ "./src/dashboard/components/dashboard/poll/PollModal.js");
+/* harmony import */ var _poll_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./poll.css */ "./src/dashboard/components/dashboard/poll/poll.css");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -4226,6 +4226,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -4243,7 +4244,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function Education() {
+function Poll() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       polls = _useState2[0],
@@ -4251,23 +4252,18 @@ function Education() {
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     display: false,
-    id: ''
+    data: ''
   }),
       _useState4 = _slicedToArray(_useState3, 2),
       updateBtn = _useState4[0],
       setUpdateBtn = _useState4[1];
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      lgShow = _useState6[0],
-      setLgShow = _useState6[1];
   /**
    * This method is called when education data is posted or updated by modal.
    * @param {data} data
    */
 
 
-  var setPollsDataData = function setPollsDataData(data) {
+  var setPolls = function setPolls(data) {
     setPollsData(data);
   };
   /**
@@ -4279,9 +4275,8 @@ function Education() {
 
   var modalShow = function modalShow(value) {
     var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    setLgShow(value);
 
-    if (id !== null) {
+    if (value == true || data !== null) {
       setUpdateBtn({
         display: true,
         data: data
@@ -4300,8 +4295,13 @@ function Education() {
 
 
   var deleteEducation = function deleteEducation(id) {
-    alert('Are you sure? It will be permanently deleted.');
-    (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_1__.deletePost)(process.env.REACT_APP_API_URL + '/api/education/' + id).then(function (res) {
+    if (confirm('Are you sure? It will be permanently deleted.')) ;
+    var data = new FormData();
+    data.append('id', id);
+    data.append('nonce', smpl.nonce);
+    data.append('action', 'delete_poll');
+    (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.deletePost)(smpl.ajax_url, data).then(function (res) {
+      console.log(res);
       setPollsData(res.data);
     })["catch"](function (err) {
       console.log(err);
@@ -4312,59 +4312,58 @@ function Education() {
     var form = new FormData();
     form.append('nonce', smpl.nonce);
     form.append('action', 'get_polls');
-    (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_1__.postData)(smpl.ajax_url, form).then(function (res) {
+    (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl.ajax_url, form).then(function (res) {
       setPollsData(res.data);
     });
   }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
       className: "mb-4 p-2",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
         xs: 12,
         lg: 12,
         className: "d-flex flex-col justify-content-start align-items-start",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_EducationModal__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_PollModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
           updateBtn: updateBtn,
           modalShow: modalShow,
-          lgShow: lgShow,
-          setPollsDataData: setPollsDataData
+          setPollsData: setPolls
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
       bordered: true,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tr", {
-          children: _EducationHooks__WEBPACK_IMPORTED_MODULE_1__.STORY_HEADERS.map(function (hearder) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("thead", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("tr", {
+          children: _PollHooks__WEBPACK_IMPORTED_MODULE_2__.STORY_HEADERS.map(function (hearder) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("th", {
               children: hearder.title
             }, hearder.prop);
           })
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
-        children: polls.length && polls.map(function (education, index) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
-            children: [Object.keys(education).map(function (key) {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("tbody", {
+        children: polls.length && polls.map(function (poll, index) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("tr", {
+            children: [Object.keys(poll).map(function (key) {
               if (key === 'question' || key === 'totalvotes') {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
                   dangerouslySetInnerHTML: {
-                    __html: education[key]
+                    __html: poll[key]
                   }
                 }, key);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("td", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("td", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 className: "mr-2",
                 bsPrefix: "azh_btn azh_btn_edit",
                 onClick: function onClick(e) {
                   return modalShow(true, polls[index]);
                 },
-                children: "Edit"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Edit')
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 bsPrefix: "azh_btn btn-danger azh_btn_education",
                 onClick: function onClick(e) {
-                  return deleteEducation(polls[index]['answer'][0]['smpl_qid']);
+                  return deleteEducation(polls[index].id);
                 },
-                children: "Delete"
+                children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Delete')
               })]
             })]
           }, index);
@@ -4376,19 +4375,19 @@ function Education() {
 
 /***/ }),
 
-/***/ "./src/dashboard/components/dashboard/education/EducationHooks.js":
-/*!************************************************************************!*\
-  !*** ./src/dashboard/components/dashboard/education/EducationHooks.js ***!
-  \************************************************************************/
+/***/ "./src/dashboard/components/dashboard/poll/PollHooks.js":
+/*!**************************************************************!*\
+  !*** ./src/dashboard/components/dashboard/poll/PollHooks.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "STORY_HEADERS": () => (/* binding */ STORY_HEADERS),
+/* harmony export */   "addQuestion": () => (/* binding */ addQuestion),
 /* harmony export */   "deletePost": () => (/* binding */ deletePost),
-/* harmony export */   "getData": () => (/* binding */ getData),
-/* harmony export */   "getIframeContent": () => (/* binding */ getIframeContent),
+/* harmony export */   "deleteQuestion": () => (/* binding */ deleteQuestion),
 /* harmony export */   "postData": () => (/* binding */ postData)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -4459,6 +4458,7 @@ var postData = /*#__PURE__*/function () {
 var deletePost = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
     var url,
+        data,
         response,
         responseData,
         _args2 = arguments;
@@ -4467,22 +4467,29 @@ var deletePost = /*#__PURE__*/function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             url = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : '';
-            _context2.next = 3;
+            data = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : {};
+            _context2.next = 4;
             return fetch(url, {
-              method: 'DELETE' // *GET, POST, PUT, DELETE, etc.
+              headers: {// 'Content-Type': 'application/json',
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              credentials: 'same-origin',
+              method: 'POST',
+              // *GET, POST, PUT, DELETE, etc.
+              body: data // body data type must match "Content-Type" header
 
             });
 
-          case 3:
+          case 4:
             response = _context2.sent;
-            _context2.next = 6;
+            _context2.next = 7;
             return response.json();
 
-          case 6:
+          case 7:
             responseData = _context2.sent;
             return _context2.abrupt("return", responseData);
 
-          case 8:
+          case 9:
           case "end":
             return _context2.stop();
         }
@@ -4493,59 +4500,7 @@ var deletePost = /*#__PURE__*/function () {
   return function deletePost() {
     return _ref2.apply(this, arguments);
   };
-}();
-/**
- * get data methon
- * @param {url} url api url
- * @returns  data mixed.
- */
-
-
-var getData = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-    var url,
-        response,
-        data,
-        _args3 = arguments;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            url = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : '';
-            _context3.next = 3;
-            return fetch(url);
-
-          case 3:
-            response = _context3.sent;
-            _context3.next = 6;
-            return response.json();
-
-          case 6:
-            data = _context3.sent;
-            return _context3.abrupt("return", data);
-
-          case 8:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  }));
-
-  return function getData() {
-    return _ref3.apply(this, arguments);
-  };
-}();
-/**
- * Get ifram content
- */
-
-
-var getIframeContent = function getIframeContent() {
-  var textareaId = document.getElementsByTagName('textarea')[0].getAttribute('id');
-  var iframeContent = document.getElementById(textareaId + '_ifr').contentWindow.document.body.innerHTML;
-  return iframeContent;
-}; // Create table headers consisting of 4 columns.
+}(); // Create table headers consisting of 4 columns.
 
 
 var STORY_HEADERS = [{
@@ -4558,20 +4513,48 @@ var STORY_HEADERS = [{
   prop: 'action',
   title: 'Action'
 }];
+/**
+ * Add another question
+ */
+
+var addQuestion = function addQuestion() {
+  var icon_col = document.getElementById('add_question_col');
+  var icon_row = document.getElementById('add_question_col').firstChild.cloneNode(true);
+  icon_col.appendChild(icon_row);
+};
+/**
+ * Delete question row. If question row length is 1 then before deleting first row clone if
+ * and append it to parrent row.
+ */
+
+
+var deleteQuestion = function deleteQuestion(e) {
+  var row = e.target.parentElement.parentElement; // get clicked row
+
+  if (e.target.parentElement.parentElement.parentElement.childNodes.length == 1) {
+    var rowClone = e.target.parentElement.parentElement.parentElement.firstChild.cloneNode(true);
+    e.target.parentElement.parentElement.parentElement.appendChild(rowClone);
+    e.target.parentElement.parentElement.parentElement.removeChild(row);
+    document.getElementById('poll.question_answer').value = '';
+  } else {
+    e.target.parentElement.parentElement.parentElement.removeChild(row);
+  }
+};
+
 
 
 /***/ }),
 
-/***/ "./src/dashboard/components/dashboard/education/EducationModal.js":
-/*!************************************************************************!*\
-  !*** ./src/dashboard/components/dashboard/education/EducationModal.js ***!
-  \************************************************************************/
+/***/ "./src/dashboard/components/dashboard/poll/PollModal.js":
+/*!**************************************************************!*\
+  !*** ./src/dashboard/components/dashboard/poll/PollModal.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ EducationModal)
+/* harmony export */   "default": () => (/* binding */ PollModal)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -4581,7 +4564,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Row.js");
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Col.js");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "./node_modules/@wordpress/i18n/build-module/index.js");
-/* harmony import */ var _EducationHooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EducationHooks */ "./src/dashboard/components/dashboard/education/EducationHooks.js");
+/* harmony import */ var _PollHooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PollHooks */ "./src/dashboard/components/dashboard/poll/PollHooks.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -4611,13 +4594,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function EducationModal(_ref) {
-  var setEducationData = _ref.setEducationData,
+function PollModal(_ref) {
+  var setPollsData = _ref.setPollsData,
       updateBtn = _ref.updateBtn,
-      modalShow = _ref.modalShow,
-      lgShow = _ref.lgShow;
+      modalShow = _ref.modalShow;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    id: '',
     question: '',
     question_answer: '',
     question_answers: [{}]
@@ -4627,19 +4610,19 @@ function EducationModal(_ref) {
       setPoll = _useState2[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    console.log(updateBtn, lgShow);
-
-    if (lgShow === true) {
-      if (updateBtn.data !== '') {// setPoll();
+    if (updateBtn.display === true) {
+      if (updateBtn.data) {
+        setPoll(updateBtn.data);
       } else {
         setPoll({
+          id: '',
           question: '',
           question_answer: '',
           question_answers: [{}]
         });
       }
     }
-  }, [lgShow]);
+  }, [updateBtn]);
   /**
    * Handle content change value.
    * @param {event} e
@@ -4691,56 +4674,27 @@ function EducationModal(_ref) {
       _iterator.f();
     }
 
-    form.append('question_answers', answers);
-    form.append('nonce', smpl.nonce);
-    form.append('action', 'create_poll');
+    data.append('question_answers', answers);
+    data.append('nonce', smpl.nonce);
+    data.append('action', 'create_poll');
     /**
-     * Update data if "nonce" exists. else save form data.
+     * Update data if "id" exists. else save form data.
      */
 
-    if (data.nonce !== undefined) {
-      (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl.ajax_url, form).then(function (res) {
-        console.log(res); // setEducationData(res.data);
-        // modalShow(false);
+    if (poll.id) {
+      (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl.ajax_url, data).then(function (res) {
+        setPollsData(res.data);
+        modalShow(false);
       })["catch"](function (err) {
         console.log(err);
       });
     } else {
-      console.log(smpl.ajax_url, form);
-      (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl.ajax_url, form).then(function (res) {
-        console.log(res); // setEducationData(res.data);
-        // modalShow(false);
+      (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl.ajax_url, data).then(function (res) {
+        setPollsData(res.data);
+        modalShow(false);
       })["catch"](function (err) {
         console.log(err);
       });
-    }
-  };
-  /**
-   * Add another question
-   */
-
-
-  var addQuestion = function addQuestion() {
-    var icon_col = document.getElementById('add_question_col');
-    var icon_row = document.getElementById('add_question_col').firstChild.cloneNode(true);
-    icon_col.appendChild(icon_row);
-  };
-  /**
-   * Delete question row. If question row length is 1 then before deleting first row clone if
-   * and append it to parrent row.
-   */
-
-
-  var deleteQuestion = function deleteQuestion(e) {
-    var row = e.target.parentElement.parentElement; // get clicked row
-
-    if (e.target.parentElement.parentElement.parentElement.childNodes.length == 1) {
-      var rowClone = e.target.parentElement.parentElement.parentElement.firstChild.cloneNode(true);
-      e.target.parentElement.parentElement.parentElement.appendChild(rowClone);
-      e.target.parentElement.parentElement.parentElement.removeChild(row);
-      document.getElementById('poll.question_answer').value = '';
-    } else {
-      e.target.parentElement.parentElement.parentElement.removeChild(row);
     }
   };
 
@@ -4753,7 +4707,7 @@ function EducationModal(_ref) {
       children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add Poll')
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
       size: "lg",
-      show: lgShow,
+      show: updateBtn.display,
       onHide: function onHide(e) {
         return modalShow(false);
       },
@@ -4762,18 +4716,18 @@ function EducationModal(_ref) {
         closeButton: true,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"].Title, {
           id: "example-modal-sizes-title-lg",
-          children: updateBtn.display ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Update poll content') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add poll content')
+          children: updateBtn.data ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Update poll content') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add poll content')
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"].Body, {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"], {
           onSubmit: handleSubmit,
-          children: [updateBtn.display && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Control, {
+          children: [poll.id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Control, {
             type: "text",
-            id: "nonce",
+            id: "id",
             onChange: handleChange,
-            value: smpl.nonce,
-            name: "nonce",
-            placeholder: "nonce",
+            value: poll.id,
+            name: "id",
+            placeholder: "id",
             hidden: true
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Group, {
             className: "mb-4",
@@ -4797,13 +4751,13 @@ function EducationModal(_ref) {
               className: "d-flex flex-col justify-content-start align-items-start mb-2",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
                 bsPrefix: "smpl_btn",
-                onClick: addQuestion,
+                onClick: _PollHooks__WEBPACK_IMPORTED_MODULE_2__.addQuestion,
                 id: "poll.add_question",
                 children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add Answer')
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
               id: "add_question_col",
-              children: poll.question_answers ? poll.question_answers.map(function (icon, i) {
+              children: poll.answers ? poll.answers.map(function (answer, i) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
                   "data-id": ++i,
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
@@ -4819,14 +4773,14 @@ function EducationModal(_ref) {
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Control, {
                         type: "text",
                         name: "question_answer",
-                        value: icon[i],
+                        value: answer.smpl_answers,
                         onChange: handleChange,
-                        placeholder: "URL"
+                        placeholder: "Answer"
                       })]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                       type: "button",
                       className: "smpl_btn",
-                      onClick: deleteQuestion,
+                      onClick: _PollHooks__WEBPACK_IMPORTED_MODULE_2__.deleteQuestion,
                       children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Delete')
                     })]
                   })
@@ -4845,14 +4799,14 @@ function EducationModal(_ref) {
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"].Control, {
                       type: "text",
                       name: "question_answer",
-                      value: '',
+                      value: poll.question_answer,
                       onChange: handleChange,
-                      placeholder: "URL"
+                      placeholder: "Answer"
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                     type: "button",
                     className: "smpl_btn",
-                    onClick: deleteQuestion,
+                    onClick: _PollHooks__WEBPACK_IMPORTED_MODULE_2__.deleteQuestion,
                     children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Delete')
                   })]
                 })
@@ -4862,7 +4816,7 @@ function EducationModal(_ref) {
             className: "smpl_btn w-100",
             type: "submit",
             id: "poll.sumbit",
-            children: updateBtn.display ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Update Poll') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Submit Poll')
+            children: updateBtn.data ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Update Poll') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Submit Poll')
           })]
         })
       })]
@@ -12167,10 +12121,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, "/** \r\nMy Custom css\r\n*/\r\n.topnav
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/education/education.css":
-/*!******************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/education/education.css ***!
-  \******************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/poll/poll.css":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/poll/poll.css ***!
+  \********************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -56668,10 +56622,10 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./src/dashboard/components/dashboard/education/education.css":
-/*!********************************************************************!*\
-  !*** ./src/dashboard/components/dashboard/education/education.css ***!
-  \********************************************************************/
+/***/ "./src/dashboard/components/dashboard/poll/poll.css":
+/*!**********************************************************!*\
+  !*** ./src/dashboard/components/dashboard/poll/poll.css ***!
+  \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -56681,7 +56635,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_education_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!../../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./education.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/education/education.css");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_poll_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!../../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./poll.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/poll/poll.css");
 
             
 
@@ -56690,11 +56644,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_education_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_poll_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_education_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_poll_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 

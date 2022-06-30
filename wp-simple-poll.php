@@ -29,6 +29,7 @@ use WPSimplePoll\Simple_Poll;
 use WPSimplePoll\Simple_Poll_Activator;
 use WPSimplePoll\Simple_Poll_Deactivator;
 
+global $wpdb;
 $wpdb->smpl_question = $wpdb->prefix . 'smpl_question';
 $wpdb->smpl_answer = $wpdb->prefix . 'smpl_answer';
 $wpdb->smpl_votes = $wpdb->prefix . 'smpl_votes';
@@ -108,16 +109,45 @@ $WPSimplePoll = new Init();
 register_activation_hook(__FILE__, [$WPSimplePoll, 'activate_simple_poll']);
 register_deactivation_hook(__FILE__, [$WPSimplePoll, 'deactivate_simple_poll']);
 
-// smpl_log('asdfasdf');
-
 add_action('wp_ajax_create_poll', 'handle_create_poll');
 add_action('wp_ajax_get_polls', 'handle_get_polls');
+add_action('wp_ajax_delete_poll', 'handle_delete_poll');
 
 function handle_create_poll() {
-
+    global $wpdb;
     $response['status'] = true;
     if (smpl_verify_request($_POST)) {
-        $response['data'] = $_POST;
+
+        $question = isset($_POST['question']) ? sanitize_text_field($_POST['question']) : '';
+
+        // update question if id exists.
+        if (isset($_POST['id'])) {
+            $uid = $_POST['id'];
+            $wpdb->update($wpdb->smpl_question, array('smpl_qid' => $_POST['id'], 'smpl_question' => __($question, 'simple-poll-for-wp')), array('smpl_qid' => $_POST['id']));
+
+            //TODO update all answers;
+            // if (isset($_POST['question_answers'])) {
+            //     $answers = explode(',', $_POST['question_answers']);
+            //     $results = $wpdb->get_results("SELECT smpl_aid, smpl_qid, smpl_answers FROM $wpdb->smpl_answer WHERE smpl_qid = $uid ");
+            // }
+
+            $response['data'] = get_polls_data();
+
+        } else {
+            $wpdb->insert($wpdb->smpl_question, array('smpl_question' => __($question, 'simple-poll-for-wp'), 'smpl_timestamp' => current_time('timestamp'), 'smpl_totalvotes' => 0), array('%s', '%s', '%d'));
+
+            $qid = $wpdb->insert_id;
+            if (isset($_POST['question_answers'])) {
+                $answers = explode(',', $_POST['question_answers']);
+                foreach ($answers as $answer) {
+                    $answer = sanitize_text_field($answer);
+                    $wpdb->insert($wpdb->smpl_answer, array('smpl_qid' => $qid, 'smpl_answers' => __($answer, 'simple-poll-for-wp'), 'smpl_votes' => 0), array('%d', '%s', '%d'));
+                }
+            }
+
+            $response['data'] = get_polls_data();
+        }
+
     } else {
         $response['status'] = false;
         $response['data'] = 'Nonce verified request';
@@ -130,19 +160,7 @@ function handle_create_poll() {
 function handle_get_polls() {
     $response['status'] = true;
     if (smpl_verify_request($_POST)) {
-
-        global $wpdb;
-        $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question");
-        // print_r($questions);
-        foreach ($questions as $question) {
-            $answers = $wpdb->get_results("SELECT * from $wpdb->smpl_answer WHERE  smpl_qid = $question->smpl_qid");
-            $response['data'][] = [
-                'question' => $question->smpl_question,
-                'answer' => $answers,
-                'totalvotes' => $question->smpl_totalvotes,
-            ];
-        }
-
+        $response['data'] = get_polls_data();
     } else {
         $response['status'] = false;
         $response['data'] = 'Nonce verified request';
@@ -150,4 +168,39 @@ function handle_get_polls() {
 
     echo json_encode($response);
     wp_die();
+}
+
+function handle_delete_poll() {
+    global $wpdb;
+    $response['status'] = true;
+    if (smpl_verify_request($_POST)) {
+        $id = $_POST['id'];
+        $wpdb->delete($wpdb->smpl_question, array('smpl_qid' => $id), array('%d'));
+
+        $wpdb->query("DELETE FROM $wpdb->smpl_answer WHERE smpl_qid = $id ");
+
+        $response['data'] = get_polls_data();
+    } else {
+        $response['status'] = false;
+        $response['data'] = 'Nonce verified request';
+    }
+
+    echo json_encode($response);
+    wp_die();
+}
+
+function get_polls_data() {
+    global $wpdb;
+    $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question");
+    foreach ($questions as $question) {
+        $answers = $wpdb->get_results("SELECT * from $wpdb->smpl_answer WHERE  smpl_qid = $question->smpl_qid");
+        $data[] = [
+            'id' => $question->smpl_qid,
+            'question' => $question->smpl_question,
+            'answers' => $answers,
+            'totalvotes' => $question->smpl_totalvotes,
+        ];
+    }
+
+    return $data;
 }

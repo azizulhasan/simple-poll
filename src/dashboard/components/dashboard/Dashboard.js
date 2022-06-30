@@ -23,7 +23,7 @@ import Settings from './settings/Settings';
 import Docs from './docs/Docs';
 import Statistics from './statistics/Statistics';
 import DashboardFooterNav from './dasboardcontent/DashboardFooterNav';
-import Education from './education/Education';
+import Poll from './poll/Poll';
 
 function Dashboard() {
 	return (
@@ -46,7 +46,7 @@ function Dashboard() {
 					<main>
 						<div className='container-fluid'>
 							<Routes>
-								<Route path='/' element={<Education />} />
+								<Route path='/' element={<Poll />} />
 								<Route
 									path={'/statistics'}
 									element={<Statistics />}

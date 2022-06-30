@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Table, Button } from 'react-bootstrap';
+import { __ } from '@wordpress/i18n';
 /**
  * Hooks
  */
-import { deletePost, STORY_HEADERS, postData } from './EducationHooks';
+import { deletePost, STORY_HEADERS, postData } from './PollHooks';
 
 /**
  * Components
  */
-import EducationModal from './EducationModal';
-import './education.css';
+import PollModal from './PollModal';
+import './poll.css';
 
 // Then, use it in a component.
-export default function Education() {
+export default function Poll() {
 	const [polls, setPollsData] = useState([]);
-	const [updateBtn, setUpdateBtn] = useState({ display: false, id: '' });
-	const [lgShow, setLgShow] = useState(false);
+	const [updateBtn, setUpdateBtn] = useState({ display: false, data: '' });
 	/**
 	 * This method is called when education data is posted or updated by modal.
 	 * @param {data} data
 	 */
-	const setPollsDataData = (data) => {
+	const setPolls = (data) => {
 		setPollsData(data);
 	};
 	/**
@@ -29,8 +29,7 @@ export default function Education() {
 	 * @param {id} id get id if want to edit specific education.
 	 */
 	const modalShow = (value, data = null) => {
-		setLgShow(value);
-		if (id !== null) {
+		if (value == true || data !== null) {
 			setUpdateBtn({ display: true, data: data });
 		} else {
 			setUpdateBtn({ display: false, data: data });
@@ -41,9 +40,15 @@ export default function Education() {
 	 * @param {id} id get the specific id which want to be deleted.
 	 */
 	const deleteEducation = (id) => {
-		alert('Are you sure? It will be permanently deleted.');
-		deletePost(process.env.REACT_APP_API_URL + '/api/education/' + id)
+		if (confirm('Are you sure? It will be permanently deleted.'));
+		let data = new FormData();
+
+		data.append('id', id);
+		data.append('nonce', smpl.nonce);
+		data.append('action', 'delete_poll');
+		deletePost(smpl.ajax_url, data)
 			.then((res) => {
+				console.log(res);
 				setPollsData(res.data);
 			})
 			.catch((err) => {
@@ -67,11 +72,10 @@ export default function Education() {
 					xs={12}
 					lg={12}
 					className='d-flex flex-col justify-content-start align-items-start'>
-					<EducationModal
+					<PollModal
 						updateBtn={updateBtn}
 						modalShow={modalShow}
-						lgShow={lgShow}
-						setPollsDataData={setPollsDataData}
+						setPollsData={setPolls}
 					/>
 				</Col>
 			</Row>
@@ -85,9 +89,9 @@ export default function Education() {
 				</thead>
 				<tbody>
 					{polls.length &&
-						polls.map((education, index) => (
+						polls.map((poll, index) => (
 							<tr key={index}>
-								{Object.keys(education).map((key) => {
+								{Object.keys(poll).map((key) => {
 									if (
 										key === 'question' ||
 										key === 'totalvotes'
@@ -96,7 +100,7 @@ export default function Education() {
 											<td
 												key={key}
 												dangerouslySetInnerHTML={{
-													__html: education[key],
+													__html: poll[key],
 												}}></td>
 										);
 									}
@@ -108,18 +112,14 @@ export default function Education() {
 										onClick={(e) =>
 											modalShow(true, polls[index])
 										}>
-										Edit
+										{__('Edit')}
 									</Button>
 									<Button
 										bsPrefix='azh_btn btn-danger azh_btn_education'
 										onClick={(e) =>
-											deleteEducation(
-												polls[index]['answer'][0][
-													'smpl_qid'
-												],
-											)
+											deleteEducation(polls[index].id)
 										}>
-										Delete
+										{__('Delete')}
 									</Button>
 								</td>
 							</tr>

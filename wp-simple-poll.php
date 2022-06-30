@@ -29,6 +29,10 @@ use WPSimplePoll\Simple_Poll;
 use WPSimplePoll\Simple_Poll_Activator;
 use WPSimplePoll\Simple_Poll_Deactivator;
 
+$wpdb->smpl_question = $wpdb->prefix . 'smpl_question';
+$wpdb->smpl_answer = $wpdb->prefix . 'smpl_answer';
+$wpdb->smpl_votes = $wpdb->prefix . 'smpl_votes';
+
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
     die;
@@ -105,3 +109,45 @@ register_activation_hook(__FILE__, [$WPSimplePoll, 'activate_simple_poll']);
 register_deactivation_hook(__FILE__, [$WPSimplePoll, 'deactivate_simple_poll']);
 
 // smpl_log('asdfasdf');
+
+add_action('wp_ajax_create_poll', 'handle_create_poll');
+add_action('wp_ajax_get_polls', 'handle_get_polls');
+
+function handle_create_poll() {
+
+    $response['status'] = true;
+    if (smpl_verify_request($_POST)) {
+        $response['data'] = $_POST;
+    } else {
+        $response['status'] = false;
+        $response['data'] = 'Nonce verified request';
+    }
+
+    echo json_encode($response);
+    wp_die();
+}
+
+function handle_get_polls() {
+    $response['status'] = true;
+    if (smpl_verify_request($_POST)) {
+
+        global $wpdb;
+        $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question");
+        // print_r($questions);
+        foreach ($questions as $question) {
+            $answers = $wpdb->get_results("SELECT * from $wpdb->smpl_answer WHERE  smpl_qid = $question->smpl_qid");
+            $response['data'][] = [
+                'question' => $question->smpl_question,
+                'answer' => $answers,
+                'totalvotes' => $question->smpl_totalvotes,
+            ];
+        }
+
+    } else {
+        $response['status'] = false;
+        $response['data'] = 'Nonce verified request';
+    }
+
+    echo json_encode($response);
+    wp_die();
+}

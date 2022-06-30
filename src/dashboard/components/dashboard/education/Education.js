@@ -3,7 +3,7 @@ import { Col, Row, Table, Button } from 'react-bootstrap';
 /**
  * Hooks
  */
-import { getData, deletePost, STORY_HEADERS } from './EducationHooks';
+import { deletePost, STORY_HEADERS, postData } from './EducationHooks';
 
 /**
  * Components
@@ -13,27 +13,27 @@ import './education.css';
 
 // Then, use it in a component.
 export default function Education() {
-	const [educations, setEducation] = useState([]);
+	const [polls, setPollsData] = useState([]);
 	const [updateBtn, setUpdateBtn] = useState({ display: false, id: '' });
 	const [lgShow, setLgShow] = useState(false);
 	/**
 	 * This method is called when education data is posted or updated by modal.
 	 * @param {data} data
 	 */
-	const setEducationData = (data) => {
-		setEducation(data);
+	const setPollsDataData = (data) => {
+		setPollsData(data);
 	};
 	/**
 	 *
 	 * @param {value} value true or false.
 	 * @param {id} id get id if want to edit specific education.
 	 */
-	const modalShow = (value, id = null) => {
+	const modalShow = (value, data = null) => {
 		setLgShow(value);
 		if (id !== null) {
-			setUpdateBtn({ display: true, id: id });
+			setUpdateBtn({ display: true, data: data });
 		} else {
-			setUpdateBtn({ display: false, id: '' });
+			setUpdateBtn({ display: false, data: data });
 		}
 	};
 	/**
@@ -44,7 +44,7 @@ export default function Education() {
 		alert('Are you sure? It will be permanently deleted.');
 		deletePost(process.env.REACT_APP_API_URL + '/api/education/' + id)
 			.then((res) => {
-				setEducation(res.data);
+				setPollsData(res.data);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -52,12 +52,12 @@ export default function Education() {
 	};
 
 	useEffect(() => {
-		/**
-		 * Get data from and display to table.
-		 */
-		// getData(process.env.REACT_APP_API_URL + "/api/education").then((res) => {
-		//   setEducation(res.data);
-		// });
+		let form = new FormData();
+		form.append('nonce', smpl.nonce);
+		form.append('action', 'get_polls');
+		postData(smpl.ajax_url, form).then((res) => {
+			setPollsData(res.data);
+		});
 	}, []);
 
 	return (
@@ -71,7 +71,7 @@ export default function Education() {
 						updateBtn={updateBtn}
 						modalShow={modalShow}
 						lgShow={lgShow}
-						setEducationData={setEducationData}
+						setPollsDataData={setPollsDataData}
 					/>
 				</Col>
 			</Row>
@@ -84,14 +84,13 @@ export default function Education() {
 					</tr>
 				</thead>
 				<tbody>
-					{educations.length &&
-						educations.map((education, index) => (
+					{polls.length &&
+						polls.map((education, index) => (
 							<tr key={index}>
 								{Object.keys(education).map((key) => {
 									if (
-										key === 'address' ||
-										key === 'degree' ||
-										key === 'institution'
+										key === 'question' ||
+										key === 'totalvotes'
 									) {
 										return (
 											<td
@@ -107,10 +106,7 @@ export default function Education() {
 										className='mr-2'
 										bsPrefix='azh_btn azh_btn_edit'
 										onClick={(e) =>
-											modalShow(
-												true,
-												educations[index]['_id'],
-											)
+											modalShow(true, polls[index])
 										}>
 										Edit
 									</Button>
@@ -118,7 +114,9 @@ export default function Education() {
 										bsPrefix='azh_btn btn-danger azh_btn_education'
 										onClick={(e) =>
 											deleteEducation(
-												educations[index]['_id'],
+												polls[index]['answer'][0][
+													'smpl_qid'
+												],
 											)
 										}>
 										Delete

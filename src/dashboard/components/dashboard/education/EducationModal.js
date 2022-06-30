@@ -11,45 +11,33 @@ export default function EducationModal({
 	modalShow,
 	lgShow,
 }) {
-	const [poll, setPolls] = useState({
+	const [poll, setPoll] = useState({
 		question: '',
 		question_answer: '',
 		question_answers: [{}],
 	});
 
 	useEffect(() => {
-		// if (lgShow === true) {
-		// 	if (updateBtn.id !== '') {
-		// 		getEducationContent(updateBtn.id);
-		// 	} else {
-		// 		setPolls({
-		// 			question: '',
-		// 			question_answer: '',
-		// 			question_answers: [{}],
-		// 		});
-		// 	}
-		// }
+		console.log(updateBtn, lgShow);
+		if (lgShow === true) {
+			if (updateBtn.data !== '') {
+				// setPoll();
+			} else {
+				setPoll({
+					question: '',
+					question_answer: '',
+					question_answers: [{}],
+				});
+			}
+		}
 	}, [lgShow]);
 
-	/**
-	 * get education content by id.
-	 * @param {id} id
-	 */
-	const getEducationContent = (id) => {
-		getData(process.env.REACT_APP_API_URL + '/api/education/' + id)
-			.then((res) => {
-				setPolls(res);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
 	/**
 	 * Handle content change value.
 	 * @param {event} e
 	 */
 	const handleChange = (e) => {
-		setPolls({ ...poll, ...{ [e.target.name]: e.target.value } });
+		setPoll({ ...poll, ...{ [e.target.name]: e.target.value } });
 	};
 	/**
 	 * Handle education content form submission
@@ -62,7 +50,7 @@ export default function EducationModal({
 		 * Get full form data and modify them for saving to database.
 		 */
 		let form = new FormData(e.target);
-		let data = {};
+		let data = new FormData();
 		let answers = [];
 		for (let [key, value] of form.entries()) {
 			if (key === '' || value === '') {
@@ -73,33 +61,34 @@ export default function EducationModal({
 			if (key == 'question_answer') {
 				answers.push(value);
 			} else {
-				data[key] = value;
+				data.append(key, value);
 			}
 		}
 
-		data['question_answers'] = answers;
+		form.append('question_answers', answers);
+		form.append('nonce', smpl.nonce);
+		form.append('action', 'create_poll');
 
 		/**
 		 * Update data if "nonce" exists. else save form data.
 		 */
 		if (data.nonce !== undefined) {
-			postData(
-				process.env.REACT_APP_API_URL + '/api/education/' + data.nonce,
-				data,
-			)
+			postData(smpl.ajax_url, form)
 				.then((res) => {
-					setEducationData(res.data);
-					modalShow(false);
+					console.log(res);
+					// setEducationData(res.data);
+					// modalShow(false);
 				})
 				.catch((err) => {
 					console.log(err);
 				});
 		} else {
-			postData(process.env.REACT_APP_API_URL + '/api/education', data)
+			console.log(smpl.ajax_url, form);
+			postData(smpl.ajax_url, form)
 				.then((res) => {
-					console.log(res.data);
-					setEducationData(res.data);
-					modalShow(false);
+					console.log(res);
+					// setEducationData(res.data);
+					// modalShow(false);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -136,7 +125,6 @@ export default function EducationModal({
 				rowClone,
 			);
 			e.target.parentElement.parentElement.parentElement.removeChild(row);
-			document.getElementById('poll.social_icon').value = '';
 			document.getElementById('poll.question_answer').value = '';
 		} else {
 			e.target.parentElement.parentElement.parentElement.removeChild(row);
@@ -145,7 +133,7 @@ export default function EducationModal({
 
 	return (
 		<>
-			<Button bsPrefix='wps_btn' onClick={(e) => modalShow(true)}>
+			<Button bsPrefix='smpl_btn' onClick={(e) => modalShow(true)}>
 				{__('Add Poll')}
 			</Button>
 			<Modal
@@ -167,7 +155,7 @@ export default function EducationModal({
 								type='text'
 								id='nonce'
 								onChange={handleChange}
-								value={poll.nonce}
+								value={smpl.nonce}
 								name='nonce'
 								placeholder='nonce'
 								hidden
@@ -191,7 +179,7 @@ export default function EducationModal({
 								lg={12}
 								className='d-flex flex-col justify-content-start align-items-start mb-2'>
 								<Button
-									bsPrefix='wps_btn'
+									bsPrefix='smpl_btn'
 									onClick={addQuestion}
 									id='poll.add_question'>
 									{__('Add Answer')}
@@ -228,7 +216,7 @@ export default function EducationModal({
 													</Form.Group>
 													<button
 														type='button'
-														className='wps_btn'
+														className='smpl_btn'
 														onClick={
 															deleteQuestion
 														}>
@@ -261,7 +249,7 @@ export default function EducationModal({
 											</Form.Group>
 											<button
 												type='button'
-												className='wps_btn'
+												className='smpl_btn'
 												onClick={deleteQuestion}>
 												{__('Delete')}
 											</button>
@@ -271,7 +259,7 @@ export default function EducationModal({
 							</Col>
 						</Row>
 						<button
-							className='wps_btn w-100'
+							className='smpl_btn w-100'
 							type='submit'
 							id='poll.sumbit'>
 							{updateBtn.display

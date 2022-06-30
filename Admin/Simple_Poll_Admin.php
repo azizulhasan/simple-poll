@@ -76,7 +76,7 @@ class Simple_Poll_Admin {
         if (isset($_REQUEST['page']) && (SIMPLE_POLL_TEXT_DOMAIN == $_REQUEST['page'])) {
             //Load react js.
             wp_enqueue_script('simple-poll-dashboard', plugin_dir_url(__FILE__) . 'js/simple-poll-dashboard.js', array(), $this->version, true);
-            wp_localize_script('simple-poll-dashboard', 'wps_obj', [
+            wp_localize_script('simple-poll-dashboard', 'smpl', [
                 'admin_url' => admin_url('/'),
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'image_url' => WP_PLUGIN_URL . '/simple-poll/admin/images',

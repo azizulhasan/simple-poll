@@ -4246,8 +4246,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function Education() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
-      educations = _useState2[0],
-      setEducation = _useState2[1];
+      polls = _useState2[0],
+      setPollsData = _useState2[1];
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     display: false,
@@ -4267,8 +4267,8 @@ function Education() {
    */
 
 
-  var setEducationData = function setEducationData(data) {
-    setEducation(data);
+  var setPollsDataData = function setPollsDataData(data) {
+    setPollsData(data);
   };
   /**
    *
@@ -4278,18 +4278,18 @@ function Education() {
 
 
   var modalShow = function modalShow(value) {
-    var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     setLgShow(value);
 
     if (id !== null) {
       setUpdateBtn({
         display: true,
-        id: id
+        data: data
       });
     } else {
       setUpdateBtn({
         display: false,
-        id: ''
+        data: data
       });
     }
   };
@@ -4302,19 +4302,19 @@ function Education() {
   var deleteEducation = function deleteEducation(id) {
     alert('Are you sure? It will be permanently deleted.');
     (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_1__.deletePost)(process.env.REACT_APP_API_URL + '/api/education/' + id).then(function (res) {
-      setEducation(res.data);
+      setPollsData(res.data);
     })["catch"](function (err) {
       console.log(err);
     });
   };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    /**
-     * Get data from and display to table.
-     */
-    // getData(process.env.REACT_APP_API_URL + "/api/education").then((res) => {
-    //   setEducation(res.data);
-    // });
+    var form = new FormData();
+    form.append('nonce', smpl.nonce);
+    form.append('action', 'get_polls');
+    (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_1__.postData)(smpl.ajax_url, form).then(function (res) {
+      setPollsData(res.data);
+    });
   }, []);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -4327,7 +4327,7 @@ function Education() {
           updateBtn: updateBtn,
           modalShow: modalShow,
           lgShow: lgShow,
-          setEducationData: setEducationData
+          setPollsDataData: setPollsDataData
         })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
@@ -4341,10 +4341,10 @@ function Education() {
           })
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
-        children: educations.length && educations.map(function (education, index) {
+        children: polls.length && polls.map(function (education, index) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
             children: [Object.keys(education).map(function (key) {
-              if (key === 'address' || key === 'degree' || key === 'institution') {
+              if (key === 'question' || key === 'totalvotes') {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
                   dangerouslySetInnerHTML: {
                     __html: education[key]
@@ -4356,13 +4356,13 @@ function Education() {
                 className: "mr-2",
                 bsPrefix: "azh_btn azh_btn_edit",
                 onClick: function onClick(e) {
-                  return modalShow(true, educations[index]['_id']);
+                  return modalShow(true, polls[index]);
                 },
                 children: "Edit"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 bsPrefix: "azh_btn btn-danger azh_btn_education",
                 onClick: function onClick(e) {
-                  return deleteEducation(educations[index]['_id']);
+                  return deleteEducation(polls[index]['answer'][0]['smpl_qid']);
                 },
                 children: "Delete"
               })]
@@ -4416,17 +4416,17 @@ var postData = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            url = _args.length > 0 && _args[0] !== undefined ? _args[0] : "";
+            url = _args.length > 0 && _args[0] !== undefined ? _args[0] : '';
             data = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
             _context.next = 4;
             return fetch(url, {
-              headers: {
-                "Content-Type": "application/json" // 'Content-Type': 'application/x-www-form-urlencoded',
-
+              headers: {// 'Content-Type': 'application/json',
+                // 'Content-Type': 'application/x-www-form-urlencoded',
               },
-              method: "POST",
+              credentials: 'same-origin',
+              method: 'POST',
               // *GET, POST, PUT, DELETE, etc.
-              body: JSON.stringify(data) // body data type must match "Content-Type" header
+              body: data // body data type must match "Content-Type" header
 
             });
 
@@ -4466,10 +4466,10 @@ var deletePost = /*#__PURE__*/function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            url = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : "";
+            url = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : '';
             _context2.next = 3;
             return fetch(url, {
-              method: "DELETE" // *GET, POST, PUT, DELETE, etc.
+              method: 'DELETE' // *GET, POST, PUT, DELETE, etc.
 
             });
 
@@ -4511,7 +4511,7 @@ var getData = /*#__PURE__*/function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            url = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : "";
+            url = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : '';
             _context3.next = 3;
             return fetch(url);
 
@@ -4542,24 +4542,21 @@ var getData = /*#__PURE__*/function () {
 
 
 var getIframeContent = function getIframeContent() {
-  var textareaId = document.getElementsByTagName("textarea")[0].getAttribute("id");
-  var iframeContent = document.getElementById(textareaId + "_ifr").contentWindow.document.body.innerHTML;
+  var textareaId = document.getElementsByTagName('textarea')[0].getAttribute('id');
+  var iframeContent = document.getElementById(textareaId + '_ifr').contentWindow.document.body.innerHTML;
   return iframeContent;
 }; // Create table headers consisting of 4 columns.
 
 
 var STORY_HEADERS = [{
-  prop: "degree",
-  title: "Degree"
+  prop: 'question',
+  title: 'Question'
 }, {
-  prop: "institution",
-  title: "Institution"
+  prop: 'totalvotes',
+  title: 'Total Votes'
 }, {
-  prop: "address",
-  title: "Address"
-}, {
-  prop: "action",
-  title: "Action"
+  prop: 'action',
+  title: 'Action'
 }];
 
 
@@ -4586,7 +4583,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "./node_modules/@wordpress/i18n/build-module/index.js");
 /* harmony import */ var _EducationHooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EducationHooks */ "./src/dashboard/components/dashboard/education/EducationHooks.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -4628,40 +4624,29 @@ function EducationModal(_ref) {
   }),
       _useState2 = _slicedToArray(_useState, 2),
       poll = _useState2[0],
-      setPolls = _useState2[1];
+      setPoll = _useState2[1];
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {// if (lgShow === true) {
-    // 	if (updateBtn.id !== '') {
-    // 		getEducationContent(updateBtn.id);
-    // 	} else {
-    // 		setPolls({
-    // 			question: '',
-    // 			question_answer: '',
-    // 			question_answers: [{}],
-    // 		});
-    // 	}
-    // }
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log(updateBtn, lgShow);
+
+    if (lgShow === true) {
+      if (updateBtn.data !== '') {// setPoll();
+      } else {
+        setPoll({
+          question: '',
+          question_answer: '',
+          question_answers: [{}]
+        });
+      }
+    }
   }, [lgShow]);
-  /**
-   * get education content by id.
-   * @param {id} id
-   */
-
-  var getEducationContent = function getEducationContent(id) {
-    (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_2__.getData)(process.env.REACT_APP_API_URL + '/api/education/' + id).then(function (res) {
-      setPolls(res);
-    })["catch"](function (err) {
-      console.log(err);
-    });
-  };
   /**
    * Handle content change value.
    * @param {event} e
    */
 
-
   var handleChange = function handleChange(e) {
-    setPolls(_objectSpread(_objectSpread({}, poll), _defineProperty({}, e.target.name, e.target.value)));
+    setPoll(_objectSpread(_objectSpread({}, poll), _defineProperty({}, e.target.name, e.target.value)));
   };
   /**
    * Handle education content form submission
@@ -4677,7 +4662,7 @@ function EducationModal(_ref) {
      */
 
     var form = new FormData(e.target);
-    var data = {};
+    var data = new FormData();
     var answers = [];
 
     var _iterator = _createForOfIteratorHelper(form.entries()),
@@ -4697,7 +4682,7 @@ function EducationModal(_ref) {
         if (key == 'question_answer') {
           answers.push(value);
         } else {
-          data[key] = value;
+          data.append(key, value);
         }
       }
     } catch (err) {
@@ -4706,23 +4691,25 @@ function EducationModal(_ref) {
       _iterator.f();
     }
 
-    data['question_answers'] = answers;
+    form.append('question_answers', answers);
+    form.append('nonce', smpl.nonce);
+    form.append('action', 'create_poll');
     /**
      * Update data if "nonce" exists. else save form data.
      */
 
     if (data.nonce !== undefined) {
-      (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(process.env.REACT_APP_API_URL + '/api/education/' + data.nonce, data).then(function (res) {
-        setEducationData(res.data);
-        modalShow(false);
+      (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl.ajax_url, form).then(function (res) {
+        console.log(res); // setEducationData(res.data);
+        // modalShow(false);
       })["catch"](function (err) {
         console.log(err);
       });
     } else {
-      (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(process.env.REACT_APP_API_URL + '/api/education', data).then(function (res) {
-        console.log(res.data);
-        setEducationData(res.data);
-        modalShow(false);
+      console.log(smpl.ajax_url, form);
+      (0,_EducationHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl.ajax_url, form).then(function (res) {
+        console.log(res); // setEducationData(res.data);
+        // modalShow(false);
       })["catch"](function (err) {
         console.log(err);
       });
@@ -4751,7 +4738,6 @@ function EducationModal(_ref) {
       var rowClone = e.target.parentElement.parentElement.parentElement.firstChild.cloneNode(true);
       e.target.parentElement.parentElement.parentElement.appendChild(rowClone);
       e.target.parentElement.parentElement.parentElement.removeChild(row);
-      document.getElementById('poll.social_icon').value = '';
       document.getElementById('poll.question_answer').value = '';
     } else {
       e.target.parentElement.parentElement.parentElement.removeChild(row);
@@ -4760,7 +4746,7 @@ function EducationModal(_ref) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      bsPrefix: "wps_btn",
+      bsPrefix: "smpl_btn",
       onClick: function onClick(e) {
         return modalShow(true);
       },
@@ -4785,7 +4771,7 @@ function EducationModal(_ref) {
             type: "text",
             id: "nonce",
             onChange: handleChange,
-            value: poll.nonce,
+            value: smpl.nonce,
             name: "nonce",
             placeholder: "nonce",
             hidden: true
@@ -4810,7 +4796,7 @@ function EducationModal(_ref) {
               lg: 12,
               className: "d-flex flex-col justify-content-start align-items-start mb-2",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                bsPrefix: "wps_btn",
+                bsPrefix: "smpl_btn",
                 onClick: addQuestion,
                 id: "poll.add_question",
                 children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add Answer')
@@ -4839,7 +4825,7 @@ function EducationModal(_ref) {
                       })]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                       type: "button",
-                      className: "wps_btn",
+                      className: "smpl_btn",
                       onClick: deleteQuestion,
                       children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Delete')
                     })]
@@ -4865,7 +4851,7 @@ function EducationModal(_ref) {
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                     type: "button",
-                    className: "wps_btn",
+                    className: "smpl_btn",
                     onClick: deleteQuestion,
                     children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Delete')
                   })]
@@ -4873,7 +4859,7 @@ function EducationModal(_ref) {
               })
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-            className: "wps_btn w-100",
+            className: "smpl_btn w-100",
             type: "submit",
             id: "poll.sumbit",
             children: updateBtn.display ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Update Poll') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Submit Poll')
@@ -12174,7 +12160,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/** \r\nMy Custom css\r\n*/\r\n.topnav_bg,\r\n.footer_bg\r\n{\r\n    background-color: #1a4548;\r\n\r\n}\r\n\r\n.topnav_bg a,\r\n#sidenavAccordion div div a,\r\n#sidenavAccordion div div a div,\r\n#layoutSidenav_content footer div\r\n{\r\n    color: #fff;\r\n}\r\n\r\n#layoutSidenav_content\r\n{\r\n    background-color: #fbfaff;\r\n}\r\n\r\ndisplay: flex;\r\nflex-direction: column;\r\n\r\n/**\r\nbutton \r\n*/\r\n\r\n.wps_btn\r\n{\r\n    display: inline-block;\r\n    font-weight: 400;\r\n    line-height: 1.5;\r\n    color: #212529;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    vertical-align: middle;\r\n    cursor: pointer;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n         user-select: none;\r\n    background-color: transparent;\r\n    border: 1px solid transparent;\r\n    padding: 0.375rem 0.75rem;\r\n    font-size: 1rem;\r\n    border-radius: 0.25rem;\r\n    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;\r\n}\r\n\r\n.wps_btn\r\n{\r\n    background-color: #1a4548;\r\n    color: #fff;\r\n    border-color: #1a4548;\r\n    border-radius: 2px;\r\n}\r\n\r\n.wps_btn:hover\r\n{\r\n    background-color: #1a4548;\r\n}\r\n\r\n\r\n/*Navbar style*/\r\n#layoutSidenav {\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n\r\n#layoutSidenav #layoutSidenav_nav {\r\n    height: 50px;\r\n    flex-basis: 55px;\r\n}\r\n\r\n#layoutSidenav_nav {\r\n    height: 50px;\r\n}\r\n\r\n.sb-sidenav .sb-sidenav-menu .nav {\r\n    display: flex;\r\n    flex-direction: row;\r\n    white-space: nowrap;\r\n    justify-content: start;\r\n    align-items: center;\r\n}\r\n\r\n\r\n\r\n.sb-sidenav-menu .nav a.nav-link {\r\n    border-right: 1px solid white;\r\n    font-size: 20px;\r\n    font-weight: bold;\r\n}\r\n\r\n\r\n\r\n/* @media (max-width: 599px)\r\n{\r\n    #layoutSidenav #layoutSidenav_content\r\n    {\r\n        margin-left: -140px;\r\n    }\r\n}\r\n\r\n */\r\n\r\n @media screen   and (max-width: 767px)\r\n {\r\n    .sb-sidenav .sb-sidenav-menu .nav{\r\n        overflow-x: scroll;\r\n    }\r\n }", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "/** \r\nMy Custom css\r\n*/\r\n.topnav_bg,\r\n.footer_bg\r\n{\r\n    background-color: #1a4548;\r\n\r\n}\r\n\r\n.topnav_bg a,\r\n#sidenavAccordion div div a,\r\n#sidenavAccordion div div a div,\r\n#layoutSidenav_content footer div\r\n{\r\n    color: #fff;\r\n}\r\n\r\n#layoutSidenav_content\r\n{\r\n    background-color: #fbfaff;\r\n}\r\n\r\ndisplay: flex;\r\nflex-direction: column;\r\n\r\n/**\r\nbutton \r\n*/\r\n\r\n.smpl_btn\r\n{\r\n    display: inline-block;\r\n    font-weight: 400;\r\n    line-height: 1.5;\r\n    color: #212529;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    vertical-align: middle;\r\n    cursor: pointer;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n         user-select: none;\r\n    background-color: transparent;\r\n    border: 1px solid transparent;\r\n    padding: 0.375rem 0.75rem;\r\n    font-size: 1rem;\r\n    border-radius: 0.25rem;\r\n    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;\r\n}\r\n\r\n.smpl_btn\r\n{\r\n    background-color: #1a4548;\r\n    color: #fff;\r\n    border-color: #1a4548;\r\n    border-radius: 2px;\r\n}\r\n\r\n.smpl_btn:hover\r\n{\r\n    background-color: #1a4548;\r\n}\r\n\r\n\r\n/*Navbar style*/\r\n#layoutSidenav {\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n\r\n#layoutSidenav #layoutSidenav_nav {\r\n    height: 50px;\r\n    flex-basis: 55px;\r\n}\r\n\r\n#layoutSidenav_nav {\r\n    height: 50px;\r\n}\r\n\r\n.sb-sidenav .sb-sidenav-menu .nav {\r\n    display: flex;\r\n    flex-direction: row;\r\n    white-space: nowrap;\r\n    justify-content: start;\r\n    align-items: center;\r\n}\r\n\r\n\r\n\r\n.sb-sidenav-menu .nav a.nav-link {\r\n    border-right: 1px solid white;\r\n    font-size: 20px;\r\n    font-weight: bold;\r\n}\r\n\r\n\r\n\r\n/* @media (max-width: 599px)\r\n{\r\n    #layoutSidenav #layoutSidenav_content\r\n    {\r\n        margin-left: -140px;\r\n    }\r\n}\r\n\r\n */\r\n\r\n @media screen   and (max-width: 767px)\r\n {\r\n    .sb-sidenav .sb-sidenav-menu .nav{\r\n        overflow-x: scroll;\r\n    }\r\n }", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

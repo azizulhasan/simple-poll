@@ -19,3 +19,38 @@ export const postData = async (url = '', data = {}) => {
 
 	return responseData;
 };
+
+/**
+ * Add another question
+ */
+export const addQuestion = () => {
+	const icon_col = document.getElementById('add_question_col');
+	const icon_row = document
+		.getElementById('add_question_col')
+		.firstChild.cloneNode(true);
+	icon_col.appendChild(icon_row);
+};
+
+/**
+ * Delete question row. If question row length is 1 then before deleting first row clone if
+ * and append it to parrent row.
+ */
+export const deleteQuestion = (e) => {
+	let row = e.target.parentElement.parentElement; // get clicked row
+	if (
+		e.target.parentElement.parentElement.parentElement.childNodes.length ==
+		1
+	) {
+		let rowClone =
+			e.target.parentElement.parentElement.parentElement.firstChild.cloneNode(
+				true,
+			);
+		e.target.parentElement.parentElement.parentElement.appendChild(
+			rowClone,
+		);
+		e.target.parentElement.parentElement.parentElement.removeChild(row);
+		document.getElementById('poll.question_answer').value = '';
+	} else {
+		e.target.parentElement.parentElement.parentElement.removeChild(row);
+	}
+};

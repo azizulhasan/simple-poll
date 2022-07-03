@@ -63,6 +63,8 @@ class Simple_Poll_Admin {
     public function enqueue_styles() {
         /* Dashicons */
         wp_enqueue_style('dashicons');
+        wp_enqueue_style('wp-smpl-bootstrap', plugin_dir_url(__FILE__) . 'css/bootstrap.css', [], false, 'all');
+        wp_enqueue_style('wp-smpl-css', plugin_dir_url(__FILE__) . 'css/simple-poll.css', [], false, 'all');
 
     }
 
@@ -79,7 +81,7 @@ class Simple_Poll_Admin {
             'is_logged_in' => is_user_logged_in(),
             'is_admin' => current_user_can('administrator'),
         ]);
-        // wp_enqueue_style('wp-gutenberg-style', plugin_dir_url(__FILE__) . 'build/wp-gutenberg.css', [], false, 'all');
+
     }
 
     /**
@@ -105,13 +107,6 @@ class Simple_Poll_Admin {
 
         }
 
-        //Looad wp-speeh script
-        // wp_enqueue_script('simple-poll', plugin_dir_url(__FILE__) . 'js/simple-poll.js', array(), $this->version, true);
-        // wp_localize_script('simple-poll', 'simple_poll_obj', [
-        //     'json_url' => esc_url_raw(rest_url()),
-        //     'classic_editor_is_active' => is_plugin_active( 'classic-editor/classic-editor.php' ),
-        // ]);
-
     }
 
     /**
@@ -120,11 +115,20 @@ class Simple_Poll_Admin {
      */
     public function enqueue_simple_poll() {
 
-        wp_enqueue_script('simple-poll', plugin_dir_url(__FILE__) . 'js/simple-poll.js', array(), $this->version, true);
-        wp_localize_script('simple-poll', 'simple_poll_obj', [
-            'json_url' => esc_url_raw(rest_url()),
-            'classic_editor_is_active' => is_plugin_active('classic-editor/classic-editor.php'),
-        ]);
+        // wp_register_script('smpl-poll-block', plugin_dir_url(dirname(__FILE__)) . 'build/smpl-block.js', array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor'), true, true);
+        // register_block_type('smpl/poll', [
+        //     'script' => 'smpl-poll-block',
+        // ]);
+        // wp_localize_script('smpl-poll-block', 'smpl_block', [
+        //     'admin_url' => admin_url('/'),
+        //     'ajax_url' => admin_url('admin-ajax.php'),
+        //     'image_url' => WP_PLUGIN_URL . '/simple-poll/admin/images',
+        //     'plugin_url' => WP_PLUGIN_URL . '/simple-poll',
+        //     'nonce' => wp_create_nonce(SIMPLE_POLL_NONCE),
+        //     'post_types' => get_post_types(),
+        //     'is_logged_in' => is_user_logged_in(),
+        //     'is_admin' => current_user_can('administrator'),
+        // ]);
     }
 
     /**

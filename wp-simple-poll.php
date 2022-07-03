@@ -65,6 +65,11 @@ if (!defined('SIMPLE_POLL_TEXT_DOMAIN')) {
     define('SIMPLE_POLL_TEXT_DOMAIN', 'simple-poll-for-wp');
 }
 
+if (!defined('SIMPLE_POLL_PLUGIN_DIR_URL')) {
+
+    define('SIMPLE_POLL_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
+}
+
 /**
  * Begins execution of the plugin.
  *
@@ -213,16 +218,20 @@ function get_single_poll($question_id = null) {
     if ($question_id) {
         $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question WHERE smpl_qid = $question_id");
     } else {
-        $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question LIMIT 1");
+        $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question  ORDER BY smpl_qid DESC LIMIT 1");
     }
-    foreach ($questions as $question) {
-        $answers = $wpdb->get_results("SELECT * from $wpdb->smpl_answer WHERE  smpl_qid = $question->smpl_qid");
-        $data[] = [
-            'id' => $question->smpl_qid,
-            'question' => $question->smpl_question,
-            'answers' => $answers,
-            'totalvotes' => $question->smpl_totalvotes,
-        ];
+
+    $data = [];
+    if (count($questions)) {
+        foreach ($questions as $question) {
+            $answers = $wpdb->get_results("SELECT * from $wpdb->smpl_answer WHERE  smpl_qid = $question->smpl_qid");
+            $data[] = [
+                'id' => $question->smpl_qid,
+                'question' => $question->smpl_question,
+                'answers' => $answers,
+                'totalvotes' => $question->smpl_totalvotes,
+            ];
+        }
     }
 
     return $data;
@@ -233,9 +242,13 @@ function handle_get_last_poll() {
 
     $response['status'] = true;
     if (smpl_verify_nonce($_POST)) {
+        $poll = get_single_poll(12);
+        if (isset($poll)) {
+            $current_answer_id = get_current_user_answer_id($poll[0]['id']);
+            $poll[0]['current_answer_id'] = $current_answer_id;
 
-        $response['data'] = get_single_poll();
-        $current_answer_id = get_current_answer_id();
+            $response['data'] = $poll;
+        }
 
     } else {
         $response['status'] = false;
@@ -246,18 +259,15 @@ function handle_get_last_poll() {
     wp_die();
 }
 
-function get_current_answer_id() {
+function get_current_user_answer_id($qid) {
     global $wpdb;
-    if (is_user_logged_in()) {
-        global $current_user;
-        $username = $current_user->data->user_login;
-        $id = $current_user->ID;
-        $logged_in_user_vote = $wpdb->get_results("SELECT * from $wpdb->smpl_votes WHERE smpl_ip = '" . $ip . "' AND smpl_qid = $qid LIMIT 1");
-
-    } else {
-        $vote = $wpdb->get_results("SELECT * from $wpdb->smpl_votes WHERE smpl_user = '" . $username . "' AND smpl_ip = '" . $ip . "' AND smpl_qid = $qid LIMIT 1");
-
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $vote = $wpdb->get_results("SELECT * from $wpdb->smpl_votes WHERE smpl_ip = '" . $ip . "' AND smpl_qid = $qid LIMIT 1");
+    if (isset($vote[0])) {
+        return $vote[0]->smpl_aid;
     }
+
+    return '';
 
 }
 
@@ -383,3 +393,67 @@ function update_vote($wpdb, $vote, $aid) {
         }
     }
 }
+
+// Add short code.
+function create_poll_shortcode($attrs) {
+    $poll_id = isset($attrs['id']) ? $attrs['id'] : null;
+    $poll = get_single_poll($poll_id)[0];
+    // echo "<pre>";
+    // print_r($poll);
+    // return;
+    ?>
+    <script >
+
+
+        // import {postData} from    '<?php echo SIMPLE_POLL_PLUGIN_DIR_URL; ?>Admin/js/block/utilities.js'
+
+
+
+
+         function submitVote(e) {
+		// e.stopPropagation();
+		// e.target.checked = true;
+        console.log('answer')
+		// let form = new FormData();
+		// form.append('nonce', smpl_block.nonce);
+		// form.append('smpl_qid', answer.smpl_qid);
+		// form.append('smpl_aid', answer.smpl_aid);
+		// form.append('smpl_votes', answer.smpl_votes);
+		// form.append('totalvotes', totalvotes);
+		// form.append('action', 'give_vote');
+		// postData(smpl_block.ajax_url, form).then((res) => {
+		// 	if (res.data) {
+		// 		alert('Your vote is saved.');
+		// 	}
+		// });
+	};
+
+    </script>
+    <div class='sample_poll_block' id="smpl_block_<?php echo $poll['id']; ?>">
+			<h3><?php echo esc_html__($poll['question']) ?></h3>
+            <div class='poll_answers'>
+                <?php
+if (($poll['answers'])) {
+        foreach ($poll['answers'] as $answer) {
+            ?>
+                                <input
+                                    type='radio'
+                                    name='smpl_answers'
+                                    value="<?php echo $answer->smpl_answers; ?>"
+                                    checked=""
+                                    onchange="submitVote(this)"
+                                    id="smpl_answers_<?php echo $poll['id']; ?>"/>
+                                        <label for={answer.smpl_answers}>
+                                            <?php echo __($answer->smpl_answers) ?>;
+                                        </label>
+                                <?php
+}
+    }
+    ?>
+
+			</div>
+		</div>
+        <?php
+}
+
+add_shortcode('smpl_poll', 'create_poll_shortcode');

@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n';
 
 // components
 import { postData, deleteQuestion, addQuestion } from './PollHooks';
+import notify from '../../context/Notify';
 
 export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 	const [poll, setPoll] = useState({
@@ -89,9 +90,20 @@ export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 		}
 	};
 
+	// Check if user admin.
+	const openModal = (e) => {
+		e.preventDefault();
+		if (smpl.is_admin) {
+			modalShow(true);
+			return;
+		}
+
+		notify('Please login as aministrator', 'warn');
+	};
+
 	return (
 		<>
-			<Button bsPrefix='smpl_btn' onClick={(e) => modalShow(true)}>
+			<Button bsPrefix='smpl_btn' onClick={(e) => openModal(e)}>
 				{__('Add Poll')}
 			</Button>
 			<Modal

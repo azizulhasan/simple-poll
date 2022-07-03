@@ -109,9 +109,12 @@ $WPSimplePoll = new Init();
 register_activation_hook(__FILE__, [$WPSimplePoll, 'activate_simple_poll']);
 register_deactivation_hook(__FILE__, [$WPSimplePoll, 'deactivate_simple_poll']);
 
+// Hooks.
 add_action('wp_ajax_create_poll', 'handle_create_poll');
 add_action('wp_ajax_get_polls', 'handle_get_polls');
 add_action('wp_ajax_delete_poll', 'handle_delete_poll');
+add_action('wp_ajax_get_last_poll', 'handle_get_last_poll');
+add_action('wp_ajax_give_vote', 'handle_give_vote');
 
 function handle_create_poll() {
     global $wpdb;
@@ -150,7 +153,7 @@ function handle_create_poll() {
 
     } else {
         $response['status'] = false;
-        $response['data'] = 'Nonce verified request';
+        $response['data'] = __('Nonce verified request');
     }
 
     echo json_encode($response);
@@ -163,7 +166,7 @@ function handle_get_polls() {
         $response['data'] = get_polls_data();
     } else {
         $response['status'] = false;
-        $response['data'] = 'Nonce verified request';
+        $response['data'] = __('Nonce verified request');
     }
 
     echo json_encode($response);
@@ -182,7 +185,7 @@ function handle_delete_poll() {
         $response['data'] = get_polls_data();
     } else {
         $response['status'] = false;
-        $response['data'] = 'Nonce verified request';
+        $response['data'] = __('Nonce verified request');
     }
 
     echo json_encode($response);
@@ -203,4 +206,62 @@ function get_polls_data() {
     }
 
     return $data;
+}
+
+function get_single_poll() {
+    global $wpdb;
+    $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question LIMIT 1");
+    foreach ($questions as $question) {
+        $answers = $wpdb->get_results("SELECT * from $wpdb->smpl_answer WHERE  smpl_qid = $question->smpl_qid");
+        $data[] = [
+            'id' => $question->smpl_qid,
+            'question' => $question->smpl_question,
+            'answers' => $answers,
+            'totalvotes' => $question->smpl_totalvotes,
+        ];
+    }
+
+    return $data;
+}
+
+// Get last poll data.
+function handle_get_last_poll() {
+
+    $response['status'] = true;
+    if (smpl_verify_nonce($_POST)) {
+        $response['data'] = get_single_poll();
+    } else {
+        $response['status'] = false;
+        $response['data'] = __('Nonce verified request');
+    }
+
+    echo json_encode($response);
+    wp_die();
+}
+
+// Give vote.
+function handle_give_vote() {
+    global $wpdb;
+    $response['status'] = true;
+    if (smpl_verify_nonce($_POST)) {
+        $response['data'] = [
+            'server' => $_SERVER,
+        ];
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $host = $_SERVER['HTTP_HOST'];
+        $qid = $_POST['smpl_qid'];
+        $aid = $_POST['smpl_aid'];
+
+        $wpdb->insert($wpdb->smpl_votes,
+            array('smpl_qid' => $qid, 'smpl_aid' => $aid, 'smpl_timestamp' => current_time('timestamp'), 'smpl_votes' => 0),
+            array('%d', '%d', '%d'));
+
+    } else {
+        $response['status'] = false;
+        $response['data'] = __('Nonce verified request');
+    }
+
+    echo json_encode($response);
+    wp_die();
 }

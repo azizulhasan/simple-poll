@@ -45,10 +45,13 @@ const STORY_HEADERS = [
 		prop: 'question',
 		title: 'Question',
 	},
-
 	{
 		prop: 'totalvotes',
 		title: 'Total Votes',
+	},
+	{
+		prop: 'shortcode',
+		title: 'Short Code',
 	},
 	{
 		prop: 'action',

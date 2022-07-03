@@ -66,6 +66,22 @@ class Simple_Poll_Admin {
 
     }
 
+    public function engueue_block_scripts() {
+
+        wp_enqueue_script('smpl-poll-block', plugin_dir_url(dirname(__FILE__)) . 'build/smpl-block.js', array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor'), true, true);
+        wp_localize_script('smpl-poll-block', 'smpl_block', [
+            'admin_url' => admin_url('/'),
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'image_url' => WP_PLUGIN_URL . '/simple-poll/admin/images',
+            'plugin_url' => WP_PLUGIN_URL . '/simple-poll',
+            'nonce' => wp_create_nonce(SIMPLE_POLL_NONCE),
+            'post_types' => get_post_types(),
+            'is_logged_in' => is_user_logged_in(),
+            'is_admin' => current_user_can('administrator'),
+        ]);
+        // wp_enqueue_style('wp-gutenberg-style', plugin_dir_url(__FILE__) . 'build/wp-gutenberg.css', [], false, 'all');
+    }
+
     /**
      * Register the JavaScript for the admin area.
      *
@@ -83,9 +99,12 @@ class Simple_Poll_Admin {
                 'plugin_url' => WP_PLUGIN_URL . '/simple-poll',
                 'nonce' => wp_create_nonce(SIMPLE_POLL_NONCE),
                 'post_types' => get_post_types(),
+                'is_logged_in' => is_user_logged_in(),
+                'is_admin' => current_user_can('administrator'),
             ]);
 
         }
+
         //Looad wp-speeh script
         // wp_enqueue_script('simple-poll', plugin_dir_url(__FILE__) . 'js/simple-poll.js', array(), $this->version, true);
         // wp_localize_script('simple-poll', 'simple_poll_obj', [

@@ -7,7 +7,11 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "watch": "cross-env NODE_ENV=development webpack --watch --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "production": "cross-env NODE_ENV=production webpack --progress --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "production": "cross-env NODE_ENV=production webpack --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "preview": "npm-run-all --parallel sync start",
+    "sync": "browser-sync start -p 'localhost' --files '**/*.php' 'build/*.js' 'build/*.css'",
+    "block:build": "wp-scripts build Admin/js/smpl-block.js",
+    "block:start": "wp-scripts start Admin/js/smpl-block.js"
   },
   "keywords": [
     "poll",
@@ -19,8 +23,10 @@
   "dependencies": {
     "@wordpress/i18n": "^4.12.0",
     "bootstrap": "^5.1.3",
+    "browser-sync": "^2.27.10",
     "history": "^5.3.0",
     "laravel-mix": "^6.0.49",
+    "npm-run-all": "^4.1.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
@@ -32,6 +38,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@wordpress/scripts": "^23.4.0",
     "prettier": "2.7.1"
   }
 }

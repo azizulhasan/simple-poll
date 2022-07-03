@@ -15,3 +15,13 @@ function smpl_verify_request($data) {
 
     return true;
 }
+
+function smpl_verify_nonce($data) {
+    if (wp_verify_nonce($data['nonce'], SIMPLE_POLL_NONCE)
+        && check_ajax_referer(SIMPLE_POLL_NONCE, 'nonce')
+    ) {
+        return true;
+    }
+
+    return true;
+}

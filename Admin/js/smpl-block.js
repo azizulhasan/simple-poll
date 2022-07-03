@@ -1,6 +1,8 @@
 import { __ } from '@wordpress/i18n';
 import react, { useCallback, useEffect, useState } from 'react';
 import { postData } from './block/utilities';
+import notify from './block/Notify';
+
 wp.blocks.registerBlockType('smpl/shortcode', {
 	title: __('Smple poll'),
 	description: __('This is simple poll discription.'),
@@ -35,24 +37,24 @@ function simplePoll(props) {
 
 		postData(smpl_block.ajax_url, form).then((res) => {
 			if (res.data) {
-				console.log(smpl_block);
+				console.log(res.data[0]);
 				setPollData(res.data[0]);
 			}
 		});
 	}, []);
 
-	const submitVote = (e, answer_id, question_id) => {
+	const submitVote = (e, answer, totalvotes) => {
 		let form = new FormData();
 		form.append('nonce', smpl_block.nonce);
-		form.append('smpl_qid', question_id);
-		form.append('smpl_aid', answer_id);
+		form.append('smpl_qid', answer.smpl_qid);
+		form.append('smpl_aid', answer.smpl_aid);
+		form.append('smpl_votes', answer.smpl_votes);
+		form.append('totalvotes', totalvotes);
 		form.append('action', 'give_vote');
 		postData(smpl_block.ajax_url, form).then((res) => {
-			console.log(res.data);
-			// if (res.data) {
-			// 	console.log(smpl_block);
-			// 	setPollData(res.data[0]);
-			// }
+			if (res.data) {
+				notify('Your vote is recorded.');
+			}
 		});
 	};
 
@@ -73,11 +75,7 @@ function simplePoll(props) {
 									name='smpl_answers'
 									value={answer.smpl_answers}
 									onClick={(e) =>
-										submitVote(
-											e,
-											answer.smpl_aid,
-											answer.smpl_qid,
-										)
+										submitVote(e, answer, poll.totalvotes)
 									}
 								/>
 								<label htmlFor={answer.smpl_answers}>

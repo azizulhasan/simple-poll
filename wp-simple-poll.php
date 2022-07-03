@@ -208,9 +208,13 @@ function get_polls_data() {
     return $data;
 }
 
-function get_single_poll() {
+function get_single_poll($question_id = null) {
     global $wpdb;
-    $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question LIMIT 1");
+    if ($question_id) {
+        $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question WHERE smpl_qid = $question_id");
+    } else {
+        $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question LIMIT 1");
+    }
     foreach ($questions as $question) {
         $answers = $wpdb->get_results("SELECT * from $wpdb->smpl_answer WHERE  smpl_qid = $question->smpl_qid");
         $data[] = [
@@ -229,7 +233,10 @@ function handle_get_last_poll() {
 
     $response['status'] = true;
     if (smpl_verify_nonce($_POST)) {
+
         $response['data'] = get_single_poll();
+        $current_answer_id = get_current_answer_id();
+
     } else {
         $response['status'] = false;
         $response['data'] = __('Nonce verified request');
@@ -239,23 +246,105 @@ function handle_get_last_poll() {
     wp_die();
 }
 
+function get_current_answer_id() {
+    global $wpdb;
+    if (is_user_logged_in()) {
+        global $current_user;
+        $username = $current_user->data->user_login;
+        $id = $current_user->ID;
+        $logged_in_user_vote = $wpdb->get_results("SELECT * from $wpdb->smpl_votes WHERE smpl_ip = '" . $ip . "' AND smpl_qid = $qid LIMIT 1");
+
+    } else {
+        $vote = $wpdb->get_results("SELECT * from $wpdb->smpl_votes WHERE smpl_user = '" . $username . "' AND smpl_ip = '" . $ip . "' AND smpl_qid = $qid LIMIT 1");
+
+    }
+
+}
+
 // Give vote.
 function handle_give_vote() {
     global $wpdb;
+    global $current_user;
     $response['status'] = true;
     if (smpl_verify_nonce($_POST)) {
-        $response['data'] = [
-            'server' => $_SERVER,
-        ];
 
         $ip = $_SERVER['REMOTE_ADDR'];
         $host = $_SERVER['HTTP_HOST'];
         $qid = $_POST['smpl_qid'];
         $aid = $_POST['smpl_aid'];
+        $totalvotes = (int) $_POST['totalvotes'];
 
-        $wpdb->insert($wpdb->smpl_votes,
-            array('smpl_qid' => $qid, 'smpl_aid' => $aid, 'smpl_timestamp' => current_time('timestamp'), 'smpl_votes' => 0),
-            array('%d', '%d', '%d'));
+        if (is_user_logged_in()) { // current logged in user.
+            global $current_user;
+            $username = $current_user->data->user_login;
+            $id = $current_user->ID;
+
+            // if current user already given answer then update the answer. else insert answer.
+            $vote = $wpdb->get_results("SELECT * from $wpdb->smpl_votes WHERE smpl_user = '" . $username . "' AND smpl_ip = '" . $ip . "' AND smpl_qid = $qid LIMIT 1");
+            if (count($vote) && $vote[0]->smpl_aid != $aid) {
+                $wpdb->update($wpdb->smpl_votes,
+                    array(
+                        'smpl_aid' => $aid,
+                        'smpl_timestamp' => current_time('timestamp')),
+
+                    array('smpl_vid' => $vote[0]->smpl_vid));
+
+                update_vote($wpdb, $vote, $aid);
+
+            } else if (count($vote) == 0) {
+                $wpdb->insert($wpdb->smpl_votes,
+                    array(
+                        'smpl_qid' => $qid,
+                        'smpl_aid' => $aid,
+                        'smpl_ip' => $ip,
+                        'smpl_host' => $host,
+                        'smpl_timestamp' => current_time('timestamp'),
+                        'smpl_user' => $username,
+                        'smpl_userid' => $id,
+                    ),
+                    array('%d', '%d', '%s', '%s', '%s', '%s', '%d'));
+
+                // update total vote.
+                $totalvotes = ++$totalvotes;
+                $wpdb->update($wpdb->smpl_question, array('smpl_qid' => $qid, 'smpl_totalvotes' => (string) $totalvotes), array('smpl_qid' => $qid));
+
+                update_vote($wpdb, $vote, $aid);
+
+            }
+
+        } else { // geust user.
+            // if current user already given answer then update the answer. else insert answer.
+            $vote = $wpdb->get_results("SELECT * from $wpdb->smpl_votes WHERE smpl_ip = '" . $ip . "' AND smpl_qid = $qid LIMIT 1");
+            if (count($vote) && $vote[0]->smpl_aid != $aid) {
+                $wpdb->update($wpdb->smpl_votes,
+                    array(
+                        'smpl_aid' => $aid,
+                        'smpl_timestamp' => current_time('timestamp')),
+
+                    array('smpl_vid' => $vote[0]->smpl_vid));
+                update_vote($wpdb, $vote, $aid);
+            } else if (count($vote) == 0) {
+                $wpdb->insert($wpdb->smpl_votes,
+                    array(
+                        'smpl_qid' => $qid,
+                        'smpl_aid' => $aid,
+                        'smpl_ip' => $ip,
+                        'smpl_host' => $host,
+                        'smpl_timestamp' => current_time('timestamp'),
+                        'smpl_user' => '',
+                        'smpl_userid' => ''),
+
+                    array('%d', '%d', '%s', '%s', '%s', '%s', '%d'));
+
+                // update total vote.
+                $totalvotes = ++$totalvotes;
+                $wpdb->update($wpdb->smpl_question, array('smpl_qid' => $qid, 'smpl_totalvotes' => (string) $totalvotes), array('smpl_qid' => $qid));
+
+                update_vote($wpdb, $vote, $aid);
+            }
+        }
+
+        $response['data'] = true;
 
     } else {
         $response['status'] = false;
@@ -264,4 +353,33 @@ function handle_give_vote() {
 
     echo json_encode($response);
     wp_die();
+}
+
+function update_vote($wpdb, $vote, $aid) {
+    // Decrease vote from previous answer.
+    if (isset($vote[0])) {
+        $prev_aid = $vote[0]->smpl_aid;
+        $previous_answer = $wpdb->get_results("SELECT * from $wpdb->smpl_answer WHERE smpl_aid = $prev_aid LIMIT 1");
+        $previous_answer_votes = (int) $previous_answer[0]->smpl_votes;
+        if ($previous_answer_votes) {
+            $previous_answer_votes = --$previous_answer_votes;
+            $wpdb->update($wpdb->smpl_answer,
+                array(
+                    'smpl_votes' => (string) $previous_answer_votes),
+                array('smpl_aid' => $prev_aid));
+        }
+    }
+
+    // increase current answer votes.
+    $current_answer = $wpdb->get_results("SELECT * from $wpdb->smpl_answer WHERE smpl_aid = $aid LIMIT 1");
+    if (isset($current_answer[0])) {
+        $current_answer_votes = (int) $current_answer[0]->smpl_votes;
+        if ($current_answer_votes) {
+            $current_answer_votes = ++$current_answer_votes;
+            $wpdb->update($wpdb->smpl_answer,
+                array(
+                    'smpl_votes' => (string) $current_answer_votes),
+                array('smpl_aid' => $prev_aid));
+        }
+    }
 }

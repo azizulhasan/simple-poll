@@ -24,7 +24,7 @@ namespace WPSimplePoll;
 class Simple_Poll_Hooks {
 
     public function __construct() {
-        add_action('add_meta_boxes', array($this, 'add_custom_meta_box'));
+        // add_action('add_meta_boxes', array($this, 'add_custom_meta_box'));
 
     }
 

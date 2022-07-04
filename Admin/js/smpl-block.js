@@ -1,27 +1,25 @@
-import react, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import { postData, deleteQuestion, addQuestion } from './block/utilities';
 import { Button, Form, Row, Col } from 'react-bootstrap';
-import notify from './block/Notify';
+import { propTypes } from 'react-bootstrap/esm/Image';
 
 wp.blocks.registerBlockType('smpl/poll', {
 	title: __('Smple poll'),
 	description: __('This is simple poll discription.'),
-	icon: 'businessperson',
+	icon: 'chart-bar',
 	category: 'design',
-	// attributes: {
-	// 	companyName: { type: 'string' },
-	// 	companyPhone: { type: 'string' },
-	// 	companyContact: { type: 'string' },
-	// 	companyAddress: { type: 'string' },
-	// 	companyCity: { type: 'string' },
-	// },
-	attributes: {},
+
+	attributes: {
+		clientId: { type: 'string' },
+		question: { type: 'string' },
+		answer: { type: 'array' },
+	},
 
 	edit: createPoll,
 
 	save: function (props) {
-		return <h1>Haaadfadf</h1>;
+		return null;
 	},
 });
 
@@ -30,23 +28,74 @@ function createPoll(props) {
 		id: '',
 		question: '',
 		question_answer: '',
-		question_answers: [{}],
+		question_answers: [],
 	});
 
-	// useEffect(() => {
-	// 	if (updateBtn.display === true) {
-	// 		if (updateBtn.data) {
-	// 			setPoll(updateBtn.data);
-	// 		} else {
-	// 			setPoll({
-	// 				id: '',
-	// 				question: '',
-	// 				question_answer: '',
-	// 				question_answers: [{}],
-	// 			});
-	// 		}
-	// 	}
-	// }, [updateBtn]);
+	useEffect(() => {
+		document.querySelectorAll('.answer').forEach((item) => {
+			item.addEventListener('keyup', function (e) {
+				setPoll((prev) => {
+					return {
+						...prev,
+						question_answers: [
+							prev.question_answers.push(e.target.value),
+						],
+					};
+				});
+
+				console.log(poll);
+			});
+		});
+		document
+			.querySelector('.editor-post-publish-button__button')
+			.addEventListener('click', function () {
+				let form = new FormData(document.getElementById('poll_form'));
+				let data = new FormData();
+				let answers = [];
+				for (let [key, value] of form.entries()) {
+					if (key === '' || value === '') {
+						alert('Please fill the value of : ' + key);
+						return;
+					}
+
+					if (key == 'question_answer') {
+						answers.push(value);
+					} else {
+						data.append(key, value);
+					}
+				}
+
+				data.append('question_answers', answers);
+				data.append('nonce', smpl_block.nonce);
+				data.append('action', 'create_poll');
+				console.log(poll);
+				return;
+				/**
+				 * Update data if "id" exists. else save form data.
+				 */
+				if (poll.id) {
+					postData(smpl_block.ajax_url, data)
+						.then((res) => {
+							if (res.data) {
+								alert('Poll data is saved');
+							}
+						})
+						.catch((err) => {
+							console.log(res.data);
+						});
+				} else {
+					postData(smpl_block.ajax_url, data)
+						.then((res) => {
+							if (res.data) {
+								alert('Poll data is saved');
+							}
+						})
+						.catch((err) => {
+							console.log(err);
+						});
+				}
+			});
+	}, []);
 
 	/**
 	 * Handle content change value.
@@ -55,72 +104,24 @@ function createPoll(props) {
 	const handleChange = (e) => {
 		setPoll({ ...poll, ...{ [e.target.name]: e.target.value } });
 	};
-	/**
-	 * Handle education content form submission
-	 * @param {event} e
-	 * @returns
-	 */
-	const handleSubmit = (e) => {
-		e.preventDefault();
 
-		if (!smpl_block.is_admin) {
-			alert('please login as administrator.');
-			return;
-		}
-		/**
-		 * Get full form data and modify them for saving to database.
-		 */
-		let form = new FormData(e.target);
-		let data = new FormData();
-		let answers = [];
-		for (let [key, value] of form.entries()) {
-			if (key === '' || value === '') {
-				alert('Please fill the value of : ' + key);
-				return;
-			}
-
-			if (key == 'question_answer') {
-				answers.push(value);
-			} else {
-				data.append(key, value);
-			}
-		}
-
-		data.append('question_answers', answers);
-		data.append('nonce', smpl_block.nonce);
-		data.append('action', 'create_poll');
-
-		/**
-		 * Update data if "id" exists. else save form data.
-		 */
-		if (poll.id) {
-			postData(smpl_block.ajax_url, data)
-				.then((res) => {
-					alert('Poll data is saved');
-				})
-				.catch((err) => {
-					console.log(res.data);
-				});
-		} else {
-			postData(smpl_block.ajax_url, data)
-				.then((res) => {
-					alert('Poll data is saved');
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		}
-	};
 	return (
 		<div className='smpl_block'>
-			<Form onSubmit={handleSubmit}>
+			<Form id='poll_form'>
+				<Form.Control
+					type='text'
+					id='clientId'
+					value={props.clientId}
+					name='clientId'
+					placeholder='clientId'
+					hidden
+				/>
 				{poll.id && (
 					<Form.Control
 						type='text'
 						id='id'
-						onChange={handleChange}
-						value={poll.id}
-						name='id'
+						value={props.id}
+						name='client_id'
 						placeholder='id'
 						hidden
 					/>
@@ -150,8 +151,8 @@ function createPoll(props) {
 						</Button>
 					</Col>
 					<Col id='add_question_col'>
-						{poll.answers ? (
-							poll.answers.map((answer, i) => {
+						{poll.question_answers.length ? (
+							poll.question_answers.map((answer, i) => {
 								return (
 									<Row key={i} data-id={++i}>
 										<Col
@@ -171,7 +172,6 @@ function createPoll(props) {
 													type='text'
 													name='question_answer'
 													value={answer.smpl_answers}
-													onChange={handleChange}
 													placeholder='Answer'
 												/>
 											</Form.Group>
@@ -199,9 +199,8 @@ function createPoll(props) {
 										<Form.Control
 											type='text'
 											name='question_answer'
-											value={poll.question_answer}
-											onChange={handleChange}
 											placeholder='Answer'
+											className='answer'
 										/>
 									</Form.Group>
 									<button
@@ -215,84 +214,7 @@ function createPoll(props) {
 						)}
 					</Col>
 				</Row>
-				<button
-					className='smpl_btn w-100'
-					type='submit'
-					id='poll.sumbit'>
-					{__('Submit Poll')}
-				</button>
 			</Form>
-		</div>
-	);
-}
-
-function simplePoll(props) {
-	const [poll, setPollData] = useState({
-		id: '',
-		question: 'Sample Question?',
-		answers: [{ smpl_answers: 'yes' }, { smpl_answers: 'no' }],
-		totalvotes: '0',
-		current_answer_id: '',
-	});
-	useEffect(() => {
-		let form = new FormData();
-		form.append('nonce', smpl_block.nonce);
-		form.append('action', 'get_last_poll');
-
-		postData(smpl_block.ajax_url, form).then((res) => {
-			if (res.data) {
-				console.log(res.data);
-				setPollData(res.data[0]);
-			}
-		});
-	}, []);
-
-	const submitVote = (e, answer, totalvotes) => {
-		e.stopPropagation();
-		e.target.checked = true;
-
-		let form = new FormData();
-		form.append('nonce', smpl_block.nonce);
-		form.append('smpl_qid', answer.smpl_qid);
-		form.append('smpl_aid', answer.smpl_aid);
-		form.append('smpl_votes', answer.smpl_votes);
-		form.append('totalvotes', totalvotes);
-		form.append('action', 'give_vote');
-		postData(smpl_block.ajax_url, form).then((res) => {
-			if (res.data) {
-				alert('Your vote is saved.');
-			}
-		});
-	};
-
-	return (
-		<div className='sample_poll_block'>
-			<h3>{poll.question}</h3>
-			<div className='poll_answers'>
-				{poll.answers.length &&
-					poll.answers.map((answer) => {
-						return (
-							<>
-								<input
-									type='radio'
-									name='smpl_answers'
-									value={answer.smpl_answers}
-									checked={
-										answer.smpl_aid ===
-										poll.current_answer_id
-									}
-									onChange={(e) =>
-										submitVote(e, answer, poll.totalvotes)
-									}
-								/>
-								<label htmlFor={answer.smpl_answers}>
-									{__(answer.smpl_answers)}
-								</label>
-								<br></br>
-							</>
-						);
-					})}
-			</div>
 		</div>
 	);
 }

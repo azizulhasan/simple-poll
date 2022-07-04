@@ -128,11 +128,11 @@ class Simple_Poll {
 
         $plugin_admin = new Simple_Poll_Admin($this->get_plugin_name(), $this->get_version());
 
-        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 999999);
-        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts', 99999);
-        $this->loader->add_action('enqueue_block_editor_assets', $plugin_admin, 'engueue_block_scripts', 99999);
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+        $this->loader->add_action('enqueue_block_editor_assets', $plugin_admin, 'engueue_block_scripts');
         $this->loader->add_action('admin_menu', $plugin_admin, 'simple_poll_menu');
-        $this->loader->add_action('wp_enqueue_scripts', $plugin_admin, 'enqueue_simple_poll', 99999);
+        $this->loader->add_action('wp_enqueue_scripts', $plugin_admin, 'enqueue_simple_poll');
 
     }
 

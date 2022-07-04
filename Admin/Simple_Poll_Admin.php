@@ -115,21 +115,25 @@ class Simple_Poll_Admin {
      */
     public function enqueue_simple_poll() {
 
-        // wp_register_script('smpl-poll-block', plugin_dir_url(dirname(__FILE__)) . 'build/smpl-block.js', array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor'), true, true);
-        // register_block_type('smpl/poll', [
-        //     'script' => 'smpl-poll-block',
-        // ]);
-        // wp_localize_script('smpl-poll-block', 'smpl_block', [
-        //     'admin_url' => admin_url('/'),
-        //     'ajax_url' => admin_url('admin-ajax.php'),
-        //     'image_url' => WP_PLUGIN_URL . '/simple-poll/admin/images',
-        //     'plugin_url' => WP_PLUGIN_URL . '/simple-poll',
-        //     'nonce' => wp_create_nonce(SIMPLE_POLL_NONCE),
-        //     'post_types' => get_post_types(),
-        //     'is_logged_in' => is_user_logged_in(),
-        //     'is_admin' => current_user_can('administrator'),
-        // ]);
+        wp_register_script('simple-poll', plugin_dir_url(__FILE__) . 'js/simple-poll.js', array(), true, true);
+        wp_enqueue_script('simple-poll');
+        register_block_type('smpl/poll', [
+            'script' => 'simple-poll',
+            'render_callback' => [$this, 'render_poll'],
+        ]);
+        wp_localize_script('simple-poll', 'smpl', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce(SIMPLE_POLL_NONCE),
+        ]);
     }
+
+    public function render_poll($attrs) {
+        ?>
+        <div class='sample_poll_block' id="smpl_block_">
+			<h3><?php echo esc_html__($attrs['question'], 'simple-poll-for-wp') ?></h3>
+            <div class='poll_answers'></div></div>
+            <?php
+}
 
     /**
      * Add Menu and Submenu page

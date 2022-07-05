@@ -70,6 +70,8 @@ if (!defined('SIMPLE_POLL_PLUGIN_DIR_URL')) {
     define('SIMPLE_POLL_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
 }
 
+// require_once 'Include/helpers.php';
+
 /**
  * Begins execution of the plugin.
  *
@@ -121,7 +123,9 @@ add_action('wp_ajax_get_poll', 'handle_get_poll');
 add_action('wp_ajax_delete_poll', 'handle_delete_poll');
 add_action('wp_ajax_get_last_poll', 'handle_get_last_poll');
 add_action('wp_ajax_give_vote', 'handle_give_vote');
+add_action('wp_ajax_give_block_vote', 'handle_give_block_vote');
 
+// save poll.
 function handle_create_poll() {
     global $wpdb;
     $response['status'] = true;
@@ -131,30 +135,19 @@ function handle_create_poll() {
 
         // update question if id exists.
         if (isset($_POST['id'])) {
-            if (isset($_POST['clientId'])) {
-                $res = $wpdb->update($wpdb->smpl_question, array('smpl_qid' => $_POST['id'], 'smpl_question' => __($question, 'simple-poll-for-wp'), 'clientId' => $_POST['clientId']), array('smpl_qid' => $_POST['id'], 'clientId' => $_POST['clientId']));
-            } else {
-                $res = $wpdb->update($wpdb->smpl_question, array('smpl_qid' => $_POST['id'], 'smpl_question' => __($question, 'simple-poll-for-wp')), array('smpl_qid' => $_POST['id']));
-            }
+
+            $res = $wpdb->update($wpdb->smpl_question, array('smpl_qid' => $_POST['id'], 'smpl_question' => __($question, 'simple-poll-for-wp')), array('smpl_qid' => $_POST['id']));
+
             //TODO update all answers;
             // if (isset($_POST['question_answers'])) {
             //     $answers = explode(',', $_POST['question_answers']);
             //     $results = $wpdb->get_results("SELECT smpl_aid, smpl_qid, smpl_answers FROM $wpdb->smpl_answer WHERE smpl_qid = $uid ");
             // }
-            if ($res) {
-                $response['data'] = get_polls_data();
-
-            } else {
-                $response['data'] = false;
-            }
+            $response['data'] = get_polls_data();
 
         } else {
 
-            if (isset($_POST['clientId'])) {
-                $res = $wpdb->insert($wpdb->smpl_question, array('smpl_question' => __($question, 'simple-poll-for-wp'), 'smpl_timestamp' => current_time('timestamp'), 'smpl_totalvotes' => 0, 'clientId' => $_POST['clientId']), array('%s', '%s', '%d', '%s'));
-            } else {
-                $res = $wpdb->insert($wpdb->smpl_question, array('smpl_question' => __($question, 'simple-poll-for-wp'), 'smpl_timestamp' => current_time('timestamp'), 'smpl_totalvotes' => 0), array('%s', '%s', '%d'));
-            }
+            $res = $wpdb->insert($wpdb->smpl_question, array('smpl_question' => __($question, 'simple-poll-for-wp'), 'smpl_timestamp' => current_time('timestamp'), 'smpl_totalvotes' => 0), array('%s', '%s', '%d'));
 
             $qid = $wpdb->insert_id;
             if (isset($_POST['question_answers'])) {
@@ -181,6 +174,7 @@ function handle_create_poll() {
     wp_die();
 }
 
+// Get all poll data.
 function handle_get_polls() {
     $response['status'] = true;
     if (smpl_verify_request($_POST)) {
@@ -194,6 +188,7 @@ function handle_get_polls() {
     wp_die();
 }
 
+// Get poll data.
 function handle_get_poll() {
     $response['status'] = true;
     if (smpl_verify_nonce($_POST)) {
@@ -208,6 +203,7 @@ function handle_get_poll() {
     wp_die();
 }
 
+// Delete single poll
 function handle_delete_poll() {
     global $wpdb;
     $response['status'] = true;
@@ -227,6 +223,7 @@ function handle_delete_poll() {
     wp_die();
 }
 
+// Get all polls data.
 function get_polls_data() {
     global $wpdb;
     $questions = $wpdb->get_results("SELECT * from $wpdb->smpl_question");
@@ -243,6 +240,7 @@ function get_polls_data() {
     return $data;
 }
 
+// Get single poll.
 function get_single_poll($question_id = null) {
     global $wpdb;
     if ($question_id) {
@@ -425,6 +423,24 @@ function update_vote($wpdb, $vote, $aid) {
     }
 }
 
+// Get recent post
+function handle_give_block_vote() {
+    global $wpdb;
+    $response['status'] = true;
+    if (smpl_verify_nonce($_POST)) {
+
+        $data = json_decode(str_replace('\\', '', $_POST['data']));
+
+        $response['data'] = $data;
+    } else {
+        $response['status'] = false;
+        $response['data'] = __('Nonce verified request');
+    }
+
+    echo json_encode($response);
+    wp_die();
+}
+
 // Add short code.
 function create_poll_shortcode($attrs) {
     $poll_id = isset($attrs['id']) ? $attrs['id'] : null;
@@ -441,32 +457,38 @@ function create_poll_shortcode($attrs) {
         echo wp_kses($str, $arr);
         return;
     }
+    ob_start();
     ?>
-
     <div class='sample_poll_block' id="smpl_block_<?php echo $poll['id']; ?>">
-			<h3><?php echo esc_html__($poll['question'], 'simple-poll-for-wp') ?></h3>
-            <div class='poll_answers'><?php
-if (($poll['answers'])) {
-        foreach ($poll['answers'] as $answer) {
+        <?php do_action('smpl_before_question', $poll['question'])?>
+        <h3><?php echo esc_html__($poll['question'], 'simple-poll-for-wp') ?></h3>
+        <?php do_action('smpl_after_question', $poll['question'])?>
+        <div class='poll_answers'>
+            <?php
+do_action('smpl_before_question_answer', $poll['answers']);
+    $poll_answers = apply_filters('smple_poll_answers', $poll['answers']);
+    if (($poll['answers'])) {
+        foreach ($poll_answers as $answer) {
             ?>
-                    <input
-                        type='radio'
-                        name='smpl_answers'
-                        value="<?php echo $answer->smpl_answers; ?>"
-                        <?php echo ($answer->smpl_aid == $poll['current_answer_id']) ? "checked" : ''; ?>
-                        onchange='submitVote(<?php echo json_encode($answer) ?> , <?php echo $poll["totalvotes"]; ?>)'
-                        id="smpl_answers_<?php echo $answer->smpl_aid; ?>"/>
-                            <label for="answer.smpl_answers_<?php echo $answer->smpl_aid; ?>">
-                                <?php echo __($answer->smpl_answers, 'simple-poll-for-wp') ?>;
-                            </label>
+                <input
+                    type='radio'
+                    name='smpl_answers'
+                    value="<?php echo $answer->smpl_answers; ?>"
+                    <?php echo ($answer->smpl_aid == $poll['current_answer_id']) ? "checked" : ''; ?>
+                    onchange='submitVote(<?php echo json_encode($answer) ?> , <?php echo $poll["totalvotes"]; ?>)'
+                    id="smpl_answers_<?php echo $answer->smpl_aid; ?>"/>
+                <label for="answer.smpl_answers_<?php echo $answer->smpl_aid; ?>">
+                    <?php echo __($answer->smpl_answers, 'simple-poll-for-wp') ?>;
+                </label>
                 <?php
 }
     }
+    do_action('smpl_after_question_answer', $poll['answers']);
     ?>
 
-			</div>
 		</div>
-        <?php
+	</div>
+    <?php return ob_get_clean();
 }
 
 add_shortcode('smpl_poll', 'create_poll_shortcode');

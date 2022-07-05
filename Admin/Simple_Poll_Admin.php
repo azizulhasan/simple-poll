@@ -63,7 +63,9 @@ class Simple_Poll_Admin {
     public function enqueue_styles() {
         /* Dashicons */
         wp_enqueue_style('dashicons');
-        wp_enqueue_style('wp-smpl-bootstrap', plugin_dir_url(__FILE__) . 'css/bootstrap.css', [], false, 'all');
+        if (isset($_REQUEST['page']) && (SIMPLE_POLL_TEXT_DOMAIN == $_REQUEST['page'])) {
+            wp_enqueue_style('wp-smpl-bootstrap', plugin_dir_url(__FILE__) . 'css/bootstrap.css', [], false, 'all');
+        }
         wp_enqueue_style('wp-smpl-css', plugin_dir_url(__FILE__) . 'css/simple-poll.css', [], false, 'all');
 
     }
@@ -80,6 +82,17 @@ class Simple_Poll_Admin {
             'post_types' => get_post_types(),
             'is_logged_in' => is_user_logged_in(),
             'is_admin' => current_user_can('administrator'),
+        ]);
+
+        wp_register_script('simple-poll', plugin_dir_url(__FILE__) . 'js/simple-poll.js', array(), true, true);
+        wp_enqueue_script('simple-poll');
+        register_block_type('smpl/poll', [
+            'script' => 'simple-poll',
+            'render_callback' => [$this, 'render_poll'],
+        ]);
+        wp_localize_script('simple-poll', 'smpl', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce(SIMPLE_POLL_NONCE),
         ]);
 
     }
@@ -109,31 +122,43 @@ class Simple_Poll_Admin {
 
     }
 
-    /**
-     * Enqueue wp speech file
-     *
-     */
-    public function enqueue_simple_poll() {
-
-        wp_register_script('simple-poll', plugin_dir_url(__FILE__) . 'js/simple-poll.js', array(), true, true);
-        wp_enqueue_script('simple-poll');
-        register_block_type('smpl/poll', [
-            'script' => 'simple-poll',
-            'render_callback' => [$this, 'render_poll'],
-        ]);
-        wp_localize_script('simple-poll', 'smpl', [
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce(SIMPLE_POLL_NONCE),
-        ]);
-    }
-
     public function render_poll($attrs) {
+        global $post;
+        $question = isset($attrs['question']) ? $attrs['question'] : '';
+        $answers = isset($attrs['answers']) ? $attrs['answers'] : [];
+        ob_start();
         ?>
-        <div class='sample_poll_block' id="smpl_block_">
-			<h3><?php echo esc_html__($attrs['question'], 'simple-poll-for-wp') ?></h3>
-            <div class='poll_answers'></div></div>
+    <div class='sample_poll_block' id="smpl_block_<?php echo md5($attrs['question']) ?>">
+        <?php do_action('smpl_before_question', $question)?>
+        <h3><?php echo esc_html__($question, 'simple-poll-for-wp') ?></h3>
+        <?php do_action('smpl_after_question', $question)?>
+        <div class='poll_answers'>
             <?php
+do_action('smpl_before_question_answer', $answers);
+        $poll_answers = apply_filters('smple_poll_answers', $answers);
+        if (($answers)) {
+            foreach ($poll_answers as $answer) {
+                ?>
+                <input
+                    type='radio'
+                    name='smpl_answers'
+                    value="<?php echo $answer; ?>"
+                    onchange='submitBlockVote(<?php echo json_encode([$attrs, $answer, $post->ID]) ?>)'
+                    id="smpl_answers_<?php echo $answer; ?>"/>
+                <label for="answer.smpl_answers_<?php echo $answer; ?>">
+                    <?php echo __($answer, 'simple-poll-for-wp') ?>;
+                </label>
+                <?php
 }
+        }
+        do_action('smpl_after_question_answer', $answers);
+        ?>
+
+		</div>
+	</div>
+    <?php return ob_get_clean();
+
+    }
 
     /**
      * Add Menu and Submenu page

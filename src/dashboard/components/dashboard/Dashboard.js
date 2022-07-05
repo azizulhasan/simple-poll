@@ -13,16 +13,13 @@ import 'react-toastify/dist/ReactToastify.css';
  */
 import './assets/css/bootstrap.css';
 import './assets/css/simple-poll.css';
-import './assets/js/scripts.js';
 
 /**
  * Dashboard Components
  */
 import NavBar from './dasboardcontent/NavBar';
-import Settings from './settings/Settings';
 import Docs from './docs/Docs';
 import Statistics from './statistics/Statistics';
-import DashboardFooterNav from './dasboardcontent/DashboardFooterNav';
 import Poll from './poll/Poll';
 
 function Dashboard() {
@@ -51,17 +48,10 @@ function Dashboard() {
 									path={'/statistics'}
 									element={<Statistics />}
 								/>
-								<Route
-									path={'/settings'}
-									element={<Settings />}
-								/>
 								<Route path='/docs' element={<Docs />} />
 							</Routes>
 						</div>
 					</main>
-					<footer className='py-4 mt-auto footer_bg'>
-						<DashboardFooterNav />
-					</footer>
 				</div>
 			</div>
 		</HashRouter>

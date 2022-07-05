@@ -13,7 +13,7 @@ export default function NavBar() {
 							Manage Polls
 						</Link>
 						<Link className='nav-link' to={'/statistics'}>
-							Polls Statistics
+							Statistics
 						</Link>
 
 						{/* <Link className='nav-link' to={'/customize'}>

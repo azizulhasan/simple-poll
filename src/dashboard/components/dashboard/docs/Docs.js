@@ -20,37 +20,28 @@ export default function Docs() {
 	 */
 	const filters = [
 		{
-			name: 'wps__content_before_cleaning',
-			argument: '$description',
+			name: 'smpl_before_question_answer',
+			argument: '$question',
 		},
 		{
-			name: 'wps__content_after_cleaning',
-			argument: '$description',
+			name: 'smpl_after_question_answer',
+			argument: '$question',
 		},
 	];
 	return (
 		<Accordion>
 			<Accordion.Item eventKey='0'>
 				<Accordion.Header>
-					1. How to change button text?
+					1. How to add id to shortcode?
 				</Accordion.Header>
 				<Accordion.Body>
 					Add button text on shortcode as an attribute. Example :{' '}
-					<code>[wps_listen_btn btn_text="Your_Test"]</code>
+					<code>[smpl_poll id="Your_Id"]</code>
 				</Accordion.Body>
 			</Accordion.Item>
 			<Accordion.Item eventKey='1'>
 				<Accordion.Header>
-					2. How to add custom css class to button?
-				</Accordion.Header>
-				<Accordion.Body>
-					Add class on shortcode as an attribute. Example :{' '}
-					<code>[wps_listen_btn class="custom_class"]</code>
-				</Accordion.Body>
-			</Accordion.Item>
-			<Accordion.Item eventKey='2'>
-				<Accordion.Header>
-					3. WP Speech Filter Hooks Reference.
+					3. Simple Poll Filter Hooks Reference.
 				</Accordion.Header>
 				<Accordion.Body>
 					<Table striped bordered hover size='sm'>
@@ -92,29 +83,14 @@ export default function Docs() {
 						<pre>
 							<code id='filter_hook'>
 								{`
-              add_filter( 'wps__content_before_cleaning', 'wps__content_before_cleaning_callback' );
-              function wps__content_before_cleaning_callback ($description) {
+              add_filter( 'smpl_before_question_answer', 'smpl_before_question_answer_callback' );
+              function smpl_before_question_answer_callback ($description) {
                   // Your code here.
               }
               `}
 							</code>
 						</pre>
 					</div>
-				</Accordion.Body>
-			</Accordion.Item>
-			<Accordion.Item eventKey='4'>
-				<Accordion.Header>
-					5. How to fix FireFox Browser issue.
-				</Accordion.Header>
-				<Accordion.Body>
-					<pre>
-						{`
-          Here is the solution to stop the error:
-          1. Open FireFox browser and search about about:config now search with these 2 object and enable them as true.
-          a. media.webspeech.recognition.enable
-          b. media.webspeech.recognition.force_enable
-          `}
-					</pre>
 				</Accordion.Body>
 			</Accordion.Item>
 		</Accordion>

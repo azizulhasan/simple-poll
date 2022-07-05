@@ -51,3 +51,17 @@ function submitVote(answer, totalvotes) {
 		}
 	});
 }
+
+function submitBlockVote(data) {
+	let form = new FormData();
+	form.append('nonce', smpl.nonce);
+	form.append('data', JSON.stringify(data));
+	form.append('action', 'give_block_vote');
+
+	postData(smpl.ajax_url, form).then((res) => {
+		console.log(res.data);
+		// if (res.data) {
+		// 	alert('Your vote is saved.');
+		// }
+	});
+}

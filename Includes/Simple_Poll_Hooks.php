@@ -24,6 +24,14 @@ namespace WPSimplePoll;
 class Simple_Poll_Hooks {
 
     public function __construct() {
+        // Hooks.
+        add_action('wp_ajax_create_poll', 'handle_create_poll');
+        add_action('wp_ajax_get_polls', 'handle_get_polls');
+        add_action('wp_ajax_get_poll', 'handle_get_poll');
+        add_action('wp_ajax_delete_poll', 'handle_delete_poll');
+        add_action('wp_ajax_get_last_poll', 'handle_get_last_poll');
+        add_action('wp_ajax_give_vote', 'handle_give_vote');
+        add_action('wp_ajax_give_block_vote', 'handle_give_block_vote');
         // add_action('add_meta_boxes', array($this, 'add_custom_meta_box'));
     }
 

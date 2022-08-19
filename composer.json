@@ -1,5 +1,5 @@
 {
-    "name": "azizulhasan/simple-poll",
+    "name": "azizulhasan/pvs-poll",
     "type": "plugin",
     "authors": [
         {
@@ -9,9 +9,9 @@
     ],
     "autoload": {
         "psr-4": {
-            "WPSimplePoll\\": "Includes",
-            "WPSimplePoll_Admin\\": "Admin",
-            "WPSimplePoll_Api\\": "Api"
+            "PVSystem\\": "Includes",
+            "PVSystem_Admin\\": "Admin",
+            "PVSystem_Api\\": "Api"
         }
     },
     "require": {}

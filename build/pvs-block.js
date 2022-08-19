@@ -3844,18 +3844,19 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!********************************!*\
-  !*** ./Admin/js/smpl-block.js ***!
-  \********************************/
+/*!*******************************!*\
+  !*** ./Admin/js/pvs-block.js ***!
+  \*******************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _block_utilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block/utilities */ "./Admin/js/block/utilities.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _block_utilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block/utilities */ "./Admin/js/block/utilities.js");
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/Form.js");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -3866,13 +3867,13 @@ const {
 const {
   PanelBody
 } = wp.components;
-
-wp.blocks.registerBlockType('smpl/poll', {
-  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Smple poll'),
-  description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('This is simple poll discription.'),
+wp.blocks.registerBlockType('pvs/poll', {
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Poll System'),
+  description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('This is simple poll discription.'),
   icon: 'chart-bar',
   category: 'design',
-  keywords: ['poll'],
+  keywords: ['poll', 'vote', 'epoll', 'booth', 'wpolls', 'polls'],
+  example: {},
   attributes: {
     panelCSS: {
       type: 'object',
@@ -3915,9 +3916,9 @@ wp.blocks.registerBlockType('smpl/poll', {
 function createPoll(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     let form = new FormData();
-    form.append('nonce', smpl.nonce);
+    form.append('nonce', pvs.nonce);
     form.append('action', 'get_polls');
-    (0,_block_utilities__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl_block.ajax_url, form).then(res => {
+    (0,_block_utilities__WEBPACK_IMPORTED_MODULE_3__.postData)(pvs_block.ajax_url, form).then(res => {
       if (res.data) {
         props.setAttributes({
           polls: res.data
@@ -3942,7 +3943,7 @@ function createPoll(props) {
     });
     let answers = [];
     question[0].answers.map(answer => {
-      answers.push(answer.smpl_answers);
+      answers.push(answer.pvs_answers);
     });
     props.setAttributes({
       id: e.target.value
@@ -3966,7 +3967,7 @@ function createPoll(props) {
 
   return [(0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Group, {
     style: props.attributes.panelCSS.item
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All Polls')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Select, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('All Polls')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Select, {
     style: {
       width: '100%'
     },
@@ -3981,7 +3982,7 @@ function createPoll(props) {
     }, " ", poll.question, " ");
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Group, {
     style: props.attributes.panelCSS.item
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Custom Class')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Control, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Add Custom Class')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Control, {
     style: {
       width: '100%'
     },
@@ -3993,13 +3994,13 @@ function createPoll(props) {
     onChange: setCustomClass
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Group, {
     style: props.attributes.panelCSS.item
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Custom CSS')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Control, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Add Custom CSS')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Control, {
     style: {
       width: '100%'
     },
     as: "textarea",
     rows: "3",
-    placeholder: "selector .simple_poll_block",
+    placeholder: "selector .poll_system_block",
     name: "address",
     value: props.attributes.customcss,
     onChange: setCustomCSS
@@ -4008,13 +4009,13 @@ function createPoll(props) {
       __html: props.attributes.customcss
     }
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: 'simple_poll_block ' + props.attributes.customclass
+    className: 'poll_system_block ' + props.attributes.customclass
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
     id: "poll_form"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Group, {
     className: "",
     controlId: "poll.question"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Question'))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Add Question'))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "poll_question"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Control, {
     type: "text",
@@ -4039,4 +4040,4 @@ function createPoll(props) {
 
 /******/ })()
 ;
-//# sourceMappingURL=smpl-block.js.map
+//# sourceMappingURL=pvs-block.js.map

@@ -10,30 +10,30 @@
  *
  * @link              http://azizulhasan.com
  * @since             1.0.0
- * @package           simple_poll
+ * @package           poll_system
  *
  * @wordpress-plugin
- * Plugin Name:       Wp Simple Poll
- * Description:       Polling system in wordpress.
+ * Plugin Name:       Poll And Vote System
+ * Description:       Poll system in WordPress block enabled. Add a poll to post throw shortcode and get all poll throw rest API.
  * Version:           1.0.0
  * Author:            Azizul Hasan
  * Author URI:        http://azizulhasan.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       simple-poll-for-wp
+ * Text Domain:       poll-and-vote-system
  * Domain Path:       /languages
  */
 include 'vendor/autoload.php';
 
-use WPSimplePoll\Simple_Poll;
-use WPSimplePoll\Simple_Poll_Activator;
-use WPSimplePoll\Simple_Poll_Deactivator;
-use WPSimplePoll_Api\Simple_Poll_Api;
+use PVSystem\Poll_System;
+use PVSystem\Poll_System_Activator;
+use PVSystem\Poll_System_Deactivator;
+use PVSystem_Api\Poll_System_Api;
 
 global $wpdb;
-$wpdb->smpl_question = $wpdb->prefix . 'smpl_question';
-$wpdb->smpl_answer = $wpdb->prefix . 'smpl_answer';
-$wpdb->smpl_votes = $wpdb->prefix . 'smpl_votes';
+$wpdb->pvs_question = $wpdb->prefix . 'pvs_question';
+$wpdb->pvs_answer = $wpdb->prefix . 'pvs_answer';
+$wpdb->pvs_votes = $wpdb->prefix . 'pvs_votes';
 
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
@@ -51,24 +51,24 @@ if (!defined('ABSPATH')) {
  * Rename this for your plugin and update it as you release new versions.
  */
 
-if (!defined('SIMPLE_POLL_VERSION')) {
+if (!defined('POLL_SYSTEM_VERSION')) {
 
-    define('SIMPLE_POLL_VERSION', '1.0.0');
+    define('POLL_SYSTEM_VERSION', '1.0.0');
 }
 
-if (!defined('SIMPLE_POLL_NONCE')) {
+if (!defined('POLL_SYSTEM_NONCE')) {
 
-    define('SIMPLE_POLL_NONCE', 'SIMPLE_POLL_NONCE');
+    define('POLL_SYSTEM_NONCE', 'POLL_SYSTEM_NONCE');
 }
 
-if (!defined('SIMPLE_POLL_TEXT_DOMAIN')) {
+if (!defined('POLL_SYSTEM_TEXT_DOMAIN')) {
 
-    define('SIMPLE_POLL_TEXT_DOMAIN', 'simple-poll-for-wp');
+    define('POLL_SYSTEM_TEXT_DOMAIN', 'poll-and-vote-system');
 }
 
-if (!defined('SIMPLE_POLL_PLUGIN_DIR_URL')) {
+if (!defined('POLL_SYSTEM_PLUGIN_DIR_URL')) {
 
-    define('SIMPLE_POLL_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
+    define('POLL_SYSTEM_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
 }
 
 // require_once 'Include/helpers.php';
@@ -83,43 +83,43 @@ if (!defined('SIMPLE_POLL_PLUGIN_DIR_URL')) {
  * @since    1.0.0
  */
 
-class Init {
+class PVS_Init {
 
     public function __construct() {
 
         add_action('init', function () {
             global $current_user;
-            new Simple_Poll_Api( $current_user );
+            new Poll_System_Api( $current_user );
         });
-        $this->run_simple_poll();
+        $this->run_poll_system();
     }
 
-    public function run_simple_poll() {
-        $plugin = new Simple_Poll();
+    public function run_poll_system() {
+        $plugin = new Poll_System();
         $plugin->run();
     }
 
     /**
      * The code that runs during plugin activation.
-     * This action is documented in includes/Simple_Poll_Activator.php
+     * This action is documented in includes/Poll_System_Activator.php
      */
-    public function activate_simple_poll() {
-        Simple_Poll_Activator::activate();
+    public function activate_poll_system() {
+        Poll_System_Activator::activate();
     }
 
     /**
      * The code that runs during plugin deactivation.
-     * This action is documented in includes/Simple_Poll_Deactivator.php
+     * This action is documented in includes/Poll_System_Deactivator.php
      */
-    public function deactivate_simple_poll() {
-        Simple_Poll_Deactivator::deactivate();
+    public function deactivate_poll_system() {
+        Poll_System_Deactivator::deactivate();
     }
 }
 
-$WPSimplePoll = new Init();
+$PVSystem = new PVS_Init();
 
-register_activation_hook(__FILE__, [$WPSimplePoll, 'activate_simple_poll']);
-register_deactivation_hook(__FILE__, [$WPSimplePoll, 'deactivate_simple_poll']);
+register_activation_hook(__FILE__, [$PVSystem, 'activate_poll_system']);
+register_deactivation_hook(__FILE__, [$PVSystem, 'deactivate_poll_system']);
 
 
 
@@ -127,5 +127,5 @@ register_deactivation_hook(__FILE__, [$WPSimplePoll, 'deactivate_simple_poll']);
 function create_poll_shortcode($attrs) {
     return get_shorcode_content( $attrs );
 }
-add_shortcode('smpl_poll', 'create_poll_shortcode');
+add_shortcode('pvs_poll', 'create_poll_shortcode');
 

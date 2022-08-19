@@ -3214,7 +3214,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
 /* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
 /* harmony import */ var _assets_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./assets/css/bootstrap.css */ "./src/dashboard/components/dashboard/assets/css/bootstrap.css");
-/* harmony import */ var _assets_css_simple_poll_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./assets/css/simple-poll.css */ "./src/dashboard/components/dashboard/assets/css/simple-poll.css");
+/* harmony import */ var _assets_css_pvs_poll_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./assets/css/pvs-poll.css */ "./src/dashboard/components/dashboard/assets/css/pvs-poll.css");
 /* harmony import */ var _dasboardcontent_DashboardFooterNav__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dasboardcontent/DashboardFooterNav */ "./src/dashboard/components/dashboard/dasboardcontent/DashboardFooterNav.js");
 /* harmony import */ var _dasboardcontent_NavBar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./dasboardcontent/NavBar */ "./src/dashboard/components/dashboard/dasboardcontent/NavBar.js");
 /* harmony import */ var _docs_Docs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./docs/Docs */ "./src/dashboard/components/dashboard/docs/Docs.js");
@@ -3307,12 +3307,12 @@ function DashboardFooterNav() {
     },
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
       className: "navbar-nav ms-auto  me-2 text-decoration-none   order-2 order-lg-1",
-      href: "https://wordpress.org/support/plugin/text-to-audio/#new-topic-0",
+      href: "https://wordpress.org/support/plugin/poll-and-vote-system/#new-topic-0",
       target: "_blank",
       children: "Support"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
       className: "navbar-nav ms-auto  me-2 text-decoration-none   order-2 order-lg-1",
-      href: "https://wordpress.org/support/plugin/text-to-audio/reviews/#new-post",
+      href: "https://wordpress.org/support/plugin/poll-and-vote-system/reviews/#new-post",
       target: "_blank",
       children: "Give A Review"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
@@ -3419,23 +3419,23 @@ function Docs() {
 
 
   var hooks = [{
-    name: 'smpl_before_question',
+    name: 'pvs_before_question',
     argument: '$poll $question',
     type: 'action'
   }, {
-    name: 'smpl_after_question',
+    name: 'pvs_after_question',
     argument: '$poll $question',
     type: 'action'
   }, {
-    name: 'smpl_before_answer',
+    name: 'pvs_before_answer',
     argument: '$poll $answers',
     type: 'action'
   }, {
-    name: 'smpl_after_answer',
+    name: 'pvs_after_answer',
     argument: '$poll $answers',
     type: 'action'
   }, {
-    name: 'smple_poll_answers',
+    name: 'pvse_poll_answers',
     argument: '$answers',
     type: 'filter'
   }];
@@ -3444,19 +3444,19 @@ function Docs() {
    */
 
   var restApi = [{
-    endpoint: '/smpl/v1"',
+    endpoint: '/pvs/v1"',
     description: 'Poll base endpoint'
   }, {
-    endpoint: '/smpl/v1/polls',
+    endpoint: '/pvs/v1/polls',
     description: 'Get all polls'
   }, {
-    endpoint: '/smpl/v1/poll/(?P<id>[\\d]+)',
+    endpoint: '/pvs/v1/poll/(?P<id>[\\d]+)',
     description: 'Get single poll by passing `id` as argument'
   }, {
-    endpoint: '/smpl/v1/poll/(?P<id>[\\d]+)/votes',
+    endpoint: '/pvs/v1/poll/(?P<id>[\\d]+)/votes',
     description: 'Get single poll\'s all votes'
   }, {
-    endpoint: '/smpl/v1/votes',
+    endpoint: '/pvs/v1/votes',
     description: 'Get all poll\'s votes'
   }];
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -3466,13 +3466,13 @@ function Docs() {
         children: "1. How to add id to shortcode?"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Body, {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("code", {
-          children: "[smpl_poll id=\"Your_Id\"]"
+          children: "[pvs_poll id=\"Your_Id\"]"
         })
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
       eventKey: "2",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Header, {
-        children: "2. Simple Poll Hooks Reference."
+        children: "2. Poll  System Hooks Reference."
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Body, {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
           striped: true,
@@ -3529,7 +3529,7 @@ function Docs() {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("pre", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("code", {
               id: "action_hook",
-              children: "\n\tadd_action( 'smpl_before_question', 'smpl_before_question_callback', 10, 2 );\n\tfunction smpl_before_question_callback ($poll, $qeustion) {\n\t\t// Your code here.\n\t}\n"
+              children: "\n\tadd_action( 'pvs_before_question', 'pvs_before_question_callback', 10, 2 );\n\tfunction pvs_before_question_callback ($poll, $qeustion) {\n\t\t// Your code here.\n\t}\n"
             })
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
@@ -3542,7 +3542,7 @@ function Docs() {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("pre", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("code", {
               id: "filter_hook",
-              children: "\n\tapply_filters( 'smple_poll_answers', 'smple_poll_answers_callback' );\n\tfunction smple_poll_answers_callback ($answers) {\n\t\t// Your code here.\n\t}\n"
+              children: "\n\tapply_filters( 'pvse_poll_answers', 'pvse_poll_answers_callback' );\n\tfunction pvse_poll_answers_callback ($answers) {\n\t\t// Your code here.\n\t}\n"
             })
           })
         })]
@@ -3589,8 +3589,8 @@ function Docs() {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Header, {
         children: "5. How to add custom class to shortcode?"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Body, {
-        children: ["Add your custom class as comma saperated. example : ", ' ', /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("code", {
-          children: "[smpl_poll customclass=\"classA classB\"]"
+        children: ["Add your custom class as space saperated. example : ", ' ', /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("code", {
+          children: "[pvs_poll customclass=\"classA classB\"]"
         })]
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Item, {
@@ -3599,7 +3599,7 @@ function Docs() {
         children: "6. How to add custom css to shortcode?"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["default"].Body, {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("code", {
-          children: "[smpl_poll customcss=\"custom css\"]"
+          children: "[pvs_poll customcss=\"custom css\"]"
         })
       })]
     })]
@@ -3715,9 +3715,9 @@ function Poll() {
     if (confirm('Are you sure? It will be permanently deleted.')) {
       var data = new FormData();
       data.append('id', id);
-      data.append('nonce', smpl.nonce);
+      data.append('nonce', pvs.nonce);
       data.append('action', 'delete_poll');
-      (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.deletePost)(smpl.ajax_url, data).then(function (res) {
+      (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.deletePost)(pvs.ajax_url, data).then(function (res) {
         if (res.data) {
           setPollsData(res.data);
         }
@@ -3729,9 +3729,9 @@ function Poll() {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var form = new FormData();
-    form.append('nonce', smpl.nonce);
+    form.append('nonce', pvs.nonce);
     form.append('action', 'get_polls');
-    (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl.ajax_url, form).then(function (res) {
+    (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(pvs.ajax_url, form).then(function (res) {
       if (res.data) {
         setPollsData(res.data);
       }
@@ -3740,7 +3740,7 @@ function Poll() {
 
   function copyshortcode(id) {
     /* Get the text field */
-    var copyText = document.getElementById('smpl_btn_shortcode_' + id);
+    var copyText = document.getElementById('pvs_btn_shortcode_' + id);
     /* Copy the text inside the text field */
 
     navigator.clipboard.writeText(copyText.value);
@@ -3786,14 +3786,14 @@ function Poll() {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("td", {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
                 type: "text",
-                name: "smpl_btn_shortcode",
-                id: 'smpl_btn_shortcode_' + polls[index].id,
-                value: '[smpl_poll id="' + polls[index].id + '"]',
+                name: "pvs_btn_shortcode",
+                id: 'pvs_btn_shortcode_' + polls[index].id,
+                value: '[pvs_poll id="' + polls[index].id + '"]',
                 readOnly: true,
                 title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Short code')
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
                 type: "button",
-                className: "smpl_btn",
+                className: "pvs_btn",
                 onClick: function onClick(e) {
                   return copyshortcode(polls[index].id);
                 },
@@ -3802,13 +3802,13 @@ function Poll() {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("td", {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__["default"], {
                 className: "mr-2",
-                bsPrefix: "smpl_btn smpl_btn_edit",
+                bsPrefix: "pvs_btn pvs_btn_edit",
                 onClick: function onClick(e) {
                   return modalShow(true, polls[index]);
                 },
                 children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Edit')
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                bsPrefix: "smpl_btn",
+                bsPrefix: "pvs_btn",
                 onClick: function onClick(e) {
                   return deleteEducation(polls[index].id);
                 },
@@ -4129,21 +4129,21 @@ function PollModal(_ref) {
     }
 
     data.append('question_answers', answers);
-    data.append('nonce', smpl.nonce);
+    data.append('nonce', pvs.nonce);
     data.append('action', 'create_poll');
     /**
      * Update data if "id" exists. else save form data.
      */
 
     if (poll.id) {
-      (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl.ajax_url, data).then(function (res) {
+      (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(pvs.ajax_url, data).then(function (res) {
         setPollsData(res.data);
         modalShow(false);
       })["catch"](function (err) {
         console.log(err);
       });
     } else {
-      (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(smpl.ajax_url, data).then(function (res) {
+      (0,_PollHooks__WEBPACK_IMPORTED_MODULE_2__.postData)(pvs.ajax_url, data).then(function (res) {
         setPollsData(res.data);
         modalShow(false);
       })["catch"](function (err) {
@@ -4156,7 +4156,7 @@ function PollModal(_ref) {
   var openModal = function openModal(e) {
     e.preventDefault();
 
-    if (smpl.is_admin) {
+    if (pvs.is_admin) {
       modalShow(true);
       return;
     }
@@ -4166,7 +4166,7 @@ function PollModal(_ref) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      bsPrefix: "smpl_btn",
+      bsPrefix: "pvs_btn",
       onClick: function onClick(e) {
         return openModal(e);
       },
@@ -4216,7 +4216,7 @@ function PollModal(_ref) {
               lg: 12,
               className: "d-flex flex-col justify-content-start align-items-start mb-2",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                bsPrefix: "smpl_btn",
+                bsPrefix: "pvs_btn",
                 onClick: _PollHooks__WEBPACK_IMPORTED_MODULE_2__.addQuestion,
                 id: "poll.add_question",
                 children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add Answer')
@@ -4239,13 +4239,13 @@ function PollModal(_ref) {
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Control, {
                         type: "text",
                         name: "question_answer",
-                        value: answer.smpl_answers,
+                        value: answer.pvs_answers,
                         onChange: handleChange,
                         placeholder: "Answer"
                       })]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
                       type: "button",
-                      className: "smpl_btn",
+                      className: "pvs_btn",
                       onClick: _PollHooks__WEBPACK_IMPORTED_MODULE_2__.deleteQuestion,
                       children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Delete')
                     })]
@@ -4271,7 +4271,7 @@ function PollModal(_ref) {
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
                     type: "button",
-                    className: "smpl_btn",
+                    className: "pvs_btn",
                     onClick: _PollHooks__WEBPACK_IMPORTED_MODULE_2__.deleteQuestion,
                     children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Delete')
                   })]
@@ -4279,7 +4279,7 @@ function PollModal(_ref) {
               })
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
-            className: "smpl_btn w-100",
+            className: "pvs_btn w-100",
             type: "submit",
             id: "poll.sumbit",
             children: updateBtn.data ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Update Poll') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Submit Poll')
@@ -4462,10 +4462,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, "@charset \"UTF-8\";\r\n/*!\r\n* Start 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/assets/css/simple-poll.css":
-/*!*********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/assets/css/simple-poll.css ***!
-  \*********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/assets/css/pvs-poll.css":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/assets/css/pvs-poll.css ***!
+  \******************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -4479,7 +4479,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/** \r\nMy Custom css\r\n*/\r\n.topnav_bg,\r\n.footer_bg\r\n{\r\n    background-color: #1a4548;\r\n\r\n}\r\n\r\n.topnav_bg a,\r\n#sidenavAccordion div div a,\r\n#sidenavAccordion div div a div,\r\n#layoutSidenav_content footer div\r\n{\r\n    color: #fff;\r\n}\r\n\r\n#layoutSidenav_content\r\n{\r\n    background-color: #fbfaff;\r\n}\r\n\r\ndisplay: flex;\r\nflex-direction: column;\r\n\r\n/**\r\nbutton \r\n*/\r\n\r\n.smpl_btn\r\n{\r\n    display: inline-block;\r\n    font-weight: 400;\r\n    line-height: 1.5;\r\n    color: #212529;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    vertical-align: middle;\r\n    cursor: pointer;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n         user-select: none;\r\n    background-color: transparent;\r\n    border: 1px solid transparent;\r\n    padding: 0.375rem 0.75rem;\r\n    font-size: 1rem;\r\n    border-radius: 0.25rem;\r\n    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;\r\n}\r\n\r\n.smpl_btn\r\n{\r\n    background-color: #1a4548;\r\n    color: #fff;\r\n    border-color: #1a4548;\r\n    border-radius: 2px;\r\n}\r\n\r\n.smpl_btn:hover\r\n{\r\n    background-color: #1a4548;\r\n}\r\n\r\n\r\n/*Navbar style*/\r\n#layoutSidenav {\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n\r\n#layoutSidenav #layoutSidenav_nav {\r\n    height: 50px;\r\n    flex-basis: 55px;\r\n}\r\n\r\n#layoutSidenav_nav {\r\n    height: 50px;\r\n}\r\n\r\n.sb-sidenav .sb-sidenav-menu .nav {\r\n    display: flex;\r\n    flex-direction: row;\r\n    white-space: nowrap;\r\n    justify-content: start;\r\n    align-items: center;\r\n}\r\n\r\n\r\n\r\n.sb-sidenav-menu .nav a.nav-link {\r\n    border-right: 1px solid white;\r\n    font-size: 20px;\r\n    font-weight: bold;\r\n}\r\n\r\n\r\n\r\n/* @media (max-width: 599px)\r\n{\r\n    #layoutSidenav #layoutSidenav_content\r\n    {\r\n        margin-left: -140px;\r\n    }\r\n}\r\n\r\n */\r\n\r\n @media screen   and (max-width: 767px)\r\n {\r\n    .sb-sidenav .sb-sidenav-menu .nav{\r\n        overflow-x: scroll;\r\n    }\r\n }", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "/** \r\nMy Custom css\r\n*/\r\n.topnav_bg,\r\n.footer_bg\r\n{\r\n    background-color: #1a4548;\r\n\r\n}\r\n\r\n.topnav_bg a,\r\n#sidenavAccordion div div a,\r\n#sidenavAccordion div div a div,\r\n#layoutSidenav_content footer div\r\n{\r\n    color: #fff;\r\n}\r\n\r\n#layoutSidenav_content\r\n{\r\n    background-color: #fbfaff;\r\n}\r\n\r\ndisplay: flex;\r\nflex-direction: column;\r\n\r\n/**\r\nbutton \r\n*/\r\n\r\n.pvs_btn\r\n{\r\n    display: inline-block;\r\n    font-weight: 400;\r\n    line-height: 1.5;\r\n    color: #212529;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    vertical-align: middle;\r\n    cursor: pointer;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n         user-select: none;\r\n    background-color: transparent;\r\n    border: 1px solid transparent;\r\n    padding: 0.375rem 0.75rem;\r\n    font-size: 1rem;\r\n    border-radius: 0.25rem;\r\n    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;\r\n}\r\n\r\n.pvs_btn\r\n{\r\n    background-color: #1a4548;\r\n    color: #fff;\r\n    border-color: #1a4548;\r\n    border-radius: 2px;\r\n}\r\n\r\n.pvs_btn:hover\r\n{\r\n    background-color: #1a4548;\r\n}\r\n\r\n\r\n/*Navbar style*/\r\n#layoutSidenav {\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n\r\n\r\n#layoutSidenav #layoutSidenav_nav {\r\n    height: 50px;\r\n    flex-basis: 55px;\r\n}\r\n\r\n#layoutSidenav_nav {\r\n    height: 50px;\r\n}\r\n\r\n.sb-sidenav .sb-sidenav-menu .nav {\r\n    display: flex;\r\n    flex-direction: row;\r\n    white-space: nowrap;\r\n    justify-content: start;\r\n    align-items: center;\r\n}\r\n\r\n\r\n\r\n.sb-sidenav-menu .nav a.nav-link {\r\n    border-right: 1px solid white;\r\n    font-size: 20px;\r\n    font-weight: bold;\r\n}\r\n\r\n\r\n\r\n/* @media (max-width: 599px)\r\n{\r\n    #layoutSidenav #layoutSidenav_content\r\n    {\r\n        margin-left: -140px;\r\n    }\r\n}\r\n\r\n */\r\n\r\n @media screen   and (max-width: 767px)\r\n {\r\n    .sb-sidenav .sb-sidenav-menu .nav{\r\n        overflow-x: scroll;\r\n    }\r\n }", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -48664,10 +48664,10 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./src/dashboard/components/dashboard/assets/css/simple-poll.css":
-/*!***********************************************************************!*\
-  !*** ./src/dashboard/components/dashboard/assets/css/simple-poll.css ***!
-  \***********************************************************************/
+/***/ "./src/dashboard/components/dashboard/assets/css/pvs-poll.css":
+/*!********************************************************************!*\
+  !*** ./src/dashboard/components/dashboard/assets/css/pvs-poll.css ***!
+  \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -48677,7 +48677,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_simple_poll_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!../../../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./simple-poll.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/assets/css/simple-poll.css");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_pvs_poll_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!../../../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./pvs-poll.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].oneOf[1].use[2]!./src/dashboard/components/dashboard/assets/css/pvs-poll.css");
 
             
 
@@ -48686,11 +48686,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_simple_poll_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_pvs_poll_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_simple_poll_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_5_oneOf_1_use_2_pvs_poll_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 

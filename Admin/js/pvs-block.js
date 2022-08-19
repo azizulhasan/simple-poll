@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
-import { postData, addQuestion, deleteQuestion } from './block/utilities';
-import { Form, Row } from 'react-bootstrap';
+import { __ } from '@wordpress/i18n'
+
+import { postData} from './block/utilities';
+import { Form } from 'react-bootstrap';
 const { InspectorControls  } = wp.blockEditor;
 const { PanelBody  } = wp.components;
 
-import { __ } from '@wordpress/i18n'
 
-
-wp.blocks.registerBlockType('smpl/poll', {
-	title: __('Smple poll'),
+wp.blocks.registerBlockType('pvs/poll', {
+	title: __('Poll System'),
 	description: __('This is simple poll discription.'),
 	icon: 'chart-bar',
 	category: 'design',
-	keywords: ['poll'],
-
+	keywords: ['poll', 'vote', 'epoll', 'booth', 'wpolls', 'polls'],
+	example: {},
 	attributes: {
 		panelCSS: {
 			type: 'object',
@@ -56,9 +56,9 @@ function createPoll(props) {
 
 	useEffect(() => {
 		let form = new FormData();
-		form.append('nonce', smpl.nonce);
+		form.append('nonce', pvs.nonce);
 		form.append('action', 'get_polls');
-		postData(smpl_block.ajax_url, form).then((res) => {
+		postData(pvs_block.ajax_url, form).then((res) => {
 			if (res.data) {
 				props.setAttributes({ polls: res.data });
 			}
@@ -75,7 +75,7 @@ function createPoll(props) {
 		props.setAttributes({ question: question[0].question });
 		let answers = []
 		question[0].answers.map(answer=> {
-			answers.push( answer.smpl_answers )
+			answers.push( answer.pvs_answers )
 		} );
 		props.setAttributes({ id: e.target.value });
 		props.setAttributes({ answers: answers });
@@ -108,7 +108,7 @@ function createPoll(props) {
 						</Form.Group>
 						<Form.Group style={props.attributes.panelCSS.item}>
 							<Form.Label>{__('Add Custom CSS')}</Form.Label>
-							<Form.Control style={{ width: '100%' }} as="textarea" rows="3" placeholder='selector .simple_poll_block' name="address" value={props.attributes.customcss} onChange={setCustomCSS} />
+							<Form.Control style={{ width: '100%' }} as="textarea" rows="3" placeholder='selector .poll_system_block' name="address" value={props.attributes.customcss} onChange={setCustomCSS} />
 						</Form.Group>
 					</Form>
 				</PanelBody >
@@ -116,7 +116,7 @@ function createPoll(props) {
 			<style dangerouslySetInnerHTML={{__html: props.attributes.customcss}}>
 
 			</style>,
-			<div className={'simple_poll_block '+  props.attributes.customclass}>
+			<div className={'poll_system_block '+  props.attributes.customclass}>
 				<Form id='poll_form'>
 					<Form.Group className='' controlId='poll.question'>
 						<div>

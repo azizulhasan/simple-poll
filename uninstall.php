@@ -21,7 +21,7 @@
  * @link       http://azizulhasan.com
  * @since      1.0.0
  *
- * @package    Simple_Poll
+ * @package    Poll_System
  */
 
 // If uninstall not called from WordPress, then exit.

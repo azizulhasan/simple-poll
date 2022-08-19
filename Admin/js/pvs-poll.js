@@ -47,13 +47,13 @@ function submitVote(answer, totalvotes, current_answer_id ) {
 	}
 
 	let form = new FormData();
-	form.append('nonce', smpl.nonce);
-	form.append('smpl_qid', answer.smpl_qid);
-	form.append('smpl_aid', answer.smpl_aid);
-	form.append('smpl_votes', answer.smpl_votes);
+	form.append('nonce', pvs.nonce);
+	form.append('pvs_qid', answer.pvs_qid);
+	form.append('pvs_aid', answer.pvs_aid);
+	form.append('pvs_votes', answer.pvs_votes);
 	form.append('totalvotes', totalvotes);
 	form.append('action', 'give_vote');
-	postData(smpl.ajax_url, form).then((res) => {
+	postData(pvs.ajax_url, form).then((res) => {
 		if (res.data) {
 			alert('Your vote is saved.');
 		}

@@ -1,5 +1,5 @@
 <?php
-namespace WPSimplePoll;
+namespace PVSystem;
 
 /**
  * Fired during plugin activation
@@ -7,8 +7,8 @@ namespace WPSimplePoll;
  * @link       http://azizulhasan.com
  * @since      1.0.0
  *
- * @package    Simple_Poll
- * @subpackage Simple_Poll/includes
+ * @package    Poll_System
+ * @subpackage Poll_System/includes
  */
 
 /**
@@ -17,11 +17,11 @@ namespace WPSimplePoll;
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Simple_Poll
- * @subpackage Simple_Poll/includes
+ * @package    Poll_System
+ * @subpackage Poll_System/includes
  * @author     Azizul Hasan <azizulhasan.cr@gmail.com>
  */
-class Simple_Poll_Hooks {
+class Poll_System_Hooks {
 
     public function __construct() {
         // Hooks.
@@ -45,18 +45,18 @@ class Simple_Poll_Hooks {
             "product",
             "page",
         ];
-        $settings = (array) get_option('smpl_settings_data');
-        $settings['smpl__settings_allow_recording_for_post_type'] = isset($settings['smpl__settings_allow_recording_for_post_type']) ? $settings['smpl__settings_allow_recording_for_post_type'] : ['all'];
-        if (isset($settings['smpl__settings_allow_recording_for_post_type'])
-            && in_array(get_current_screen()->post_type, $settings['smpl__settings_allow_recording_for_post_type'])
-            || (in_array('all', $settings['smpl__settings_allow_recording_for_post_type'])
+        $settings = (array) get_option('pvs_settings_data');
+        $settings['pvs__settings_allow_recording_for_post_type'] = isset($settings['pvs__settings_allow_recording_for_post_type']) ? $settings['pvs__settings_allow_recording_for_post_type'] : ['all'];
+        if (isset($settings['pvs__settings_allow_recording_for_post_type'])
+            && in_array(get_current_screen()->post_type, $settings['pvs__settings_allow_recording_for_post_type'])
+            || (in_array('all', $settings['pvs__settings_allow_recording_for_post_type'])
                 && in_array(get_current_screen()->post_type, $meta_box_arr))) {
             add_meta_box(
                 'simle-poll-meta-box',
-                'Simple Poll',
+                'Poll  System',
                 array(
                     $this,
-                    'smpl_meta_box',
+                    'pvs_meta_box',
                 ),
                 get_current_screen()->post_type,
                 'side',
@@ -70,30 +70,30 @@ class Simple_Poll_Hooks {
     /**
      * Add meta box for record, re-record, listen content with loud.
      */
-    public function smpl_meta_box() {
+    public function pvs_meta_box() {
 
-        $listening = (array) get_option('smpl_listening_settings');
+        $listening = (array) get_option('pvs_listening_settings');
         $listening = json_encode($listening);
-        $customize = (array) get_option('smpl_customize_settings');
+        $customize = (array) get_option('pvs_customize_settings');
 
         // Button style.
         if (isset($customize) && count($customize)) {
             $btn_style = 'background-color:' . $customize['backgroundColor'] . ';color:' . $customize['color'] . ';border:0;';
         }
-        $short_code = '[smpl_listen_btn]';
-        if (isset($customize['smpl_play_btn_shortcode']) && '' != $customize['smpl_play_btn_shortcode']) {
-            $short_code = $customize['smpl_play_btn_shortcode'];
+        $short_code = '[pvs_listen_btn]';
+        if (isset($customize['pvs_play_btn_shortcode']) && '' != $customize['pvs_play_btn_shortcode']) {
+            $short_code = $customize['pvs_play_btn_shortcode'];
         }
         ?>
-        <div class="smpl_metabox">
+        <div class="pvs_metabox">
 
-            <button type="button" id="smpl__start__record"  style='<?php echo esc_attr($btn_style); ?>;cursor: pointer' onclick="startRecording()"><span class="dashicons dashicons-controls-volumeoff"></span>Start</button>
-            <button type="button" id="smpl__listen_content" style='<?php echo esc_attr($btn_style); ?>;cursor: pointer' onclick='listenCotentInDashboard("smpl__listen_content","", <?php echo esc_js($listening); ?> )'><span class="dashicons dashicons-controls-play"></span> Play</button>
+            <button type="button" id="pvs__start__record"  style='<?php echo esc_attr($btn_style); ?>;cursor: pointer' onclick="startRecording()"><span class="dashicons dashicons-controls-volumeoff"></span>Start</button>
+            <button type="button" id="pvs__listen_content" style='<?php echo esc_attr($btn_style); ?>;cursor: pointer' onclick='listenCotentInDashboard("pvs__listen_content","", <?php echo esc_js($listening); ?> )'><span class="dashicons dashicons-controls-play"></span> Play</button>
             <!-- Shortcode text -->
             <input
                 type="text"
-                name="smpl_play_btn_shortcode"
-                id="smpl_play_btn_shortcode"
+                name="pvs_play_btn_shortcode"
+                id="pvs_play_btn_shortcode"
                 value="<?php echo esc_attr($short_code) ?>"
                 title="Short code"
             />
@@ -109,7 +109,7 @@ class Simple_Poll_Hooks {
              */
             function copyshortcode () {
                 /* Get the text field */
-                var copyText = document.getElementById("smpl_play_btn_shortcode");
+                var copyText = document.getElementById("pvs_play_btn_shortcode");
 
                 /* Copy the text inside the text field */
                 navigator.clipboard.writeText(copyText.value);

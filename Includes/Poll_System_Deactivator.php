@@ -1,13 +1,13 @@
 <?php
-namespace WPSimplePoll;
+namespace PVSystem;
 /**
  * Fired during plugin deactivation
  *
  * @link       http://azizulhasan.com
  * @since      1.0.0
  *
- * @package    Simple_Poll
- * @subpackage Simple_Poll/includes
+ * @package    Poll_System
+ * @subpackage Poll_System/includes
  */
 
 /**
@@ -16,11 +16,11 @@ namespace WPSimplePoll;
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Simple_Poll
- * @subpackage Simple_Poll/includes
+ * @package    Poll_System
+ * @subpackage Poll_System/includes
  * @author     Azizul Hasan <azizulhasan.cr@gmail.com>
  */
-class Simple_Poll_Deactivator {
+class Poll_System_Deactivator {
 
 	/**
 	 * Short Description. (use period)

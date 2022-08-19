@@ -20,27 +20,27 @@ export default function Docs() {
 	 */
 	const hooks = [
 		{
-			name: 'smpl_before_question',
+			name: 'pvs_before_question',
 			argument: '$poll $question',
 			type: 'action',
 		},
 		{
-			name: 'smpl_after_question',
+			name: 'pvs_after_question',
 			argument: '$poll $question',
 			type: 'action',
 		},
 		{
-			name: 'smpl_before_answer',
+			name: 'pvs_before_answer',
 			argument: '$poll $answers',
 			type: 'action',
 		},
 		{
-			name: 'smpl_after_answer',
+			name: 'pvs_after_answer',
 			argument: '$poll $answers',
 			type: 'action',
 		},
 		{
-			name: 'smple_poll_answers',
+			name: 'pvse_poll_answers',
 			argument: '$answers',
 			type: 'filter',
 		},
@@ -51,23 +51,23 @@ export default function Docs() {
 	 */
 	const restApi = [
 		{
-			endpoint: '/smpl/v1"',
+			endpoint: '/pvs/v1"',
 			description: 'Poll base endpoint',
 		},
 		{
-			endpoint: '/smpl/v1/polls',
+			endpoint: '/pvs/v1/polls',
 			description: 'Get all polls',
 		},
 		{
-			endpoint: '/smpl/v1/poll/(?P<id>[\\d]+)',
+			endpoint: '/pvs/v1/poll/(?P<id>[\\d]+)',
 			description: 'Get single poll by passing `id` as argument',
 		},
 		{
-			endpoint: '/smpl/v1/poll/(?P<id>[\\d]+)/votes',
+			endpoint: '/pvs/v1/poll/(?P<id>[\\d]+)/votes',
 			description: 'Get single poll\'s all votes',
 		},
 		{
-			endpoint: '/smpl/v1/votes',
+			endpoint: '/pvs/v1/votes',
 			description: 'Get all poll\'s votes',
 		},
 	];
@@ -78,12 +78,12 @@ export default function Docs() {
 					1. How to add id to shortcode?
 				</Accordion.Header>
 				<Accordion.Body>
-					<code>[smpl_poll id="Your_Id"]</code>
+					<code>[pvs_poll id="Your_Id"]</code>
 				</Accordion.Body>
 			</Accordion.Item>
 			<Accordion.Item eventKey='2'>
 				<Accordion.Header>
-					2. Simple Poll Hooks Reference.
+					2. Poll  System Hooks Reference.
 				</Accordion.Header>
 				<Accordion.Body>
 					<Table striped bordered hover size='sm'>
@@ -129,8 +129,8 @@ export default function Docs() {
 						<pre>
 							<code id='action_hook'>
 {`
-	add_action( 'smpl_before_question', 'smpl_before_question_callback', 10, 2 );
-	function smpl_before_question_callback ($poll, $qeustion) {
+	add_action( 'pvs_before_question', 'pvs_before_question_callback', 10, 2 );
+	function pvs_before_question_callback ($poll, $qeustion) {
 		// Your code here.
 	}
 `}
@@ -147,8 +147,8 @@ export default function Docs() {
 						<pre>
 							<code id='filter_hook'>
 {`
-	apply_filters( 'smple_poll_answers', 'smple_poll_answers_callback' );
-	function smple_poll_answers_callback ($answers) {
+	apply_filters( 'pvse_poll_answers', 'pvse_poll_answers_callback' );
+	function pvse_poll_answers_callback ($answers) {
 		// Your code here.
 	}
 `}
@@ -192,8 +192,8 @@ export default function Docs() {
 					5. How to add custom class to shortcode?
 				</Accordion.Header>
 				<Accordion.Body>
-					Add your custom class as comma saperated. example : { ' ' }
-					<code>[smpl_poll customclass="classA classB"]</code>
+					Add your custom class as space saperated. example : { ' ' }
+					<code>[pvs_poll customclass="classA classB"]</code>
 				</Accordion.Body>
 			</Accordion.Item>
 			<Accordion.Item eventKey='6'>
@@ -201,7 +201,7 @@ export default function Docs() {
 					6. How to add custom css to shortcode?
 				</Accordion.Header>
 				<Accordion.Body>
-					<code>[smpl_poll customcss="custom css"]</code>
+					<code>[pvs_poll customcss="custom css"]</code>
 				</Accordion.Body>
 			</Accordion.Item>
 		</Accordion>

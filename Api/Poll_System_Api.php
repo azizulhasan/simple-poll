@@ -1,5 +1,5 @@
 <?php
-namespace WPSimplePoll_Api;
+namespace PVSystem_Api;
 
 
 
@@ -7,11 +7,11 @@ namespace WPSimplePoll_Api;
  * This class is for getting all plugin's data  through api.
  * This is applied for tracker menu.
  * @since      1.0.0
- * @package    Simple_Poll
- * @subpackage Simple_Poll/api
+ * @package    Poll_System
+ * @subpackage Poll_System/api
  * @author     Azizul Hasan <azizulhasan.cr@gmail.com>
  */
-class Simple_Poll_Api {
+class Poll_System_Api {
 
     protected $namespace;
     protected $woocommerce;
@@ -21,15 +21,15 @@ class Simple_Poll_Api {
     public function __construct(    $current_user = null ) {
         
         $this->version = 'v1';
-        $this->namespace = 'smpl/' . $this->version;
+        $this->namespace = 'pvs/' . $this->version;
         $this->current_user = $current_user;
-        add_action('rest_api_init', [ $this, 'smpl_speech_register_routes' ] );
+        add_action('rest_api_init', [ $this, 'pvs_speech_register_routes' ] );
     }
 
     /**
      * Register Routes
      */
-    public function smpl_speech_register_routes() {
+    public function pvs_speech_register_routes() {
         // Register polls route.
         register_rest_route(
             $this->namespace,
@@ -37,7 +37,7 @@ class Simple_Poll_Api {
             array(
                 array(
                     'methods'               => \WP_REST_Server::READABLE,
-                    'callback'              => array( $this, 'smpl_get_polls'),
+                    'callback'              => array( $this, 'pvs_get_polls'),
                     'permission_callback'   => array( $this, 'get_route_access'),
                     'args'                  => array(),
                 ),
@@ -51,7 +51,7 @@ class Simple_Poll_Api {
             array(
                 array(
                     'methods'               => \WP_REST_Server::READABLE,
-                    'callback'              => array( $this, 'smpl_get_single_poll'),
+                    'callback'              => array( $this, 'pvs_get_single_poll'),
                     'permission_callback'   => array( $this, 'get_route_access'),
                     'args'                  => array(),
                 ),
@@ -65,7 +65,7 @@ class Simple_Poll_Api {
             array(
                 array(
                     'methods'               => \WP_REST_Server::READABLE,
-                    'callback'              => array( $this, 'smpl_get_question_votes'),
+                    'callback'              => array( $this, 'pvs_get_question_votes'),
                     'permission_callback'   => array( $this, 'get_route_access'),
                     'args'                  => array(),
                 ),
@@ -79,7 +79,7 @@ class Simple_Poll_Api {
             array(
                 array(
                     'methods'               => \WP_REST_Server::READABLE,
-                    'callback'              => array( $this, 'smpl_get_votes'),
+                    'callback'              => array( $this, 'pvs_get_votes'),
                     'permission_callback'   => array( $this, 'get_route_access'),
                     'args'                  => array(),
                 ),
@@ -90,7 +90,7 @@ class Simple_Poll_Api {
     /**
      * Manage polls data.
      */
-    public function smpl_get_polls( $request ) {
+    public function pvs_get_polls( $request ) {
         $response['status'] = true;
         $response['data'] = get_polls_data();
 
@@ -100,7 +100,7 @@ class Simple_Poll_Api {
     /**
      * Manage single poll data.
      */
-    public function smpl_get_single_poll( $request ) {
+    public function pvs_get_single_poll( $request ) {
 
         $id = $request->get_params()['id'];
         
@@ -113,14 +113,14 @@ class Simple_Poll_Api {
     /**
      * Manage single poll vote data.
      */
-    public function smpl_get_question_votes( $request ) {
+    public function pvs_get_question_votes( $request ) {
         global $wpdb;
-        $wpdb->smpl_votes = $wpdb->prefix . 'smpl_votes';
+        $wpdb->pvs_votes = $wpdb->prefix . 'pvs_votes';
         $id = $request->get_params()['id'];
         
         $response['status'] = true;
         $poll = get_single_poll( $id );
-        $voters = $wpdb->get_results("SELECT * from $wpdb->smpl_votes WHERE smpl_qid=$id");
+        $voters = $wpdb->get_results("SELECT * from $wpdb->pvs_votes WHERE pvs_qid=$id");
 
         $response['data'] = [
             'totalvotes' => $poll[0]['totalvotes'],
@@ -134,12 +134,12 @@ class Simple_Poll_Api {
     /**
      * Manage single poll vote data.
      */
-    public function smpl_get_votes( $request ) {
+    public function pvs_get_votes( $request ) {
         global $wpdb;
-        $wpdb->smpl_votes = $wpdb->prefix . 'smpl_votes';
+        $wpdb->pvs_votes = $wpdb->prefix . 'pvs_votes';
         
         $response['status'] = true;
-        $vote = $wpdb->get_results("SELECT * from $wpdb->smpl_votes");
+        $vote = $wpdb->get_results("SELECT * from $wpdb->pvs_votes");
 
         $response['data'] = $vote;
 

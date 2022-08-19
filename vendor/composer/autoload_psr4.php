@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'WPSimplePoll_Api\\' => array($baseDir . '/Api'),
-    'WPSimplePoll_Admin\\' => array($baseDir . '/Admin'),
-    'WPSimplePoll\\' => array($baseDir . '/Includes'),
+    'PVSystem_Api\\' => array($baseDir . '/Api'),
+    'PVSystem_Admin\\' => array($baseDir . '/Admin'),
+    'PVSystem\\' => array($baseDir . '/Includes'),
 );

@@ -4,13 +4,13 @@ export default function DashboardFooterNav() {
 		<nav className='navbar navbar-expand topnav_bg fixed-bottom' style={{"zIndex": '1', 'left': '34%'}}>
 			<a
 				className='navbar-nav ms-auto  me-2 text-decoration-none   order-2 order-lg-1'
-				href='https://wordpress.org/support/plugin/text-to-audio/#new-topic-0'
+				href='https://wordpress.org/support/plugin/poll-and-vote-system/#new-topic-0'
 				target='_blank'>
 				Support
 			</a>
 			<a
 				className='navbar-nav ms-auto  me-2 text-decoration-none   order-2 order-lg-1'
-				href='https://wordpress.org/support/plugin/text-to-audio/reviews/#new-post'
+				href='https://wordpress.org/support/plugin/poll-and-vote-system/reviews/#new-post'
 				target='_blank'>
 				Give A Review
 			</a>

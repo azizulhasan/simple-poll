@@ -1,5 +1,5 @@
 <?php
-namespace WPSimplePoll;
+namespace PVSystem;
 /**
  * Define the internationalization functionality
  *
@@ -9,8 +9,8 @@ namespace WPSimplePoll;
  * @link       http://azizulhasan.com
  * @since      1.0.0
  *
- * @package    Simple_Poll
- * @subpackage Simple_Poll/includes
+ * @package    Poll_System
+ * @subpackage Poll_System/includes
  */
 
 /**
@@ -20,11 +20,11 @@ namespace WPSimplePoll;
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    Simple_Poll
- * @subpackage Simple_Poll/includes
+ * @package    Poll_System
+ * @subpackage Poll_System/includes
  * @author     Azizul Hasan <azizulhasan.cr@gmail.com>
  */
-class Simple_Poll_i18n {
+class Poll_System_i18n {
 
     /**
      * Load the plugin text domain for translation.
@@ -34,7 +34,7 @@ class Simple_Poll_i18n {
     public function load_plugin_textdomain() {
 
         load_plugin_textdomain(
-            'wp-simple-poll',
+            'wp-pvs-poll',
             false,
             dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
         );

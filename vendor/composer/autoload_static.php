@@ -7,24 +7,24 @@ namespace Composer\Autoload;
 class ComposerStaticInit704a2c06df44d2215b88bace10db28dc
 {
     public static $prefixLengthsPsr4 = array (
-        'W' => 
+        'P' => 
         array (
-            'WPSimplePoll_Api\\' => 17,
-            'WPSimplePoll_Admin\\' => 19,
-            'WPSimplePoll\\' => 13,
+            'PVSystem_Api\\' => 13,
+            'PVSystem_Admin\\' => 15,
+            'PVSystem\\' => 9,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'WPSimplePoll_Api\\' => 
+        'PVSystem_Api\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Api',
         ),
-        'WPSimplePoll_Admin\\' => 
+        'PVSystem_Admin\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Admin',
         ),
-        'WPSimplePoll\\' => 
+        'PVSystem\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Includes',
         ),

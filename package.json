@@ -1,5 +1,5 @@
 {
-  "name": "simple-poll",
+  "name": "pvs-poll",
   "version": "1.0.0",
   "description": "A WordPress plugin for simple poll",
   "scripts": {
@@ -10,8 +10,8 @@
     "production": "cross-env NODE_ENV=production webpack --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
     "preview": "npm-run-all --parallel sync start",
     "sync": "browser-sync start -p 'localhost' --files '**/*.php' 'build/*.js' 'build/*.css'",
-    "block:build": "wp-scripts build Admin/js/smpl-block.js",
-    "block:start": "wp-scripts start Admin/js/smpl-block.js"
+    "block:build": "wp-scripts build Admin/js/pvs-block.js",
+    "block:start": "wp-scripts start Admin/js/pvs-block.js"
   },
   "keywords": [
     "poll",

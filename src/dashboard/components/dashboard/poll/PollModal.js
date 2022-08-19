@@ -63,14 +63,14 @@ export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 		}
 
 		data.append('question_answers', answers);
-		data.append('nonce', smpl.nonce);
+		data.append('nonce', pvs.nonce);
 		data.append('action', 'create_poll');
 
 		/**
 		 * Update data if "id" exists. else save form data.
 		 */
 		if (poll.id) {
-			postData(smpl.ajax_url, data)
+			postData(pvs.ajax_url, data)
 				.then((res) => {
 					setPollsData(res.data);
 					modalShow(false);
@@ -79,7 +79,7 @@ export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 					console.log(err);
 				});
 		} else {
-			postData(smpl.ajax_url, data)
+			postData(pvs.ajax_url, data)
 				.then((res) => {
 					setPollsData(res.data);
 					modalShow(false);
@@ -93,7 +93,7 @@ export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 	// Check if user admin.
 	const openModal = (e) => {
 		e.preventDefault();
-		if (smpl.is_admin) {
+		if (pvs.is_admin) {
 			modalShow(true);
 			return;
 		}
@@ -103,7 +103,7 @@ export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 
 	return (
 		<>
-			<Button bsPrefix='smpl_btn' onClick={(e) => openModal(e)}>
+			<Button bsPrefix='pvs_btn' onClick={(e) => openModal(e)}>
 				{__('Add Poll')}
 			</Button>
 			<Modal
@@ -149,7 +149,7 @@ export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 								lg={12}
 								className='d-flex flex-col justify-content-start align-items-start mb-2'>
 								<Button
-									bsPrefix='smpl_btn'
+									bsPrefix='pvs_btn'
 									onClick={addQuestion}
 									id='poll.add_question'>
 									{__('Add Answer')}
@@ -178,7 +178,7 @@ export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 															type='text'
 															name='question_answer'
 															value={
-																answer.smpl_answers
+																answer.pvs_answers
 															}
 															onChange={
 																handleChange
@@ -188,7 +188,7 @@ export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 													</Form.Group>
 													<button
 														type='button'
-														className='smpl_btn'
+														className='pvs_btn'
 														onClick={
 															deleteQuestion
 														}>
@@ -221,7 +221,7 @@ export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 											</Form.Group>
 											<button
 												type='button'
-												className='smpl_btn'
+												className='pvs_btn'
 												onClick={deleteQuestion}>
 												{__('Delete')}
 											</button>
@@ -231,7 +231,7 @@ export default function PollModal({ setPollsData, updateBtn, modalShow }) {
 							</Col>
 						</Row>
 						<button
-							className='smpl_btn w-100'
+							className='pvs_btn w-100'
 							type='submit'
 							id='poll.sumbit'>
 							{updateBtn.data

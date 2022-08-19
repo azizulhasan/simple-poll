@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
  * Scripts
  */
 import './assets/css/bootstrap.css';
-import './assets/css/simple-poll.css';
+import './assets/css/pvs-poll.css';
 import DashboardFooterNav from './dasboardcontent/DashboardFooterNav';
 
 /**

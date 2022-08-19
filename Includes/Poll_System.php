@@ -1,10 +1,10 @@
 <?php
 
-namespace WPSimplePoll;
+namespace PVSystem;
 
-use WPSimplePoll\Simple_Poll_i18n;
-use WPSimplePoll\Simple_Poll_Loader;
-use WPSimplePoll_Admin\Simple_Poll_Admin;
+use PVSystem\Poll_System_i18n;
+use PVSystem\Poll_System_Loader;
+use PVSystem_Admin\Poll_System_Admin;
 
 /**
  * The file that defines the core plugin class
@@ -15,8 +15,8 @@ use WPSimplePoll_Admin\Simple_Poll_Admin;
  * @link       http://azizulhasan.com
  * @since      1.0.0
  *
- * @package    Simple_Poll
- * @subpackage Simple_Poll/Includes
+ * @package    Poll_System
+ * @subpackage Poll_System/Includes
  */
 
 /**
@@ -29,12 +29,12 @@ use WPSimplePoll_Admin\Simple_Poll_Admin;
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Simple_Poll
- * @subpackage Simple_Poll/Includes
+ * @package    Poll_System
+ * @subpackage Poll_System/Includes
  * @author     Azizul Hasan <azizulhasan.cr@gmail.com>
  */
 
-class Simple_Poll {
+class Poll_System {
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -42,7 +42,7 @@ class Simple_Poll {
      *
      * @since    1.0.0
      * @access   protected
-     * @var      Simple_Poll_Loader    $loader    Maintains and registers all hooks for the plugin.
+     * @var      Poll_System_Loader    $loader    Maintains and registers all hooks for the plugin.
      */
     protected $loader;
 
@@ -74,12 +74,12 @@ class Simple_Poll {
      * @since    1.0.0
      */
     public function __construct() {
-        if (defined('SIMPLE_POLL_VERSION')) {
-            $this->version = SIMPLE_POLL_VERSION;
+        if (defined('POLL_SYSTEM_VERSION')) {
+            $this->version = POLL_SYSTEM_VERSION;
         } else {
             $this->version = '1.0.0';
         }
-        $this->plugin_name = 'wp-simple-poll';
+        $this->plugin_name = 'wp-pvs-poll';
 
         $this->load_dependencies();
         $this->set_locale();
@@ -95,16 +95,16 @@ class Simple_Poll {
     private function load_dependencies() {
 
         require_once plugin_dir_path(dirname(__FILE__)) . 'Includes/helpers.php';
-        require_once plugin_dir_path(dirname(__FILE__)) . 'Includes/Simple_Poll_Hooks.php';
-        new Simple_Poll_Hooks();
-        $this->loader = new Simple_Poll_Loader();
+        require_once plugin_dir_path(dirname(__FILE__)) . 'Includes/Poll_System_Hooks.php';
+        new Poll_System_Hooks();
+        $this->loader = new Poll_System_Loader();
 
     }
 
     /**
      * Define the locale for this plugin for internationalization.
      *
-     * Uses the Simple_Poll_i18n class in order to set the domain and to register the hook
+     * Uses the Poll_System_i18n class in order to set the domain and to register the hook
      * with WordPress.
      *
      * @since    1.0.0
@@ -112,7 +112,7 @@ class Simple_Poll {
      */
     private function set_locale() {
 
-        $plugin_i18n = new Simple_Poll_i18n();
+        $plugin_i18n = new Poll_System_i18n();
         $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
 
     }
@@ -126,12 +126,12 @@ class Simple_Poll {
      */
     private function define_hooks() {
 
-        $plugin_admin = new Simple_Poll_Admin($this->get_plugin_name(), $this->get_version());
+        $plugin_admin = new Poll_System_Admin($this->get_plugin_name(), $this->get_version());
 
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
         $this->loader->add_action('init', $plugin_admin, 'engueue_block_scripts');
-        $this->loader->add_action('admin_menu', $plugin_admin, 'simple_poll_menu');
+        $this->loader->add_action('admin_menu', $plugin_admin, 'poll_system_menu');
 
     }
 
@@ -159,7 +159,7 @@ class Simple_Poll {
      * The reference to the class that orchestrates the hooks with the plugin.
      *
      * @since     1.0.0
-     * @return    Simple_Poll_Loader    Orchestrates the hooks of the plugin.
+     * @return    Poll_System_Loader    Orchestrates the hooks of the plugin.
      */
     public function get_loader() {
         return $this->loader;

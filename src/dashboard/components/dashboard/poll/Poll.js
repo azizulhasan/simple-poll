@@ -44,9 +44,9 @@ export default function Poll() {
 		if (confirm('Are you sure? It will be permanently deleted.')) {
 			let data = new FormData();
 			data.append('id', id);
-			data.append('nonce', smpl.nonce);
+			data.append('nonce', pvs.nonce);
 			data.append('action', 'delete_poll');
-			deletePost(smpl.ajax_url, data)
+			deletePost(pvs.ajax_url, data)
 				.then((res) => {
 					if (res.data) {
 						setPollsData(res.data);
@@ -60,9 +60,9 @@ export default function Poll() {
 
 	useEffect(() => {
 		let form = new FormData();
-		form.append('nonce', smpl.nonce);
+		form.append('nonce', pvs.nonce);
 		form.append('action', 'get_polls');
-		postData(smpl.ajax_url, form).then((res) => {
+		postData(pvs.ajax_url, form).then((res) => {
 			if (res.data) {
 				setPollsData(res.data);
 			}
@@ -72,7 +72,7 @@ export default function Poll() {
 	//Copy short Code
 	function copyshortcode(id) {
 		/* Get the text field */
-		var copyText = document.getElementById('smpl_btn_shortcode_' + id);
+		var copyText = document.getElementById('pvs_btn_shortcode_' + id);
 
 		/* Copy the text inside the text field */
 		navigator.clipboard.writeText(copyText.value);
@@ -124,13 +124,13 @@ export default function Poll() {
 								<td>
 									<input
 										type='text'
-										name='smpl_btn_shortcode'
+										name='pvs_btn_shortcode'
 										id={
-											'smpl_btn_shortcode_' +
+											'pvs_btn_shortcode_' +
 											polls[index].id
 										}
 										value={
-											'[smpl_poll id="' +
+											'[pvs_poll id="' +
 											polls[index].id +
 											'"]'
 										}
@@ -139,7 +139,7 @@ export default function Poll() {
 									/>
 									<button
 										type='button'
-										className='smpl_btn'
+										className='pvs_btn'
 										onClick={(e) =>
 											copyshortcode(polls[index].id)
 										}>
@@ -149,14 +149,14 @@ export default function Poll() {
 								<td>
 									<Button
 										className='mr-2'
-										bsPrefix='smpl_btn smpl_btn_edit'
+										bsPrefix='pvs_btn pvs_btn_edit'
 										onClick={(e) =>
 											modalShow(true, polls[index])
 										}>
 										{__('Edit')}
 									</Button>
 									<Button
-										bsPrefix='smpl_btn'
+										bsPrefix='pvs_btn'
 										onClick={(e) =>
 											deleteEducation(polls[index].id)
 										}>

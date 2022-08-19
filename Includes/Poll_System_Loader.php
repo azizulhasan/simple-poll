@@ -1,13 +1,13 @@
 <?php
-namespace WPSimplePoll;
+namespace PVSystem;
 /**
  * Register all actions and filters for the plugin
  *
  * @link       http://azizulhasan.com
  * @since      1.0.0
  *
- * @package    Simple_Poll
- * @subpackage Simple_Poll/includes
+ * @package    Poll_System
+ * @subpackage Poll_System/includes
  */
 
 /**
@@ -17,11 +17,11 @@ namespace WPSimplePoll;
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Simple_Poll
- * @subpackage Simple_Poll/includes
+ * @package    Poll_System
+ * @subpackage Poll_System/includes
  * @author     Azizul Hasan <azizulhasan.cr@gmail.com>
  */
-class Simple_Poll_Loader {
+class Poll_System_Loader {
 
     /**
      * The array of actions registered with WordPress.

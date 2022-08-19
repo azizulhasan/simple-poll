@@ -123,41 +123,7 @@ class Simple_Poll_Admin {
     }
 
     public function render_poll($attrs) {
-        global $post;
-        $question = isset($attrs['question']) ? $attrs['question'] : '';
-        $answers = isset($attrs['answers']) ? $attrs['answers'] : [];
-        ob_start();
-        ?>
-    <div class='sample_poll_block' id="smpl_block_<?php echo md5($attrs['question']) ?>">
-        <?php do_action('smpl_before_question', $question)?>
-        <h3><?php echo esc_html__($question, 'simple-poll-for-wp') ?></h3>
-        <?php do_action('smpl_after_question', $question)?>
-        <div class='poll_answers'>
-            <?php
-do_action('smpl_before_question_answer', $answers);
-        $poll_answers = apply_filters('smple_poll_answers', $answers);
-        if (($answers)) {
-            foreach ($poll_answers as $answer) {
-                ?>
-                <input
-                    type='radio'
-                    name='smpl_answers'
-                    value="<?php echo $answer; ?>"
-                    onchange='submitBlockVote(<?php echo json_encode([$attrs, $answer, $post->ID]) ?>)'
-                    id="smpl_answers_<?php echo $answer; ?>"/>
-                <label for="answer.smpl_answers_<?php echo $answer; ?>">
-                    <?php echo __($answer, 'simple-poll-for-wp') ?>;
-                </label>
-                <?php
-}
-        }
-        do_action('smpl_after_question_answer', $answers);
-        ?>
-
-		</div>
-	</div>
-    <?php return ob_get_clean();
-
+         return  get_shorcode_content( $attrs );
     }
 
     /**

@@ -12,9 +12,9 @@ export default function NavBar() {
 						<Link className='nav-link active' to={'/'}>
 							Manage Polls
 						</Link>
-						<Link className='nav-link' to={'/statistics'}>
+						{/* <Link className='nav-link' to={'/statistics'}>
 							Statistics
-						</Link>
+						</Link> */}
 
 						{/* <Link className='nav-link' to={'/customize'}>
 							<div className='sb-nav-link-icon'>

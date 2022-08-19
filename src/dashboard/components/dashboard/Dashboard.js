@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React from 'react';
 import {
 	BrowserRouter as Router,
 	HashRouter,
@@ -13,13 +13,13 @@ import 'react-toastify/dist/ReactToastify.css';
  */
 import './assets/css/bootstrap.css';
 import './assets/css/simple-poll.css';
+import DashboardFooterNav from './dasboardcontent/DashboardFooterNav';
 
 /**
  * Dashboard Components
  */
 import NavBar from './dasboardcontent/NavBar';
 import Docs from './docs/Docs';
-import Statistics from './statistics/Statistics';
 import Poll from './poll/Poll';
 
 function Dashboard() {
@@ -44,15 +44,13 @@ function Dashboard() {
 						<div className='container-fluid'>
 							<Routes>
 								<Route path='/' element={<Poll />} />
-								<Route
-									path={'/statistics'}
-									element={<Statistics />}
-								/>
 								<Route path='/docs' element={<Docs />} />
 							</Routes>
 						</div>
 					</main>
+					<DashboardFooterNav/>
 				</div>
+				
 			</div>
 		</HashRouter>
 	);

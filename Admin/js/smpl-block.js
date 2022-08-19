@@ -15,20 +15,38 @@ wp.blocks.registerBlockType('smpl/poll', {
 	keywords: ['poll'],
 
 	attributes: {
-		question: { type: 'string' },
+		panelCSS: {
+			type: 'object',
+			default: {
+				item: {
+					paddingTop: '20px',
+				}
+			}
+		},
+		question: { 
+			type: 'string',
+			default: "How is my site?"
+		 },
 		answers: { 
 			type: 'array',
-			default: []
+			default: ['Good', 'Well', 'Excellent' ],
 		 },
-		 id: {type: 'string'},
+		id: {type: 'string'},
 		polls: { 
 			type: 'array',
 			default: []
-		 },
+		},
+		customclass: { 
+			type: 'string',
+			default: ''
+		},
+		customcss: { 
+			type: 'string',
+			default: ''
+		},
 	},
 
 	edit: createPoll,
-
 	save: function (props) {
 		return null;
 	},
@@ -63,61 +81,71 @@ function createPoll(props) {
 		props.setAttributes({ answers: answers });
 
 	}
+	const setCustomClass = (e) => {
+		props.setAttributes({ customclass : e.target.value });
+	}
+	const setCustomCSS = (e) => {
+		props.setAttributes( { customcss: e.target.value } );
+	}
+
 	return (
 		[
 			<InspectorControls >
 				<PanelBody >
-					<Form.Select defaultValue={props.attributes.question} onChange={selectPoll} aria-label="Default select example">
-					<option disabled >Select question</option>
-					{props.attributes.polls.length && props.attributes.polls.map( poll => {
-						return  <option value={poll.id}> {poll.question} </option>
-					}) }
-					</Form.Select>
-					
+					<Form>
+						<Form.Group style={props.attributes.panelCSS.item}>
+							<Form.Label>{__('All Polls')}</Form.Label>
+							<Form.Select style={{ width: '100%' }} defaultValue={props.attributes.question} onChange={selectPoll} aria-label="Default select example">
+								<option disabled >Select question</option>
+								{props.attributes.polls.length && props.attributes.polls.map( poll => {
+									return  <option value={poll.id}> {poll.question} </option>
+								}) }
+							</Form.Select>
+						</Form.Group>
+						<Form.Group style={props.attributes.panelCSS.item}>
+							<Form.Label>{__('Add Custom Class')}</Form.Label>
+							<Form.Control style={{ width: '100%' }} as="textarea" rows="2" placeholder='space separated' name="address" value={props.attributes.customclass} onChange={setCustomClass} />
+						</Form.Group>
+						<Form.Group style={props.attributes.panelCSS.item}>
+							<Form.Label>{__('Add Custom CSS')}</Form.Label>
+							<Form.Control style={{ width: '100%' }} as="textarea" rows="3" placeholder='selector .simple_poll_block' name="address" value={props.attributes.customcss} onChange={setCustomCSS} />
+						</Form.Group>
+					</Form>
 				</PanelBody >
 			</InspectorControls >,
-			<div className='smpl_block'>
-			<Form id='poll_form'>
-				{props.attributes.post_id && (
-					<Form.Control
-						type='text'
-						id='id'
-						value={props.attributes.post_id}
-						name='post_id'
-						placeholder='id'
-						hidden
-					/>
-				)}
-				<Form.Group className='mb-4' controlId='poll.question'>
-					<div>
-						<Form.Label>{__('Add Question')}</Form.Label>
-					</div>
-					<div>
-						<Form.Control
-							type='text'
-							name='question'
-							style={{ width: '100%' }}
-							onChange={setQuestion}
-							value={props.attributes.question}
-							placeholder='question'
-						/>
-					</div>
-					<div>
-						{props.attributes.answers.length && <Form>
-							{props.attributes.answers.map((answer) => (
-								<div key={`${answer}`} className="mb-3">
-								<Form.Check 
-									type={'radio'}
-									id={`${answer}`}
-									label={answer}
-									value={answer}
-								/>
-								</div>
-							))}
-							</Form>}
-					</div>
-				</Form.Group>
-			</Form>
+			<style dangerouslySetInnerHTML={{__html: props.attributes.customcss}}>
+
+			</style>,
+			<div className={'simple_poll_block '+  props.attributes.customclass}>
+				<Form id='poll_form'>
+					<Form.Group className='' controlId='poll.question'>
+						<div>
+							<Form.Label>{__('Add Question')}</Form.Label>
+						</div>
+						<div className='poll_question'>
+							<Form.Control
+								type='text'
+								name='question'
+								style={{ width: '100%' }}
+								onChange={setQuestion}
+								value={props.attributes.question}
+								placeholder='question'
+							/>
+						</div>
+						<div className='poll_answers'>
+							{props.attributes.answers.length &&
+								props.attributes.answers.map((answer) => (
+									<Form.Check 
+										inline
+										type={'radio'}
+										id={`${answer}`}
+										label={answer}
+										value={answer}
+									/>
+								))}
+						</div>
+					</Form.Group>
+				</Form>
 		</div>
 		]
 	);

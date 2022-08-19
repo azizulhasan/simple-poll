@@ -129,7 +129,6 @@ class Simple_Poll_Admin {
     /**
      * Add Menu and Submenu page
      */
-
     public function simple_poll_menu() {
         add_menu_page(
             __('Simple Poll', SIMPLE_POLL_TEXT_DOMAIN),

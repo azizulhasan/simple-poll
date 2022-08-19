@@ -1,7 +1,7 @@
 === Simple Poll ===
 Contributors: hasanazizul
 Donate link: http://azizulhasan.com
-Tags: poll
+Tags: booth, poll, poll maker, wppolls, vote
 Requires at least: 4.0
 Tested up to: 6.0
 Requires PHP: 5.6

@@ -68,7 +68,7 @@ function handle_create_poll() {
 
     } else {
         $response['status'] = false;
-        $response['data'] = __('Nonce verified request');
+        $response['data']   = __('Nonce verified request');
     }
 
     echo json_encode($response);
@@ -82,7 +82,7 @@ function handle_get_polls() {
         $response['data'] = get_polls_data();
     } else {
         $response['status'] = false;
-        $response['data'] = __('Nonce verified request');
+        $response['data']   = __('Nonce verified request');
     }
 
     echo json_encode($response);
@@ -97,7 +97,7 @@ function handle_get_poll() {
         $response['data'] = get_single_poll($id);
     } else {
         $response['status'] = false;
-        $response['data'] = __('Nonce verified request');
+        $response['data']   = __('Nonce verified request');
     }
 
     echo json_encode($response);
@@ -117,7 +117,7 @@ function handle_delete_poll() {
         $response['data'] = get_polls_data();
     } else {
         $response['status'] = false;
-        $response['data'] = __('Nonce verified request');
+        $response['data']   = __('Nonce verified request');
     }
 
     echo json_encode($response);
@@ -170,29 +170,35 @@ function get_single_poll($question_id = null) {
 
 
 function get_shorcode_content( $attrs ) {
-    $poll_id = isset($attrs['id']) ? $attrs['id'] : null;
+    $poll_id        = isset($attrs['id']) ? esc_attr( $attrs['id'] ) : null;
+    $custom_class   = isset( $attrs['customclass'] ) ? esc_attr( $attrs['customclass'] ) : null;
+    $custom_css     = isset( $attrs['customcss'] ) ? esc_attr( $attrs['customcss'] ) : null;
+
     $poll = get_single_poll($poll_id);
     if (isset($poll[0])) {
-        $poll = $poll[0];
-        $current_answer_id = get_current_user_answer_id($poll['id']);
-        $poll['current_answer_id'] = $current_answer_id;
+        $poll                       = $poll[0];
+        $current_answer_id          = get_current_user_answer_id($poll['id']);
+        $poll['current_answer_id']  = $current_answer_id;
 
     } else {
 
-        $str = "<h3>There is no poll.</h3>";
-        $arr = array('h3' => array());
+        $str = "<div class='simple_poll_block'><h3>There is no poll.</h3></div>";
+        $arr = array(
+            'h3'  => array(),
+            'div' => array(  'class' => array() )
+        );
         echo wp_kses($str, $arr);
         return;
     }
     ob_start();
     ?>
-    <div class='sample_poll_block' id="smpl_block_<?php echo $poll['id']; ?>">
-        <?php do_action('smpl_before_question', $poll['question'])?>
-        <h3><?php echo esc_html__($poll['question'], 'simple-poll-for-wp') ?></h3>
-        <?php do_action('smpl_after_question', $poll['question'])?>
+    <div class="simple_poll_block <?php echo $custom_class ?> " id="smpl_block_<?php echo $poll['id']; ?>">
+        <?php do_action('smpl_before_question', $poll, $poll['question'])?>
+        <div class="poll_question"><?php echo esc_html__($poll['question'], 'simple-poll-for-wp') ?></div>
+        <?php do_action('smpl_after_question', $poll,  $poll['question'])?>
         <div class='poll_answers'>
         <?php
-        do_action('smpl_before_question_answer', $poll['answers']);
+        do_action('smpl_before_answer',  $poll, $poll['answers']);
         $poll_answers = apply_filters('smple_poll_answers', $poll['answers']);
         if (($poll['answers'])) {
             foreach ($poll_answers as $answer) {
@@ -201,8 +207,8 @@ function get_shorcode_content( $attrs ) {
                         type='radio'
                         name='smpl_answers'
                         value="<?php echo $answer->smpl_answers; ?>"
-                        <?php echo ($answer->smpl_aid == $poll['current_answer_id']) ? "checked" : ''; ?>
-                        onchange='submitVote(<?php echo json_encode($answer) ?> , <?php echo $poll["totalvotes"]; ?>)'
+                        <?php echo ($answer->smpl_aid == $poll['current_answer_id'] ) ? "checked" : ''; ?>
+                        onchange='submitVote(<?php echo json_encode($answer) ?>,<?php echo $poll["totalvotes"]?>,<?php echo $poll["current_answer_id"];?>)'
                         id="smpl_answers_<?php echo $answer->smpl_aid; ?>"/>
                     <label for="answer.smpl_answers_<?php echo $answer->smpl_aid; ?>">
                         <?php echo __($answer->smpl_answers, 'simple-poll-for-wp') ?>;
@@ -210,33 +216,21 @@ function get_shorcode_content( $attrs ) {
                     <?php
                 }
             }   
-            do_action('smpl_after_question_answer', $poll['answers']);
+            do_action('smpl_after_answer', $poll,  $poll['answers']);
             ?>
 		</div>
 	</div>
-    <?php return ob_get_clean();
-}
-
-// Get last poll data.
-function handle_get_last_poll() {
-
-    $response['status'] = true;
-    if (smpl_verify_nonce($_POST)) {
-        $poll = get_single_poll();
-        if (isset($poll[0])) {
-            $current_answer_id = get_current_user_answer_id($poll[0]['id']);
-            $poll[0]['current_answer_id'] = $current_answer_id;
-
-            $response['data'] = $poll;
-        }
-
-    } else {
-        $response['status'] = false;
-        $response['data'] = __('Nonce verified request');
+    
+    <?php 
+    $poll_id = $poll['id'];
+    if( $custom_css ) {
+        $custom_css = '#smpl_block_'.$poll_id.trim($custom_css);
+        echo "<style>$custom_css</style>";
+    }else{
+        echo "<style>#smpl_block_$poll_id.simple_poll_block .poll_question{font-size:20px;} </style>";
     }
-
-    echo json_encode($response);
-    wp_die();
+    $poll = [];
+    return ob_get_clean();
 }
 
 function get_current_user_answer_id($qid) {
@@ -258,10 +252,10 @@ function handle_give_vote() {
     $response['status'] = true;
     if (smpl_verify_nonce($_POST)) {
 
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $host = $_SERVER['HTTP_HOST'];
-        $qid = $_POST['smpl_qid'];
-        $aid = $_POST['smpl_aid'];
+        $ip         = $_SERVER['REMOTE_ADDR'];
+        $host       = $_SERVER['HTTP_HOST'];
+        $qid        = $_POST['smpl_qid'];
+        $aid        = $_POST['smpl_aid'];
         $totalvotes = (int) $_POST['totalvotes'];
 
         if (is_user_logged_in()) { // current logged in user.
@@ -275,7 +269,7 @@ function handle_give_vote() {
 
                 $wpdb->update($wpdb->smpl_votes,
                     array(
-                        'smpl_aid' => $aid,
+                        'smpl_aid'       => $aid,
                         'smpl_timestamp' => current_time('timestamp')),
 
                     array('smpl_vid' => $vote[0]->smpl_vid));
@@ -285,13 +279,13 @@ function handle_give_vote() {
             } else if (count($vote) == 0) {
                 $wpdb->insert($wpdb->smpl_votes,
                     array(
-                        'smpl_qid' => $qid,
-                        'smpl_aid' => $aid,
-                        'smpl_ip' => $ip,
-                        'smpl_host' => $host,
+                        'smpl_qid'       => $qid,
+                        'smpl_aid'       => $aid,
+                        'smpl_ip'        => $ip,
+                        'smpl_host'      => $host,
                         'smpl_timestamp' => current_time('timestamp'),
-                        'smpl_user' => $username,
-                        'smpl_userid' => $id,
+                        'smpl_user'      => $username,
+                        'smpl_userid'    => $id,
                     ),
                     array('%d', '%d', '%s', '%s', '%s', '%s', '%d'));
 
@@ -309,7 +303,7 @@ function handle_give_vote() {
             if (count($vote) && $vote[0]->smpl_aid != $aid) {
                 $wpdb->update($wpdb->smpl_votes,
                     array(
-                        'smpl_aid' => $aid,
+                        'smpl_aid'       => $aid,
                         'smpl_timestamp' => current_time('timestamp')),
 
                     array('smpl_vid' => $vote[0]->smpl_vid));
@@ -317,13 +311,13 @@ function handle_give_vote() {
             } else if (count($vote) == 0) {
                 $wpdb->insert($wpdb->smpl_votes,
                     array(
-                        'smpl_qid' => $qid,
-                        'smpl_aid' => $aid,
-                        'smpl_ip' => $ip,
-                        'smpl_host' => $host,
+                        'smpl_qid'       => $qid,
+                        'smpl_aid'       => $aid,
+                        'smpl_ip'        => $ip,
+                        'smpl_host'      => $host,
                         'smpl_timestamp' => current_time('timestamp'),
-                        'smpl_user' => '',
-                        'smpl_userid' => ''),
+                        'smpl_user'      => '',
+                        'smpl_userid'    => ''),
 
                     array('%d', '%d', '%s', '%s', '%s', '%s', '%d'));
 
@@ -339,7 +333,7 @@ function handle_give_vote() {
 
     } else {
         $response['status'] = false;
-        $response['data'] = __('Nonce verified request');
+        $response['data']   = __('Nonce verified request');
     }
 
     echo json_encode($response);
@@ -377,16 +371,13 @@ function update_vote($wpdb, $vote, $aid) {
 
 // Get recent post
 function handle_give_block_vote() {
-    global $wpdb;
     $response['status'] = true;
     if (smpl_verify_nonce($_POST)) {
-
-        $data = json_decode(str_replace('\\', '', $_POST['data']));
-
+        $data             = json_decode(str_replace('\\', '', $_POST['data']));
         $response['data'] = $data;
     } else {
         $response['status'] = false;
-        $response['data'] = __('Nonce verified request');
+        $response['data']   = __('Nonce verified request');
     }
 
     echo json_encode($response);

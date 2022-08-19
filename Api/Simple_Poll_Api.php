@@ -147,8 +147,6 @@ class Simple_Poll_Api {
     }
 
 
-
-
    
     /*
      * Get route access if request is valid.

@@ -3874,12 +3874,21 @@ wp.blocks.registerBlockType('smpl/poll', {
   category: 'design',
   keywords: ['poll'],
   attributes: {
+    panelCSS: {
+      type: 'object',
+      default: {
+        item: {
+          paddingTop: '20px'
+        }
+      }
+    },
     question: {
-      type: 'string'
+      type: 'string',
+      default: "How is my site?"
     },
     answers: {
       type: 'array',
-      default: []
+      default: ['Good', 'Well', 'Excellent']
     },
     id: {
       type: 'string'
@@ -3887,6 +3896,14 @@ wp.blocks.registerBlockType('smpl/poll', {
     polls: {
       type: 'array',
       default: []
+    },
+    customclass: {
+      type: 'string',
+      default: ''
+    },
+    customcss: {
+      type: 'string',
+      default: ''
     }
   },
   edit: createPoll,
@@ -3935,7 +3952,24 @@ function createPoll(props) {
     });
   };
 
-  return [(0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Select, {
+  const setCustomClass = e => {
+    props.setAttributes({
+      customclass: e.target.value
+    });
+  };
+
+  const setCustomCSS = e => {
+    props.setAttributes({
+      customcss: e.target.value
+    });
+  };
+
+  return [(0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Group, {
+    style: props.attributes.panelCSS.item
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All Polls')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Select, {
+    style: {
+      width: '100%'
+    },
     defaultValue: props.attributes.question,
     onChange: selectPoll,
     "aria-label": "Default select example"
@@ -3945,21 +3979,44 @@ function createPoll(props) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
       value: poll.id
     }, " ", poll.question, " ");
-  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "smpl_block"
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Group, {
+    style: props.attributes.panelCSS.item
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Custom Class')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Control, {
+    style: {
+      width: '100%'
+    },
+    as: "textarea",
+    rows: "2",
+    placeholder: "space separated",
+    name: "address",
+    value: props.attributes.customclass,
+    onChange: setCustomClass
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Group, {
+    style: props.attributes.panelCSS.item
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Custom CSS')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Control, {
+    style: {
+      width: '100%'
+    },
+    as: "textarea",
+    rows: "3",
+    placeholder: "selector .simple_poll_block",
+    name: "address",
+    value: props.attributes.customcss,
+    onChange: setCustomCSS
+  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", {
+    dangerouslySetInnerHTML: {
+      __html: props.attributes.customcss
+    }
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: 'simple_poll_block ' + props.attributes.customclass
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], {
     id: "poll_form"
-  }, props.attributes.post_id && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Control, {
-    type: "text",
-    id: "id",
-    value: props.attributes.post_id,
-    name: "post_id",
-    placeholder: "id",
-    hidden: true
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Group, {
-    className: "mb-4",
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Group, {
+    className: "",
     controlId: "poll.question"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Question'))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Control, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Question'))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "poll_question"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Control, {
     type: "text",
     name: "question",
     style: {
@@ -3968,15 +4025,15 @@ function createPoll(props) {
     onChange: setQuestion,
     value: props.attributes.question,
     placeholder: "question"
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, props.attributes.answers.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"], null, props.attributes.answers.map(answer => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    key: `${answer}`,
-    className: "mb-3"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Check, {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "poll_answers"
+  }, props.attributes.answers.length && props.attributes.answers.map(answer => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_bootstrap__WEBPACK_IMPORTED_MODULE_4__["default"].Check, {
+    inline: true,
     type: 'radio',
     id: `${answer}`,
     label: answer,
     value: answer
-  }))))))))];
+  }))))))];
 }
 })();
 

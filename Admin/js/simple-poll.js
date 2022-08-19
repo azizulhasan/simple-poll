@@ -35,8 +35,17 @@ const postData = async (url = '', data = {}) => {
 	return responseData;
 };
 
-function submitVote(answer, totalvotes) {
-	// e.stopPropagation();
+function submitVote(answer, totalvotes, current_answer_id ) {
+
+	if( current_answer_id ) {
+		alert('You already particated.');
+		return
+	}
+
+	if( ! confirm('Are you sure? You can participate only once.')){
+		return;
+	}
+
 	let form = new FormData();
 	form.append('nonce', smpl.nonce);
 	form.append('smpl_qid', answer.smpl_qid);

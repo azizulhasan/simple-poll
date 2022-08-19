@@ -9,12 +9,17 @@ class ComposerStaticInit704a2c06df44d2215b88bace10db28dc
     public static $prefixLengthsPsr4 = array (
         'W' => 
         array (
+            'WPSimplePoll_Api\\' => 17,
             'WPSimplePoll_Admin\\' => 19,
             'WPSimplePoll\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'WPSimplePoll_Api\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Api',
+        ),
         'WPSimplePoll_Admin\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Admin',

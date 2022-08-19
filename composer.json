@@ -9,10 +9,10 @@
     ],
     "autoload": {
         "psr-4": {
-            "WPSimplePoll\\" : "Includes",
-            "WPSimplePoll_Admin\\" : "Admin"
+            "WPSimplePoll\\": "Includes",
+            "WPSimplePoll_Admin\\": "Admin",
+            "WPSimplePoll_Api\\": "Api"
         }
     },
-
     "require": {}
 }

@@ -35,7 +35,26 @@ const postData = async (url = '', data = {}) => {
 	return responseData;
 };
 
+function validateAnswer ( answer ) {
+
+	try {
+		let janswer = JSON.stringify( answer );
+        JSON.parse(janswer);
+		return true;
+
+    } catch (e) {
+        return false;
+    }
+}
 function submitVote(answer, totalvotes, current_answer_id ) {
+
+	if( ! Number.isInteger( totalvotes ) ){
+		throw new Error('Invalid totalvotes')
+	} else if( ! Number.isInteger( current_answer_id ) ) {
+		throw new Error( 'Invalid answer id')
+	} else if ( ! validateAnswer( answer ) ) {
+		throw new Error( 'Invalid answer')
+	}
 
 	if( current_answer_id ) {
 		alert('You already particated.');
@@ -45,6 +64,7 @@ function submitVote(answer, totalvotes, current_answer_id ) {
 	if( ! confirm('Are you sure? You can participate only once.')){
 		return;
 	}
+
 
 	let form = new FormData();
 	form.append('nonce', pvs.nonce);
